@@ -4,39 +4,39 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SAMY&AHMED | تقييم العملاء</title>
-
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
 body {
     margin: 0;
-    font-family: "Cairo", sans-serif;
-    background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
-    color: #f5f5f5;
+    font-family: 'Cairo', sans-serif;
+    background: #f9f9f9;
+    color: #333;
 }
 
 .container {
-    max-width: 500px;
-    margin: 30px auto;
-    background: #141414;
-    border: 1px solid #c9a24d;
-    border-radius: 16px;
-    padding: 25px;
-    box-shadow: 0 0 25px rgba(201,162,77,0.15);
+    max-width: 600px;
+    margin: 50px auto;
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border: 1px solid #e0d8c3;
 }
 
 .logo {
     text-align: center;
-    font-size: 28px;
+    font-size: 32px;
     font-weight: bold;
-    letter-spacing: 2px;
     color: #c9a24d;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .subtitle {
     text-align: center;
-    font-size: 15px;
-    color: #ccc;
-    margin-bottom: 25px;
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
 }
 
 h3 {
@@ -49,14 +49,18 @@ h3 {
     margin-bottom: 20px;
 }
 
-.question {
-    margin-bottom: 8px;
-}
-
 .options label {
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: #f5f5f5;
+    transition: 0.2s;
+}
+
+.options label:hover {
+    background: #fff3d6;
 }
 
 input[type="radio"] {
@@ -65,12 +69,13 @@ input[type="radio"] {
 
 input[type="text"], textarea {
     width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
     outline: none;
-    background: #1f1f1f;
-    color: #fff;
+    background: #fafafa;
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
 textarea {
@@ -90,14 +95,15 @@ textarea {
 
 button {
     width: 100%;
-    padding: 14px;
+    padding: 16px;
     border: none;
-    border-radius: 12px;
+    border-radius: 16px;
     background: #c9a24d;
     color: #000;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
+    transition: 0.2s;
 }
 
 button:hover {
@@ -112,71 +118,67 @@ button:hover {
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
     <div class="logo">SAMY&AHMED</div>
     <div class="subtitle">نقدّر رأيك… تقييمك يهمّنا</div>
 
-    <h3>ما هو تقييمك لزيارتك اليوم؟</h3>
+    <form action="https://formspree.io/f/xvgelvjp" method="POST">
 
-    <div class="section">
-        <div class="question">جودة الحلاقة والتسريحة</div>
-        <div class="options">
-            <label><input type="radio" name="q1"> ممتاز</label>
-            <label><input type="radio" name="q1"> جيد</label>
-            <label><input type="radio" name="q1"> غير راضٍ</label>
+        <div class="section">
+            <h3>جودة الحلاقة والتسريحة</h3>
+            <div class="options">
+                <label><input type="radio" name="جودة الحلاقة" value="ممتاز" required> ممتاز</label>
+                <label><input type="radio" name="جودة الحلاقة" value="جيد"> جيد</label>
+                <label><input type="radio" name="جودة الحلاقة" value="غير راضٍ"> غير راضٍ</label>
+            </div>
         </div>
-    </div>
 
-    <div class="section">
-        <div class="question">نظافة الصالون</div>
-        <div class="options">
-            <label><input type="radio" name="q2"> ممتاز</label>
-            <label><input type="radio" name="q2"> جيد</label>
-            <label><input type="radio" name="q2"> غير راضٍ</label>
+        <div class="section">
+            <h3>نظافة الصالون</h3>
+            <div class="options">
+                <label><input type="radio" name="نظافة الصالون" value="ممتاز" required> ممتاز</label>
+                <label><input type="radio" name="نظافة الصالون" value="جيد"> جيد</label>
+                <label><input type="radio" name="نظافة الصالون" value="غير راضٍ"> غير راضٍ</label>
+            </div>
         </div>
-    </div>
 
-    <div class="section">
-        <div class="question">ودّ ومعاملة الحلاق</div>
-        <div class="options">
-            <label><input type="radio" name="q3"> ممتاز</label>
-            <label><input type="radio" name="q3"> جيد</label>
-            <label><input type="radio" name="q3"> غير راضٍ</label>
+        <div class="section">
+            <h3>ودّ ومعاملة الحلاق</h3>
+            <div class="options">
+                <label><input type="radio" name="معاملة الحلاق" value="ممتاز" required> ممتاز</label>
+                <label><input type="radio" name="معاملة الحلاق" value="جيد"> جيد</label>
+                <label><input type="radio" name="معاملة الحلاق" value="غير راضٍ"> غير راضٍ</label>
+            </div>
         </div>
-    </div>
 
-    <div class="section">
-        <div class="question">الالتزام بالمواعيد</div>
-        <div class="options">
-            <label><input type="radio" name="q4"> ممتاز</label>
-            <label><input type="radio" name="q4"> جيد</label>
-            <label><input type="radio" name="q4"> غير راضٍ</label>
+        <div class="section">
+            <h3>الالتزام بالمواعيد</h3>
+            <div class="options">
+                <label><input type="radio" name="الالتزام بالمواعيد" value="ممتاز" required> ممتاز</label>
+                <label><input type="radio" name="الالتزام بالمواعيد" value="جيد"> جيد</label>
+                <label><input type="radio" name="الالتزام بالمواعيد" value="غير راضٍ"> غير راضٍ</label>
+            </div>
         </div>
-    </div>
 
-    <h3>مستوى الرضا العام</h3>
-    <div class="faces section">
-        <label><input type="radio" name="overall"> 😍</label>
-        <label><input type="radio" name="overall"> 😊</label>
-        <label><input type="radio" name="overall"> 😞</label>
-    </div>
+        <div class="section">
+            <h3>الرضا العام</h3>
+            <div class="faces">
+                <label><input type="radio" name="الرضا العام" value="😍" required> 😍</label>
+                <label><input type="radio" name="الرضا العام" value="😊"> 😊</label>
+                <label><input type="radio" name="الرضا العام" value="😞"> 😞</label>
+            </div>
+        </div>
 
-    <div class="section">
-        <input type="text" placeholder="الاسم (اختياري)">
-    </div>
+        <div class="section">
+            <input type="text" name="الاسم" placeholder="الاسم (اختياري)">
+            <input type="text" name="رقم الهاتف" placeholder="رقم الهاتف (اختياري)">
+            <textarea name="ملاحظات" placeholder="ملاحظات واقتراحات لتحسين الخدمة"></textarea>
+        </div>
 
-    <div class="section">
-        <input type="text" placeholder="رقم الهاتف (اختياري)">
-    </div>
-
-    <div class="section">
-        <textarea placeholder="ملاحظات واقتراحات لتحسين الخدمة"></textarea>
-    </div>
-
-    <button>إرسال التقييم</button>
+        <button type="submit">إرسال التقييم</button>
+    </form>
 
     <div class="footer">
         شكرًا لثقتك – نراك قريبًا 🤍
@@ -184,4 +186,4 @@ button:hover {
 </div>
 
 </body>
-</html
+</html>
