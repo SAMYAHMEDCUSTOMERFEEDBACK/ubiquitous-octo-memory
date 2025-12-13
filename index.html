@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAMY&AHMED | تقييم العملاء</title>
+<title>SAMY&AHMED | تقييم العملاء & الحجز</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
 
@@ -28,7 +28,7 @@ body {
     text-align: center;
     font-size: 32px;
     font-weight: bold;
-    color: #c9a24d;
+    color: #000;
     margin-bottom: 5px;
 }
 
@@ -67,7 +67,7 @@ input[type="radio"] {
     accent-color: #c9a24d;
 }
 
-input[type="text"], textarea {
+input[type="text"], input[type="tel"], input[type="date"], input[type="time"], textarea {
     width: 100%;
     padding: 12px;
     border-radius: 12px;
@@ -110,22 +110,45 @@ button:hover {
     background: #e0b85e;
 }
 
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.social-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: 0.2s;
+}
+
+.social-btn:hover {
+    filter: brightness(0.9);
+}
+
 .footer {
     text-align: center;
     font-size: 13px;
     color: #aaa;
-    margin-top: 15px;
+    margin-top: 18px;
 }
 </style>
 </head>
 <body>
 
-<div class="container">
+<!-- صفحة التقييم -->
+<div id="rating-page" class="container">
     <div class="logo">SAMY&AHMED</div>
     <div class="subtitle">نقدّر رأيك… تقييمك يهمّنا</div>
 
     <form action="https://formspree.io/f/xvgelvjp" method="POST">
-
         <div class="section">
             <h3>جودة الحلاقة والتسريحة</h3>
             <div class="options">
@@ -180,10 +203,79 @@ button:hover {
         <button type="submit">إرسال التقييم</button>
     </form>
 
+    <button onclick="showBooking()">احجز معادك الآن</button>
+
+    <!-- أيقونات التواصل الاجتماعي -->
+    <div class="social-icons">
+        <a href="https://wa.me/201022172940" target="_blank" class="social-btn" style="background:#25D366;" aria-label="WhatsApp">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="white">
+                <path d="M16 2C8.3 2 2 8.1 2 15.6c0 2.7.8 5.3 2.3 7.5L2 30l7.1-2.2c2.1 1.1 4.4 1.7 6.9 1.7 7.7 0 14-6.1 14-13.6C30 8.1 23.7 2 16 2z"/>
+            </svg>
+        </a>
+        <a href="https://www.facebook.com/share/1BXRsi6j5r/" target="_blank" class="social-btn" style="background:#1877F2;" aria-label="Facebook">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="white">
+                <path d="M19 6h5V0h-5c-5.5 0-9 3.6-9 9v3H5v6h5v16h6V18h5l1-6h-6v-3c0-1.1.9-2 2-2z"/>
+            </svg>
+        </a>
+        <a href="https://www.instagram.com/samyandahmed?igsh=MnBibmg4cHd0YzNm" target="_blank" class="social-btn" style="background:#C13584;" aria-label="Instagram">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="white">
+                <path d="M16 2.9c4.3 0 4.8 0 6.5.1 1.6.1 2.5.3 3 .5.7.3 1.2.6 1.7 1.1.5.5.8 1 1.1 1.7.2.5.4 1.4.5 3 .1 1.7.1 2.2.1 6.5s0 4.8-.1 6.5c-.1 1.6-.3 2.5-.5 3-.3.7-.6 1.2-1.1 1.7-.5.5-1 .8-1.7 1.1-.5.2-1.4.4-3 .5-1.7.1-2.2.1-6.5.1s-4.8 0-6.5-.1c-1.6-.1-2.5-.3-3-.5-.7-.3-1.2-.6-1.7-1.1-.5-.5-.8-1-1.1-1.7-.2-.5-.4-1.4-.5-3C2.9 20.8 2.9 20.3 2.9 16s0-4.8.2-6.5c.1-1.8.4-3.2.7-4.3.4-1.3 1-2.4 2.1-3.5 1.1-1.1 2.2-1.7 3.5-2.1 1.1-.3 2.5-.6 4.3-.7 1.7-.1 2.2-.1 6.5-.1z"/>
+            </svg>
+        </a>
+    </div>
+
+    <div class="footer">شكرًا لثقتك – نراك قريبًا 🤍</div>
+</div>
+
+<!-- صفحة الحجز -->
+<div id="booking-page" class="container" style="display:none;">
+    <div class="logo">SAMY&AHMED</div>
+    <div class="subtitle">احجز موعدك بسهولة</div>
+
+    <form action="https://formspree.io/f/xvgelvjp" method="POST">
+        <input type="text" name="الاسم" placeholder="الاسم" required>
+        <input type="tel" name="رقم الهاتف" placeholder="رقم الهاتف" required>
+        <input type="date" name="تاريخ الحجز" required>
+        <input type="time" name="وقت الحجز" required>
+        <textarea name="ملاحظات" placeholder="ملاحظات إضافية"></textarea>
+        <button type="submit">إرسال الحجز</button>
+    </form>
+
     <div class="footer">
-        شكرًا لثقتك – نراك قريبًا 🤍
+        <button onclick="showRating()" style="background:#c9a24d; color:#000;">⏪ ارجع لتقييم الخدمة</button>
+        
+        <!-- أيقونات التواصل الاجتماعي تحت زر الرجوع مباشرة -->
+        <div class="social-icons" style="margin-top:15px;">
+            <a href="https://wa.me/201022172940" target="_blank" class="social-btn" style="background:#25D366;" aria-label="WhatsApp">
+                <svg width="22" height="22" viewBox="0 0 32 32" fill="white">
+                    <path d="M16 2C8.3 2 2 8.1 2 15.6c0 2.7.8 5.3 2.3 7.5L2 30l7.1-2.2c2.1 1.1 4.4 1.7 6.9 1.7 7.7 0 14-6.1 14-13.6C30 8.1 23.7 2 16 2z"/>
+                </svg>
+            </a>
+            <a href="https://www.facebook.com/share/1BXRsi6j5r/" target="_blank" class="social-btn" style="background:#1877F2;" aria-label="Facebook">
+                <svg width="22" height="22" viewBox="0 0 32 32" fill="white">
+                    <path d="M19 6h5V0h-5c-5.5 0-9 3.6-9 9v3H5v6h5v16h6V18h5l1-6h-6v-3c0-1.1.9-2 2-2z"/>
+                </svg>
+            </a>
+            <a href="https://www.instagram.com/samyandahmed?igsh=MnBibmg4cHd0YzNm" target="_blank" class="social-btn" style="background:#C13584;" aria-label="Instagram">
+                <svg width="22" height="22" viewBox="0 0 32 32" fill="white">
+                    <path d="M16 2.9c4.3 0 4.8 0 6.5.1 1.6.1 2.5.3 3 .5.7.3 1.2.6 1.7 1.1.5.5.8 1 1.1 1.7.2.5.4 1.4.5 3 .1 1.7.1 2.2.1 6.5s0 4.8-.1 6.5c-.1 1.6-.3 2.5-.5 3-.3.7-.6 1.2-1.1 1.7-.5.5-1 .8-1.7 1.1-.5.2-1.4.4-3 .5-1.7.1-2.2.1-6.5.1s-4.8 0-6.5-.1c-1.6-.1-2.5-.3-3-.5-.7-.3-1.2-.6-1.7-1.1-.5-.5-.8-1-1.1-1.7-.2-.5-.4-1.4-.5-3C2.9 20.8 2.9 20.3 2.9 16s0-4.8.2-6.5c.1-1.8.4-3.2.7-4.3.4-1.3 1-2.4 2.1-3.5 1.1-1.1 2.2-1.7 3.5-2.1 1.1-.3 2.5-.6 4.3-.7 1.7-.1 2.2-.1 6.5-.1z"/>
+                </svg>
+            </a>
+        </div>
     </div>
 </div>
+
+<script>
+function showBooking(){
+    document.getElementById('rating-page').style.display = 'none';
+    document.getElementById('booking-page').style.display = 'block';
+}
+
+function showRating(){
+    document.getElementById('booking-page').style.display = 'none';
+    document.getElementById('rating-page').style.display = 'block';
+}
+</script>
 
 </body>
 </html>
