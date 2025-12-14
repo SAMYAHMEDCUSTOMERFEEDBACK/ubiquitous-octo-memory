@@ -147,22 +147,38 @@ body.dark-mode .header-separator { background-color: #222; }
 .side-menu-overlay.active { opacity: 1; visibility: visible; }
 
 .side-menu {
-    position: fixed; top: 0; right: 0; width: 260px; height: 100%;
+    position: fixed; top: 0; width: 260px; height: 100%;
     background-color: #fff; z-index: 1002;
-    transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex; flex-direction: column; box-shadow: -5px 0 20px rgba(0,0,0,0.15);
 }
-/* Flip side menu for LTR */
-html[lang="en"] .side-menu {
-    right: auto; left: 0;
-    transform: translateX(-100%);
+
+/* RTL (Default - Arabic) */
+html[dir="rtl"] .side-menu {
+    right: 0; 
+    left: auto;
+    transform: translateX(100%);
+    box-shadow: -5px 0 20px rgba(0,0,0,0.15);
+}
+html[dir="rtl"] .side-menu.open { 
+    transform: translateX(0); 
+}
+
+/* LTR (English) */
+html[dir="ltr"] .side-menu {
+    right: auto; 
+    left: 0;
+    transform: translateX(-100%); /* تبدأ مختفية جهة اليسار */
     border-right: 1px solid #eee;
     box-shadow: 5px 0 20px rgba(0,0,0,0.15);
 }
-html[lang="en"] body.dark-mode .side-menu { border-right: 1px solid #222; border-left: none; }
+html[dir="ltr"] body.dark-mode .side-menu { border-right: 1px solid #222; border-left: none; }
+html[dir="ltr"] .side-menu.open { 
+    transform: translateX(0); /* تظهر بتحريكها إلى الصفر */
+}
 
 body.dark-mode .side-menu { background-color: #000; border-left: 1px solid #222; }
-.side-menu.open { transform: translateX(0); }
+
 
 .menu-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
 body.dark-mode .menu-header { border-bottom: 1px solid #222; }
@@ -237,8 +253,9 @@ body.dark-mode .menu-footer { background: #050505; border-top: 1px solid #222; }
    INPUTS & FORMS
    ========================================================== */
 h3 { font-size: 15px; margin-bottom: 10px; color: var(--primary-gold); margin-top: 20px; display: flex; align-items: center; font-weight: 700; }
-h3::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--primary-gold); margin-left: 8px; border-radius: 50%; }
-html[lang="en"] h3::before { margin-left: 0; margin-right: 8px; }
+h3::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--primary-gold); margin-inline-end: 8px; border-radius: 50%; }
+/* LTR adjustment */
+html[dir="ltr"] h3::before { margin-inline-end: 0; margin-inline-start: 8px; }
 
 .options { display: flex; flex-direction: column; gap: 8px; }
 .options label {
@@ -874,8 +891,12 @@ body.dark-mode .modal-box p { color: #bbb; }
     // UI Logic
     // ==========================================
     function toggleMenu() {
-        document.getElementById('sideMenu').classList.toggle('open');
-        document.getElementById('overlay').classList.toggle('active');
+        // تم تحديث وظيفة التبديل لتتناسب مع منطق CSS الجديد
+        const sideMenu = document.getElementById('sideMenu');
+        const overlay = document.getElementById('overlay');
+        
+        sideMenu.classList.toggle('open');
+        overlay.classList.toggle('active');
         document.body.classList.toggle('no-scroll');
     }
 
