@@ -778,10 +778,10 @@ body.dark-mode .select-options-list label:has(input:checked) {
             <span data-i18n="menu_gallery">معرض الصور</span>
         </a>
         
-        <span class="menu-link disabled-link">
+        <a href="javascript:void(0)" onclick="switchPage('ai')">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4"/><path d="M10 2h4"/><path d="M10 22h4"/><path d="M15 4c-5 0-7 2-7 6v2c0 4 2 6 7 6h1.5a1.5 1.5 0 0 0 0-3H15"/><path d="M12 18v4"/><path d="M17 18h-.5c-4 0-6-2-6-6v-2c0-4 2-6 7-6"/></svg>
-            <span data-i18n="menu_ai">مساعدك الشخصي (قريباً)</span>
-        </span>
+            <span data-i18n="menu_ai">مساعدك الشخصي</span>
+        </a>
         
         <div class="menu-controls-bottom">
              <button class="control-btn" onclick="toggleLanguage()" id="langBtn">EN</button>
@@ -920,11 +920,11 @@ body.dark-mode .select-options-list label:has(input:checked) {
         
         <h3 data-i18n="sec_packages">الباقات المجمعة</h3>
         <div class="options" id="packages-list">
-            <label><input type="checkbox" name="services" value="شعر ودقن" data-price="200" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_hair_beard">قص شعر + قص دقن</span> <span class="service-price" data-i18n="price_200">200 ج.م</span></label>
-            <label><input type="checkbox" name="services" value="شعر واستشوار/كيرلي" data-price="200" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_hair_dry">قص شعر + استشوار أو كيرلي</span> <span class="service-price" data-i18n="price_200">200 ج.م</span></label>
-            <label><input type="checkbox" name="services" value="شعر ودقن واستشوار" data-price="250" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_hair_beard_dry">قص شعر + قص دقن + استشوار</span> <span class="service-price" data-i18n="price_250">250 ج.م</span></label>
-            <label><input type="checkbox" name="services" value="دقن واستشوار/كيرلي" data-price="180" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_beard_dry">قص دقن + استشوار أو كيرلي</span> <span class="service-price" data-i18n="price_180">180 ج.م</span></label>
-            <label><input type="checkbox" name="services" value="صبغة/حنا شعر ودقن" data-price="190" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_dye_all">صبغة/حنا شعر + صبغة دقن</span> <span class="service-price" data-i18n="price_190">190 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="قص شعر + قص دقن" data-price="200" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_hair_beard">قص شعر + قص دقن</span> <span class="service-price" data-i18n="price_200">200 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="قص شعر + استشوار أو كيرلي" data-price="200" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_hair_dry">قص شعر + استشوار أو كيرلي</span> <span class="service-price" data-i18n="price_200">200 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="قص شعر + قص دقن + استشوار" data-price="250" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_hair_beard_dry">قص شعر + قص دقن + استشوار</span> <span class="service-price" data-i18n="price_250">250 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="قص دقن + استشوار أو كيرلي" data-price="180" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_beard_dry">قص دقن + استشوار أو كيرلي</span> <span class="service-price" data-i18n="price_180">180 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="صبغة/حنا شعر + صبغة دقن" data-price="190" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_dye_all">صبغة/حنا شعر + صبغة دقن</span> <span class="service-price" data-i18n="price_190">190 ج.م</span></label>
         </div>
 
         <h3 data-i18n="sec_single">الخدمات الفردية الإضافية</h3>
@@ -1006,23 +1006,23 @@ body.dark-mode .select-options-list label:has(input:checked) {
         
         <h3 data-i18n="sec_packages_offers">اطلب باقتك الآن</h3>
         <div class="options-offer" id="packages-offers-list">
-            <label onclick="showOfferModal('pkg_hair_beard', 200, 'شعر ودقن')"> 
+            <label onclick="showOfferModal('pkg_hair_beard', 200, 'قص شعر + قص دقن')"> 
                 <span class="service-name" data-i18n="pkg_hair_beard">قص شعر + قص دقن</span> 
                 <span class="service-price" data-i18n="price_200">200 ج.م</span>
             </label>
-            <label onclick="showOfferModal('pkg_hair_dry', 200, 'شعر واستشوار/كيرلي')"> 
+            <label onclick="showOfferModal('pkg_hair_dry', 200, 'قص شعر + استشوار أو كيرلي')"> 
                 <span class="service-name" data-i18n="pkg_hair_dry">قص شعر + استشوار أو كيرلي</span> 
                 <span class="service-price" data-i18n="price_200">200 ج.م</span>
             </label>
-            <label onclick="showOfferModal('pkg_hair_beard_dry', 250, 'شعر ودقن واستشوار')"> 
+            <label onclick="showOfferModal('pkg_hair_beard_dry', 250, 'قص شعر + قص دقن + استشوار')"> 
                 <span class="service-name" data-i18n="pkg_hair_beard_dry">قص شعر + قص دقن + استشوار</span> 
                 <span class="service-price" data-i18n="price_250">250 ج.م</span>
             </label>
-            <label onclick="showOfferModal('pkg_beard_dry', 180, 'دقن واستشوار/كيرلي')"> 
+            <label onclick="showOfferModal('pkg_beard_dry', 180, 'قص دقن + استشوار أو كيرلي')"> 
                 <span class="service-name" data-i18n="pkg_beard_dry">قص دقن + استشوار أو كيرلي</span> 
                 <span class="service-price" data-i18n="price_180">180 ج.م</span>
             </label>
-            <label onclick="showOfferModal('pkg_dye_all', 190, 'صبغة/حنا شعر ودقن')"> 
+            <label onclick="showOfferModal('pkg_dye_all', 190, 'صبغة/حنا شعر + صبغة دقن')"> 
                 <span class="service-name" data-i18n="pkg_dye_all">صبغة/حنا شعر + صبغة دقن</span> 
                 <span class="service-price" data-i18n="price_190">190 ج.م</span>
             </label>
@@ -1058,11 +1058,10 @@ body.dark-mode .select-options-list label:has(input:checked) {
     // إعدادات الذكاء الاصطناعي
     // ==========================================
     
-    // المفتاح الجديد الذي أرسلته: 
-    // إذا استمرت مشكلة "المفتاح غير صحيح"، قم بإنشاء مفتاح جديد وفعال من Google AI Studio واستبدله هنا.
-    const API_KEY = "AIzaSyAxNMMcjvDvCSWMNXrrK6MSeW7TeZ0AbQc"; 
+    // تم تحديث المفتاح ليكون فارغًا، حيث يتم توفيره تلقائيًا من قبل بيئة التشغيل.
+    const API_KEY = ""; 
     
-    const AI_MODEL = 'gemini-1.5-flash';
+    const AI_MODEL = 'gemini-2.5-flash-preview-09-2025'; 
     const MAX_RETRIES = 3;
 
     // التعليمات للنظام (تم ضبطها لتتحدث بالمصرية)
@@ -1077,13 +1076,13 @@ body.dark-mode .select-options-list label:has(input:checked) {
             menu_title: "القائمة",
             menu_rating: "تقييم الخدمة",
             menu_booking: "حجز موعد",
-            menu_notifications: "الباقات والعروض", // UPDATED
+            menu_notifications: "الباقات والعروض", 
             menu_call: "اتصال مباشر",
             menu_whatsapp: "واتساب",
             menu_gallery: "معرض الصور",
-            menu_ai: "مساعدك الشخصي (قريباً)", 
+            menu_ai: "مساعدك الشخصي", 
             rating_subtitle: "نقدّر رأيك… تقييمك يهمّنا",
-            notifications_subtitle: "الباقات المميزة والعروض", // UPDATED
+            notifications_subtitle: "الباقات المميزة والعروض", 
             select_branch: "--- اختر الفرع ---",
             branch_mahgoub: "دمياط الجديدة/منتصف شارع المحجوب",
             branch_moria: "دمياط الجديدة/موريا مول",
@@ -1111,9 +1110,9 @@ body.dark-mode .select-options-list label:has(input:checked) {
             ph_phone: "رقم الهاتف",
             sec_datetime: "تاريخ ووقت الحجز",
             sec_packages: "الباقات المجمعة",
-            sec_packages_offers: "اطلب باقتك الآن", // UPDATED
+            sec_packages_offers: "اطلب باقتك الآن", 
             sec_single: "الخدمات الفردية الإضافية",
-            sec_other_offers: "عروض وخصومات أخرى", // KEPT FOR JS LOGIC/OTHER PAGES, BUT REMOVED FROM HTML
+            sec_other_offers: "عروض وخصومات أخرى", 
             sec_total: "الإجمالي التقريبي",
             ph_extra_notes: "ملاحظات إضافية (مثل: لدي حساسية من منتج معين)",
             btn_confirm_booking: "تأكيد الحجز",
@@ -1136,11 +1135,11 @@ body.dark-mode .select-options-list label:has(input:checked) {
             currency: "ج.م",
             designer_credit_text: "تصميم وتطوير بواسطة Mustafa Zuhair", 
             
-            // Notification Messages (KEPT FOR JS LOGIC/OTHER PAGES)
+            // Notification Messages 
             offer_summer_h: "عرض الصيف الذهبي!",
             offer_summer_p: "خصم 20% على خدمات تنظيف البشرة والهيدرافيشيل طوال شهر أغسطس. لا تفوت الفرصة للاستمتاع ببشرة مشرقة.",
             offer_package_h: "توفير الباقة المزدوجة",
-            offer_package_p: "احجز باقة 'شعر ودقن' واحصل على حمام كريم مجاني. العرض ساري حتى نهاية الأسبوع القادم.",
+            offer_package_p: "احجز باقة 'قص شعر + قص دقن' واحصل على حمام كريم مجاني. العرض ساري حتى نهاية الأسبوع القادم.",
             offer_branch_moria_h: "عرض فرع موريا مول",
             offer_branch_moria_p: "خدمة صبغة شعر مع صبغة دقن بسعر 150 جنيهاً بدلاً من 190 جنيهاً (لفترة محدودة).",
             new_service_xtenso_h: "خدمة جديدة: معالج Xtenso",
@@ -1190,13 +1189,13 @@ body.dark-mode .select-options-list label:has(input:checked) {
             menu_title: "Menu",
             menu_rating: "Rate Service",
             menu_booking: "Book Appointment",
-            menu_notifications: "Packages & Offers", // UPDATED
+            menu_notifications: "Packages & Offers", 
             menu_call: "Call Now",
             menu_whatsapp: "WhatsApp",
             menu_gallery: "Gallery",
-            menu_ai: "AI Assistant (Soon)", 
+            menu_ai: "AI Assistant", 
             rating_subtitle: "Your opinion matters...",
-            notifications_subtitle: "Special Packages and Offers", // UPDATED
+            notifications_subtitle: "Special Packages and Offers", 
             select_branch: "--- Select Branch ---",
             branch_mahgoub: "New Damietta / Mahgoub St.",
             branch_moria: "New Damietta / Moria Mall",
@@ -1224,9 +1223,9 @@ body.dark-mode .select-options-list label:has(input:checked) {
             ph_phone: "Phone Number",
             sec_datetime: "Date & Time",
             sec_packages: "Packages",
-            sec_packages_offers: "Order Your Package Now", // UPDATED
+            sec_packages_offers: "Order Your Package Now", 
             sec_single: "Individual Services",
-            sec_other_offers: "Other Offers & Discounts", // KEPT FOR JS LOGIC/OTHER PAGES
+            sec_other_offers: "Other Offers & Discounts", 
             sec_total: "Estimated Total",
             ph_extra_notes: "Extra notes (e.g. allergies)",
             btn_confirm_booking: "Confirm Booking",
@@ -1249,7 +1248,7 @@ body.dark-mode .select-options-list label:has(input:checked) {
             currency: "EGP",
             designer_credit_text: "Design & Development by Mustafa Zuhair", 
 
-            // Notification Messages (KEPT FOR JS LOGIC/OTHER PAGES)
+            // Notification Messages 
             offer_summer_h: "Golden Summer Offer!",
             offer_summer_p: "20% off facial and hydrafacial services throughout August. Don't miss the chance for glowing skin.",
             offer_package_h: "Double Package Savings",
@@ -1600,15 +1599,8 @@ body.dark-mode .select-options-list label:has(input:checked) {
 
         if (!userQuery) return;
         
-        // التحقق من المفتاح قبل الإرسال الفعلي
-        if (!API_KEY || API_KEY.startsWith("AIzaSyA")) {
-             resultsDiv.appendChild(createMessageElement(currentLang === 'ar' ? "المساعد الشخصي غير مفعل حالياً. برجاء تحديث المفتاح." : "AI Assistant is currently disabled. Please update the key.", false));
-             input.value = '';
-             resultsDiv.scrollTop = resultsDiv.scrollHeight;
-             return;
-        }
-
-
+        // تم إزالة التحقق الخاطئ من API_KEY هنا، حيث يتم توفيره تلقائياً بواسطة البيئة.
+        
         // Display user message
         resultsDiv.appendChild(createMessageElement(userQuery, true));
         input.value = '';
@@ -1629,7 +1621,8 @@ body.dark-mode .select-options-list label:has(input:checked) {
             console.error("Gemini API Error:", error);
             // طباعة تفاصيل الخطأ للمطورين في الكونسول
             console.log("Detailed Error Message:", error.message);
-            const errorMessage = currentLang === 'ar' ? "آسف، حدث خطأ أثناء الاتصال بالخادم. (تأكد من صحة الـ API Key)" : "Sorry, an error occurred connecting to the server. (Check API Key)";
+            // تم تحديث رسالة الخطأ لتكون أكثر عمومية وودية
+            const errorMessage = currentLang === 'ar' ? "آسف، حدث خطأ أثناء معالجة طلبك. يرجى المحاولة مرة أخرى." : "Sorry, an error occurred while processing your request. Please try again.";
             resultsDiv.appendChild(createMessageElement(errorMessage, false));
 
         } finally {
@@ -1641,6 +1634,7 @@ body.dark-mode .select-options-list label:has(input:checked) {
     }
 
     async function callGeminiAPI(userQuery, retryCount = 0) {
+        // استخدام عنوان URL ونموذج API الصحيح
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${AI_MODEL}:generateContent?key=${API_KEY}`;
         const payload = {
             contents: [{ parts: [{ text: userQuery }] }],
@@ -1714,9 +1708,9 @@ body.dark-mode .select-options-list label:has(input:checked) {
              targetPage.style.display = 'block';
         }
         
-        // NEW: إخفاء البانر فقط عند عرض صفحة الإشعارات
+        // NEW: إخفاء البانر فقط عند عرض صفحة الإشعارات أو المساعد الشخصي
         const heroBanner = document.getElementById('heroBanner');
-        if (pageId === 'notifications') {
+        if (pageId === 'notifications' || pageId === 'ai') {
             heroBanner.classList.add('hide-banner');
             // NEW: ضبط الـ padding-top ليتوافق مع وضع الإخفاء
             document.body.classList.add('scrolled');
