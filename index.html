@@ -228,6 +228,7 @@ body.dark-mode .menu-controls-bottom {
     align-items: center;
     justify-content: center;
 }
+
 .control-btn svg { width: 18px; height: 18px; }
 
 #themeBtn {
@@ -356,37 +357,53 @@ button[type="submit"]:active { transform: scale(0.98); }
 body.dark-mode .designer-credit { border-color: #222; color: #555; }
 
 /* ==========================================================
-   AI & MODAL
+   AI & MODAL & NOTIFICATIONS
    ========================================================== */
+/* Notification Card Styles */
+.notification-card {
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    background: #fcfcfc;
+    border-inline-start: 4px solid var(--primary-gold);
+    transition: transform 0.2s;
+}
+
+body.dark-mode .notification-card {
+    background: #111;
+    border-color: var(--primary-gold);
+    box-shadow: none;
+}
+
+.notification-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.notification-card h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--primary-gold);
+}
+.notification-card p {
+    margin: 0;
+    font-size: 12px;
+    color: #666;
+    line-height: 1.4;
+}
+body.dark-mode .notification-card p {
+    color: #aaa;
+}
+
+/* AI Chat Specific Styles (Existing) */
 .ai-card { 
     background: #f9fdfa; border: 1px solid #d1fae5; border-radius: 12px; padding: 20px; 
     text-align: center; margin-bottom: 10px; 
 }
 body.dark-mode .ai-card { background: #001a05; border: 1px solid #00330a; }
-.ai-btn { display: inline-block; background: #10b981; color: white; text-decoration: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; margin-top: 15px; font-size: 14px; }
 
-.modal-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.85); z-index: 2000;
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; visibility: hidden; transition: 0.3s; backdrop-filter: blur(5px);
-}
-.modal-overlay.active { opacity: 1; visibility: visible; }
-.modal-box {
-    background: #fff; width: 85%; max-width: 320px;
-    padding: 30px; border-radius: 20px; text-align: center;
-    transform: scale(0.8); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-body.dark-mode .modal-box { background: #111; border: 1px solid #333; }
-.modal-overlay.active .modal-box { transform: scale(1); }
-.modal-icon { font-size: 45px; margin-bottom: 15px; display: block; }
-.modal-box h4 { margin: 10px 0; font-size: 18px; color: #333; font-weight: 800; }
-body.dark-mode .modal-box h4 { color: #fff; }
-.modal-box p { color: #666; font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
-body.dark-mode .modal-box p { color: #bbb; }
-.modal-close-btn { background: var(--primary-gold); color: #fff; border: none; padding: 10px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
-
-/* AI Chat Specific Styles */
 #ai-results {
     min-height: 200px;
     background: #fcfcfc;
@@ -454,6 +471,27 @@ body.dark-mode .user-message {
     font-size: 14px;
 }
 
+/* Modal Styles (Existing) */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); z-index: 2000;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden; transition: 0.3s; backdrop-filter: blur(5px);
+}
+.modal-overlay.active { opacity: 1; visibility: visible; }
+.modal-box {
+    background: #fff; width: 85%; max-width: 320px;
+    padding: 30px; border-radius: 20px; text-align: center;
+    transform: scale(0.8); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+body.dark-mode .modal-box { background: #111; border: 1px solid #333; }
+.modal-overlay.active .modal-box { transform: scale(1); }
+.modal-icon { font-size: 45px; margin-bottom: 15px; display: block; }
+.modal-box h4 { margin: 10px 0; font-size: 18px; color: #333; font-weight: 800; }
+body.dark-mode .modal-box h4 { color: #fff; }
+.modal-box p { color: #666; font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
+body.dark-mode .modal-box p { color: #bbb; }
+.modal-close-btn { background: var(--primary-gold); color: #fff; border: none; padding: 10px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
 </style>
 </head>
 <body>
@@ -476,32 +514,37 @@ body.dark-mode .user-message {
         <a href="javascript:void(0)" onclick="switchPage('rating')">
             <!-- Icon: Star -->
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            <span data-i18n="menu_rating">🌟 تقييم الخدمة</span>
+            <span data-i18n="menu_rating">تقييم الخدمة</span>
         </a>
         <a href="javascript:void(0)" onclick="switchPage('booking')">
             <!-- Icon: CalendarCheck -->
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg>
-            <span data-i18n="menu_booking">📝 حجز موعد</span>
+            <span data-i18n="menu_booking">حجز موعد</span>
+        </a>
+        <a href="javascript:void(0)" onclick="switchPage('notifications')">
+            <!-- Icon: Bell (Notifications) -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span data-i18n="menu_notifications">الإشعارات والعروض</span>
         </a>
         <a href="tel:+201022172940" onclick="toggleMenu()">
             <!-- Icon: Phone -->
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-5.6-5.6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 3.08 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            <span data-i18n="menu_call">📞 اتصال مباشر</span>
+            <span data-i18n="menu_call">اتصال مباشر</span>
         </a>
         <a href="https://wa.me/201022172940" target="_blank" onclick="toggleMenu()">
             <!-- Icon: MessageCircle (used for WhatsApp) -->
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22z"/></svg>
-            <span data-i18n="menu_whatsapp">💬 واتساب</span>
+            <span data-i18n="menu_whatsapp">واتساب</span>
         </a>
         <a href="https://www.instagram.com/samyandahmed" target="_blank" onclick="toggleMenu()">
             <!-- Icon: GalleryHorizontal -->
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h20"/><path d="M3 18v-3a6 6 0 0 1 6-6h6a6 6 0 0 1 6 6v3"/><circle cx="12" cy="18" r="1"/></svg>
-            <span data-i18n="menu_gallery">📸 معرض الصور</span>
+            <span data-i18n="menu_gallery">معرض الصور</span>
         </a>
         <a href="javascript:void(0)" onclick="switchPage('ai')">
             <!-- Icon: Bot -->
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4"/><path d="M10 2h4"/><path d="M10 22h4"/><path d="M15 4c-5 0-7 2-7 6v2c0 4 2 6 7 6h1.5a1.5 1.5 0 0 0 0-3H15"/><path d="M12 18v4"/><path d="M17 18h-.5c-4 0-6-2-6-6v-2c0-4 2-6 7-6"/></svg>
-            <span data-i18n="menu_ai">🤖 مساعدك الشخصي</span>
+            <span data-i18n="menu_ai">مساعدك الشخصي</span>
         </a>
         
         <!-- الأزرار الجديدة داخل القائمة الجانبية -->
@@ -663,7 +706,105 @@ body.dark-mode .user-message {
         <button type="submit" data-i18n="btn_confirm_booking">تأكيد الحجز</button>
     </form>
     
-    <div class="footer" style="margin-top:20px;">تصميم وتطوير Mustafa Zuhair</div>
+    <div class="social-icons">
+        <!-- Icon: Phone -->
+        <a href="tel:+201022172940" class="social-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-5.6-5.6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 3.08 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </a>
+        <!-- Icon: WhatsApp (Using MessageCircle/MessageSquare as standard is better than custom WhatsApp icon) -->
+        <a href="https://wa.me/201022172940" target="_blank" class="social-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22z"/></svg>
+        </a>
+        <!-- Icon: Facebook -->
+        <a href="https://www.facebook.com/share/1BXRsi6j5r/" target="_blank" class="social-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <!-- Icon: Instagram -->
+        <a href="https://www.instagram.com/samyandahmed?igsh=MnBibmg4cHd0YzNm" target="_blank" class="social-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+    </div>
+
+    <div class="footer" data-i18n="footer_thanks">شكرًا لثقتك – نراك قريبًا 🤍</div>
+    <div class="designer-credit">تصميم وتطوير بواسطة Mustafa Zuhair</div>
+</div>
+
+<div id="booking-page" class="container" style="display:none;">
+    <div class="subtitle" data-i18n="booking_subtitle">احجز موعدك بسهولة</div>
+    <hr class="header-separator"> 
+
+    <form id="booking-form" onsubmit="handleFormSubmit(event, 'booking')">
+        <select name="الفرع" required>
+            <option value="" disabled selected data-i18n="select_branch">--- اختر الفرع ---</option>
+            <option value="دمياط الجديدة/شارع المحجوب" data-i18n="branch_mahgoub">دمياط الجديدة/منتصف شارع المحجوب</option>
+            <option value="دمياط الجديدة/موريا مول" data-i18n="branch_moria">دمياط الجديدة/موريا مول</option>
+        </select>
+        
+        <input type="text" name="الاسم" placeholder="الاسم" required data-i18n-placeholder="ph_name">
+        <input type="tel" name="رقم الهاتف" placeholder="رقم الهاتف" required data-i18n-placeholder="ph_phone">
+        
+        <h3 data-i18n="sec_datetime">تاريخ ووقت الحجز</h3>
+        <input type="datetime-local" id="booking-date" name="الموعد" required>
+        
+        <h3 data-i18n="sec_packages">الباقات المجمعة</h3>
+        <div class="options" id="packages-list">
+            <!-- لاحظ استخدام onchange="triggerCalculation(this)" في كل عنصر -->
+            <label><input type="checkbox" name="services" value="شعر ودقن" data-price="200" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_hair_beard">قص شعر + قص دقن</span> <span class="service-price" data-i18n="price_200">200 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="شعر واستشوار/كيرلي" data-price="200" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_hair_dry">قص شعر + استشوار أو كيرلي</span> <span class="service-price" data-i18n="price_200">200 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="شعر ودقن واستشوار" data-price="250" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_hair_beard_dry">قص شعر + قص دقن + استشوار</span> <span class="service-price" data-i18n="price_250">250 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="دقن واستشوار/كيرلي" data-price="180" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_beard_dry">قص دقن + استشوار أو كيرلي</span> <span class="service-price" data-i18n="price_180">180 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="صبغة/حنا شعر ودقن" data-price="190" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_dye_all">صبغة/حنا شعر + صبغة دقن</span> <span class="service-price" data-i18n="price_190">190 ج.م</span></label>
+        </div>
+
+        <h3 data-i18n="sec_single">الخدمات الفردية الإضافية</h3>
+        <div class="options" id="individual-list">
+            <label><input type="checkbox" name="services" value="قص شعر" data-price="150" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_haircut">قص شعر</span> <span class="service-price" data-i18n="price_150">150 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="قص شعر للاطفال" data-price="100" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_kids">قص شعر للاطفال</span> <span class="service-price" data-i18n="price_100">100 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="قص الدقن" data-price="100" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_beard">قص الدقن</span> <span class="service-price" data-i18n="price_100">100 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="استشوار او كيرلي او ويڤي" data-price="80" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_dry">استشوار أو كيرلي أو ويڤي</span> <span class="service-price" data-i18n="price_80">80 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="صبغة شعر" data-price="120" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_dye_hair">صبغة شعر</span> <span class="service-price" data-i18n="price_120">120 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="صبغة دقن" data-price="70" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_dye_beard">صبغة دقن</span> <span class="service-price" data-i18n="price_70">70 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="توبيك" data-price="80" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_topic">توبيك لفراغات الشعر</span> <span class="service-price" data-i18n="price_80">80 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="حمام زيت" data-price="150" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_oil">حمام زيت</span> <span class="service-price" data-i18n="price_150">150 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="حمام كريم" data-price="70" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_cream">حمام كريم</span> <span class="service-price" data-i18n="price_70">70 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="جلسة إزالة قشرة" data-price="130" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_dandruff">جلسة إزالة قشرة</span> <span class="service-price" data-i18n="price_130">130 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="جلسة شمع" data-price="100" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_wax">جلسة شمع</span> <span class="service-price" data-i18n="price_100">100 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="فتلة" data-price="50" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_thread">فتلة</span> <span class="service-price" data-i18n="price_50">50 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="ماسك" data-price="70" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_mask">ماسك</span> <span class="service-price" data-i18n="price_70">70 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="تنظيف بشرة" data-price="300" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_clean">تنظيف بشرة</span> <span class="service-price" data-i18n="price_300">300 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="تنظيف بشرة هيدرافيشيل" data-price="500" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_hydra">تنظيف بشرة هيدرافيشيل</span> <span class="service-price" data-i18n="price_500">500 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="معالج Xtenso" data-price="500" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_xtenso">معالج Xtenso</span> <span class="service-price" data-i18n="price_500">500 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="بروتين" data-price="0" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_protein">بروتين (حسب الاستخدام)</span> <span class="service-price" data-i18n="price_protein">50 ج.م/جم</span></label>
+        </div>
+        
+        <h3 data-i18n="sec_total">الإجمالي التقريبي</h3>
+        <input type="text" id="total-price" value="0.00 جنيه مصري" readonly>
+        <textarea name="ملاحظات" placeholder="ملاحظات إضافية (مثل: لدي حساسية من منتج معين)" data-i18n-placeholder="ph_extra_notes"></textarea>
+        
+        <button type="submit" data-i18n="btn_confirm_booking">تأكيد الحجز</button>
+    </form>
+    
+    <div class="social-icons">
+        <!-- Icon: Phone -->
+        <a href="tel:+201022172940" class="social-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-5.6-5.6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 3.08 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </a>
+        <!-- Icon: WhatsApp (Using MessageCircle/MessageSquare as standard is better than custom WhatsApp icon) -->
+        <a href="https://wa.me/201022172940" target="_blank" class="social-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22z"/></svg>
+        </a>
+        <!-- Icon: Facebook -->
+        <a href="https://www.facebook.com/share/1BXRsi6j5r/" target="_blank" class="social-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <!-- Icon: Instagram -->
+        <a href="https://www.instagram.com/samyandahmed?igsh=MnBibmg4cHd0YzNm" target="_blank" class="social-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+    </div>
+
+    <div class="footer" data-i18n="footer_thanks">شكرًا لثقتك – نراك قريبًا 🤍</div>
+    <div class="designer-credit">تصميم وتطوير بواسطة Mustafa Zuhair</div>
 </div>
 
 <div id="ai-page" class="container" style="display:none;">
@@ -692,6 +833,41 @@ body.dark-mode .user-message {
     <div class="footer" style="margin-top:20px;">تصميم وتطوير Mustafa Zuhair</div>
 </div>
 
+<!-- New Notifications Page -->
+<div id="notifications-page" class="container" style="display:none;">
+    <div class="subtitle" data-i18n="notifications_subtitle">أحدث العروض والخصومات</div>
+    <hr class="header-separator"> 
+    
+    <!-- Dynamic Notifications List -->
+    <div id="notifications-list">
+        <!-- Notification Card 1: Summer Offer -->
+        <div class="notification-card" data-i18n="offer_summer">
+            <h4><span data-i18n="offer_summer_h">عرض الصيف الذهبي!</span></h4>
+            <p><span data-i18n="offer_summer_p">خصم 20% على خدمات تنظيف البشرة والهيدرافيشيل طوال شهر أغسطس. لا تفوت الفرصة للاستمتاع ببشرة مشرقة.</span></p>
+        </div>
+
+        <!-- Notification Card 2: Package Discount -->
+        <div class="notification-card" data-i18n="offer_package">
+            <h4><span data-i18n="offer_package_h">توفير الباقة المزدوجة</span></h4>
+            <p><span data-i18n="offer_package_p">احجز باقة "شعر ودقن" واحصل على حمام كريم مجاني. العرض ساري حتى نهاية الأسبوع القادم.</span></p>
+        </div>
+
+         <!-- Notification Card 3: Branch Specific -->
+        <div class="notification-card" data-i18n="offer_branch_moria">
+            <h4><span data-i18n="offer_branch_moria_h">عرض فرع موريا مول</span></h4>
+            <p><span data-i18n="offer_branch_moria_p">خدمة صبغة شعر مع صبغة دقن بسعر 150 جنيهاً بدلاً من 190 جنيهاً (لفترة محدودة).</span></p>
+        </div>
+
+        <!-- Notification Card 4: New Service -->
+        <div class="notification-card" data-i18n="new_service_xtenso">
+            <h4><span data-i18n="new_service_xtenso_h">خدمة جديدة: معالج Xtenso</span></h4>
+            <p><span data-i18n="new_service_xtenso_p">اطلب الآن خدمة معالج Xtenso لتحويل الشعر المجعد إلى شعر ناعم ومستقيم لمدة طويلة. احجز موعدك لتجربة هذه الخدمة الفاخرة.</span></p>
+        </div>
+    </div>
+
+    <div class="footer" style="margin-top:20px;">تصميم وتطوير Mustafa Zuhair</div>
+</div>
+
 <div id="modal-overlay" class="modal-overlay" onclick="closeModal()">
     <div class="modal-box" onclick="event.stopPropagation()">
         <span class="modal-icon" id="modal-icon">✅</span>
@@ -710,11 +886,13 @@ body.dark-mode .user-message {
             menu_title: "القائمة",
             menu_rating: "تقييم الخدمة",
             menu_booking: "حجز موعد",
+            menu_notifications: "الإشعارات والعروض",
             menu_call: "اتصال مباشر",
             menu_whatsapp: "واتساب",
             menu_gallery: "معرض الصور",
             menu_ai: "مساعدك الشخصي",
             rating_subtitle: "نقدّر رأيك… تقييمك يهمّنا",
+            notifications_subtitle: "أحدث العروض والخصومات",
             select_branch: "--- اختر الفرع ---",
             branch_mahgoub: "دمياط الجديدة/منتصف شارع المحجوب",
             branch_moria: "دمياط الجديدة/موريا مول",
@@ -749,11 +927,11 @@ body.dark-mode .user-message {
             ai_subtitle: "مساعدك الشخصي",
             ai_header: "محتار في قصة شعرك؟",
             ai_desc: "تحدث مع خبير التجميل الافتراضي للحصول على نصائح فورية.",
-            ai_greeting: "أهلاً بك! أنا مساعدك الشخصي من صالون سامي وأحمد. كيف يمكنني مساعدتك في اختيار قصة شعرك أو تصميم ذقنك اليوم؟",
+            ai_greeting: "أهلاً بك! أنا مساعدك الشخصي من صالون سامي وأحمد. كيف يمكنني أساعدك في اختيار اللوك المناسب لشعرك أو دقنك النهارده؟", // Updated to colloquial
             ai_placeholder: "اكتب سؤالك هنا...",
             ai_btn_send: "إرسال",
             ai_loading: "جاري تحليل طلبك...",
-            ai_error: "حدث خطأ في الاتصال. حاول مرة أخرى.",
+            ai_error: "حصلت مشكلة في الاتصال. حاول تاني بعد إذنك.", // Updated to colloquial
             modal_success: "تم بنجاح!",
             modal_thanks: "شكراً لك.",
             modal_close: "إغلاق",
@@ -762,6 +940,16 @@ body.dark-mode .user-message {
             modal_booking_title: "تم استلام الحجز",
             modal_booking_msg: "سنتواصل معك قريباً لتأكيد الموعد.",
             currency: "ج.م",
+            
+            // Notification Messages
+            offer_summer_h: "عرض الصيف الذهبي!",
+            offer_summer_p: "خصم 20% على خدمات تنظيف البشرة والهيدرافيشيل طوال شهر أغسطس. لا تفوت الفرصة للاستمتاع ببشرة مشرقة.",
+            offer_package_h: "توفير الباقة المزدوجة",
+            offer_package_p: "احجز باقة 'شعر ودقن' واحصل على حمام كريم مجاني. العرض ساري حتى نهاية الأسبوع القادم.",
+            offer_branch_moria_h: "عرض فرع موريا مول",
+            offer_branch_moria_p: "خدمة صبغة شعر مع صبغة دقن بسعر 150 جنيهاً بدلاً من 190 جنيهاً (لفترة محدودة).",
+            new_service_xtenso_h: "خدمة جديدة: معالج Xtenso",
+            new_service_xtenso_p: "اطلب الآن خدمة معالج Xtenso لتحويل الشعر المجعد إلى شعر ناعم ومستقيم لمدة طويلة. احجز موعدك لتجربة هذه الخدمة الفاخرة.",
             
             // Services & Prices (Text Labels)
             pkg_hair_beard: "قص شعر + قص دقن",
@@ -807,11 +995,13 @@ body.dark-mode .user-message {
             menu_title: "Menu",
             menu_rating: "Rate Service",
             menu_booking: "Book Appointment",
+            menu_notifications: "Notifications & Offers",
             menu_call: "Call Now",
             menu_whatsapp: "WhatsApp",
             menu_gallery: "Gallery",
             menu_ai: "AI Assistant",
             rating_subtitle: "Your opinion matters...",
+            notifications_subtitle: "Latest Offers and Discounts",
             select_branch: "--- Select Branch ---",
             branch_mahgoub: "New Damietta / Mahgoub St.",
             branch_moria: "New Damietta / Moria Mall",
@@ -860,7 +1050,17 @@ body.dark-mode .user-message {
             modal_booking_msg: "We will contact you shortly to confirm.",
             currency: "EGP",
             
-             // Services & Prices (Text Labels)
+             // Notification Messages
+            offer_summer_h: "Golden Summer Offer!",
+            offer_summer_p: "20% off facial and hydrafacial services throughout August. Don't miss the chance for glowing skin.",
+            offer_package_h: "Double Package Savings",
+            offer_package_p: "Book the 'Hair & Beard' package and get a free Hair Cream Bath. Offer valid until the end of next week.",
+            offer_branch_moria_h: "Moria Mall Branch Offer",
+            offer_branch_moria_p: "Hair Dye and Beard Dye service for 150 EGP instead of 190 EGP (Limited time).",
+            new_service_xtenso_h: "New Service: Xtenso Treatment",
+            new_service_xtenso_p: "Book the Xtenso treatment now to transform curly hair into smooth, straight hair for a long duration. Book your appointment today!",
+
+            // Services & Prices (Text Labels)
             pkg_hair_beard: "Haircut + Beard",
             pkg_hair_dry: "Haircut + Dry/Curly",
             pkg_hair_beard_dry: "Hair + Beard + Dry",
@@ -907,8 +1107,8 @@ body.dark-mode .user-message {
     const MAX_RETRIES = 3;
     const API_KEY = ""; // Canvas will provide this automatically
 
-    // System instruction for the Gemini Model
-    const systemPrompt = "أنت مساعد افتراضي متخصص في تصفيف الشعر والذقن، تعمل في صالون 'Samy & Ahmed Luxury Barber'. مهمتك هي تقديم نصائح احترافية وأنيقة حول قصات الشعر أو تصميم الذقن أو رعاية البشرة بناءً على استفسار العميل. اجعل إجاباتك قصيرة (3-5 جمل)، محترمة، ومرتبطة بخدمات صالون فاخر. يجب أن تجيب باللغة التي سأل بها العميل.";
+    // UPDATED SYSTEM PROMPT: Now includes Egyptian Colloquial Arabic instruction
+    const systemPrompt = "أنت خبير تجميل متخصص في صالون 'Samy & Ahmed Luxury Barber'. مهمتك هي تقديم نصائح سريعة ومفيدة عن قصات الشعر والذقن والعناية بالبشرة. يجب أن تكون إجاباتك ودودة ومختصرة (3-5 جمل). والأهم: عندما ترد بالعربية، استخدم العامية المصرية (Egyptian Colloquial Arabic) لتبدو طبيعياً ومريحاً للعميل.";
 
 
     // ==========================================
@@ -970,6 +1170,16 @@ body.dark-mode .user-message {
                 el.innerText = translations[lang][key];
             }
         });
+        
+        // Update Notification Card Titles/Content
+        const notifications = document.querySelectorAll('#notifications-list [data-i18n]');
+        notifications.forEach(el => {
+            const key = el.getAttribute('data-i18n');
+             if (translations[lang][key]) {
+                el.innerText = translations[lang][key];
+            }
+        });
+
 
         // Update Placeholders
         const inputs = document.querySelectorAll('[data-i18n-placeholder]');
@@ -1167,6 +1377,7 @@ body.dark-mode .user-message {
         document.getElementById('rating-page').style.display = 'none';
         document.getElementById('booking-page').style.display = 'none';
         document.getElementById('ai-page').style.display = 'none';
+        document.getElementById('notifications-page').style.display = 'none';
         
         const targetPage = document.getElementById(pageId + '-page');
         if (targetPage) {
