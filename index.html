@@ -613,6 +613,121 @@ body.dark-mode .modal-box h4 { color: #fff; }
 .modal-box p { color: #666; font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
 body.dark-mode .modal-box p { color: #bbb; }
 .modal-close-btn { background: var(--primary-gold); color: #fff; border: none; padding: 10px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
+
+/* ==========================================================
+   CUSTOM SELECT (Branch Dropdown - NEW)
+   ========================================================== */
+.custom-select-container {
+    position: relative;
+    margin-bottom: 15px; /* Spacing below the dropdown */
+}
+
+.select-trigger {
+    width: 100%;
+    height: 45px;
+    padding: 0 15px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    background: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-weight: 600;
+}
+body.dark-mode .select-trigger {
+    background: #0a0a0a; border: 1px solid #333; color: #fff;
+}
+/* Focus/Open state mimic */
+.select-trigger:focus, .select-trigger.open { 
+    border-color: var(--primary-gold); 
+    box-shadow: 0 0 0 1px rgba(201, 162, 77, 0.3); 
+}
+
+.select-trigger:after {
+    content: '▼';
+    font-size: 10px;
+    margin-inline-start: 10px;
+    transition: transform 0.2s;
+    color: var(--primary-gold);
+}
+
+.select-trigger.open:after {
+    transform: rotate(180deg);
+}
+
+.select-options-list {
+    position: absolute;
+    top: 100%; /* Position below the trigger */
+    left: 0; right: 0;
+    z-index: 50; /* Ensure it's above other form elements */
+    background: var(--card-light);
+    border: 1px solid var(--primary-gold);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-top: 5px; /* Small gap */
+    max-height: 200px; 
+    overflow-y: auto;
+    padding: 0; /* Remove padding from parent .options container */
+    gap: 0; /* Remove gap from parent .options container */
+}
+body.dark-mode .select-options-list {
+    background: var(--card-dark);
+    border: 1px solid var(--primary-gold);
+    box-shadow: 0 5px 15px rgba(201, 162, 77, 0.1);
+}
+
+/* Styling the labels/options inside the custom select list */
+.select-options-list label {
+    display: flex; /* Ensure the structure is right */
+    justify-content: flex-start; /* Align text to start */
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 0;
+    margin-bottom: 0;
+    /* Use a light border to separate options */
+    border: none; 
+    border-bottom: 1px solid #eee; 
+    background: transparent; /* Remove background from parent .options */
+}
+body.dark-mode .select-options-list label {
+    border-bottom: 1px solid #222;
+    background: transparent;
+}
+.select-options-list label:last-child {
+    border-bottom: none;
+}
+.select-options-list label:hover {
+    background-color: #fffaf0; /* Hover effect */
+    border-color: transparent;
+}
+body.dark-mode .select-options-list label:hover {
+    background-color: #111;
+}
+
+/* Ensure radio buttons are visible and aligned for the custom select */
+.select-options-list label input[type="radio"] {
+    position: relative !important;
+    opacity: 1 !important;
+    width: 16px !important;
+    height: 16px !important;
+    margin-inline-end: 10px;
+    accent-color: var(--primary-gold);
+}
+
+/* Highlighting selected option */
+.select-options-list label:has(input:checked) {
+    background: #fffaf0 !important; 
+    border-color: transparent !important;
+}
+body.dark-mode .select-options-list label:has(input:checked) {
+    background: #1a1500 !important; 
+}
 </style>
 </head>
 <body>
@@ -684,11 +799,21 @@ body.dark-mode .modal-box p { color: #bbb; }
     <hr class="header-separator"> 
 
     <form id="rating-form" onsubmit="handleFormSubmit(event, 'rating')">
-        <select name="الفرع" required>
-            <option value="" disabled selected data-i18n="select_branch">--- اختر الفرع ---</option>
-            <option value="دمياط الجديدة/شارع المحجوب" data-i18n="branch_mahgoub">دمياط الجديدة/منتصف شارع المحجوب</option>
-            <option value="دمياط الجديدة/موريا مول" data-i18n="branch_moria">دمياط الجديدة/موريا مول</option>
-        </select>
+        <!-- CUSTOM SELECT FOR BRANCH -->
+        <div class="custom-select-container" id="rating-branch-select">
+            <div class="select-trigger" onclick="toggleSelect(this)" data-i18n="select_branch">--- اختر الفرع ---</div>
+            <div class="select-options-list options" style="display: none;">
+                <label>
+                    <input type="radio" name="الفرع" value="دمياط الجديدة/شارع المحجوب" required onchange="selectOption(this)"> 
+                    <span class="service-name" data-i18n="branch_mahgoub">دمياط الجديدة/منتصف شارع المحجوب</span>
+                </label>
+                <label>
+                    <input type="radio" name="الفرع" value="دمياط الجديدة/موريا مول" onchange="selectOption(this)"> 
+                    <span class="service-name" data-i18n="branch_moria">دمياط الجديدة/موريا مول</span>
+                </label>
+            </div>
+        </div>
+        <!-- END CUSTOM SELECT -->
 
         <h3 data-i18n="q_quality">جودة الحلاقة والتسريحة</h3>
         <div class="options">
@@ -771,11 +896,21 @@ body.dark-mode .modal-box p { color: #bbb; }
     <hr class="header-separator"> 
 
     <form id="booking-form" onsubmit="handleFormSubmit(event, 'booking')">
-        <select name="الفرع" required>
-            <option value="" disabled selected data-i18n="select_branch">--- اختر الفرع ---</option>
-            <option value="دمياط الجديدة/شارع المحجوب" data-i18n="branch_mahgoub">دمياط الجديدة/منتصف شارع المحجوب</option>
-            <option value="دمياط الجديدة/موريا مول" data-i18n="branch_moria">دمياط الجديدة/موريا مول</option>
-        </select>
+        <!-- CUSTOM SELECT FOR BRANCH -->
+        <div class="custom-select-container" id="booking-branch-select">
+            <div class="select-trigger" onclick="toggleSelect(this)" data-i18n="select_branch">--- اختر الفرع ---</div>
+            <div class="select-options-list options" style="display: none;">
+                <label>
+                    <input type="radio" name="الفرع" value="دمياط الجديدة/شارع المحجوب" required onchange="selectOption(this)"> 
+                    <span class="service-name" data-i18n="branch_mahgoub">دمياط الجديدة/منتصف شارع المحجوب</span>
+                </label>
+                <label>
+                    <input type="radio" name="الفرع" value="دمياط الجديدة/موريا مول" onchange="selectOption(this)"> 
+                    <span class="service-name" data-i18n="branch_moria">دمياط الجديدة/موريا مول</span>
+                </label>
+            </div>
+        </div>
+        <!-- END CUSTOM SELECT -->
         
         <input type="text" name="الاسم" placeholder="الاسم" required data-i18n-placeholder="ph_name">
         <input type="tel" name="رقم الهاتف" placeholder="رقم الهاتف" required data-i18n-placeholder="ph_phone">
@@ -1109,7 +1244,7 @@ body.dark-mode .modal-box p { color: #bbb; }
             modal_booking_title: "Booking Received",
             modal_booking_msg: "We will contact you shortly to confirm.",
             modal_offer_title: "Book this Package?", 
-            modal_offer_msg: "This exclusive package is available! Go to the booking page to schedule your appointment.", 
+            modal_offer_msg: "This exclusive package is available! Click 'Go to Booking Page' to schedule your appointment and book the package.", 
             modal_go_to_booking: "Go to Booking Page", 
             currency: "EGP",
             designer_credit_text: "Design & Development by Mustafa Zuhair", 
@@ -1168,6 +1303,7 @@ body.dark-mode .modal-box p { color: #bbb; }
 
     let currentLang = 'ar';
     let selectedOfferKey = ''; // NEW: لتخزين مفتاح الباقة المحددة
+    let activeSelect = null; // NEW: Track the currently open custom dropdown
 
     // ==========================================
     // تهيئة الصفحة
@@ -1262,6 +1398,36 @@ body.dark-mode .modal-box p { color: #bbb; }
         if (designerCredit) {
             designerCredit.innerText = translations[lang]['designer_credit_text'];
         }
+        
+        // Update Custom Select Trigger (if an option is selected)
+        document.querySelectorAll('.custom-select-container').forEach(container => {
+            const trigger = container.querySelector('.select-trigger');
+            const checkedRadio = container.querySelector('input[type="radio"]:checked');
+            
+            if (checkedRadio) {
+                 // Update with the correct translation for the selected option
+                 const radioValue = checkedRadio.value;
+                 let branchKey = '';
+                 
+                 // Find the branch key based on the Arabic value (which is constant)
+                 if (radioValue === translations.ar.branch_mahgoub) {
+                     branchKey = 'branch_mahgoub';
+                 } else if (radioValue === translations.ar.branch_moria) {
+                     branchKey = 'branch_moria';
+                 }
+                 
+                 if (translations[lang][branchKey]) {
+                     trigger.innerText = translations[lang][branchKey];
+                 } else {
+                     // Fallback to the current radio value if key not found (shouldn't happen)
+                     trigger.innerText = radioValue;
+                 }
+            } else {
+                 // Set back to placeholder if nothing selected
+                 trigger.innerText = translations[lang].select_branch;
+            }
+        });
+
 
         // Re-calculate price to update currency format
         calculateTotal();
@@ -1320,7 +1486,61 @@ body.dark-mode .modal-box p { color: #bbb; }
             totalField.value = total.toFixed(2) + " " + currency;
         }
     }
+    
+    // ==========================================
+    // CUSTOM SELECT LOGIC (NEW)
+    // ==========================================
+    function toggleSelect(trigger) {
+        const container = trigger.closest('.custom-select-container');
+        const optionsList = container.querySelector('.select-options-list');
 
+        // Close all other open selects
+        if (activeSelect && activeSelect !== optionsList) {
+            activeSelect.style.display = 'none';
+            activeSelect.closest('.custom-select-container').querySelector('.select-trigger').classList.remove('open');
+        }
+
+        // Toggle visibility of the clicked select
+        const isCurrentlyOpen = optionsList.style.display === 'block';
+        optionsList.style.display = isCurrentlyOpen ? 'none' : 'block';
+        trigger.classList.toggle('open', !isCurrentlyOpen);
+
+        // Update active tracker
+        activeSelect = isCurrentlyOpen ? null : optionsList;
+    }
+
+    function selectOption(radioInput) {
+        const container = radioInput.closest('.custom-select-container');
+        const trigger = container.querySelector('.select-trigger');
+        const optionsList = container.querySelector('.select-options-list');
+        
+        // Find the visible text span's data-i18n key to get the current translated text
+        const branchSpan = radioInput.closest('label').querySelector('.service-name');
+        const branchKey = branchSpan.getAttribute('data-i18n');
+        
+        // 1. Update the trigger text with the correct translation
+        trigger.innerText = translations[currentLang][branchKey];
+        
+        // 2. Close the dropdown
+        optionsList.style.display = 'none';
+        trigger.classList.remove('open');
+        activeSelect = null;
+        
+        // 3. Force visuals update for the newly checked radio button
+        updateVisuals();
+    }
+    
+    // Close dropdowns if click outside
+    document.addEventListener('click', function(e) {
+        if (activeSelect && !e.target.closest('.custom-select-container')) {
+            const trigger = activeSelect.closest('.custom-select-container').querySelector('.select-trigger');
+            activeSelect.style.display = 'none';
+            trigger.classList.remove('open');
+            activeSelect = null;
+        }
+    });
+    // ==========================================
+    
     // ==========================================
     // SCROLL EFFECT LOGIC (CSS Class Driven)
     // ==========================================
@@ -1618,6 +1838,19 @@ body.dark-mode .modal-box p { color: #bbb; }
         btn.innerText = currentLang === 'ar' ? "جاري الإرسال..." : "Sending...";
 
         const formData = new FormData(form);
+        
+        // Check if a branch is selected in the custom select
+        const branchInput = form.querySelector('input[name="الفرع"]:checked');
+        const branchTrigger = form.querySelector('.select-trigger');
+
+        if (!branchInput) {
+            branchTrigger.classList.add('open'); // Re-open the list
+            showModal('error', currentLang === 'ar' ? "الرجاء اختيار الفرع أولاً." : "Please select a branch first.");
+            btn.disabled = false;
+            btn.innerText = originalText;
+            return;
+        }
+
 
         if(type === 'booking') {
             let selectedServices = [];
@@ -1650,6 +1883,13 @@ body.dark-mode .modal-box p { color: #bbb; }
                     calculateTotal();
                 }
                 showModal(type);
+                
+                // Reset custom select display
+                if (branchTrigger) {
+                    branchTrigger.innerText = translations[currentLang].select_branch;
+                    branchTrigger.classList.remove('open');
+                }
+                
             } else {
                 // محاولة استخراج رسالة خطأ من Formspree
                 const errorData = await response.json();
@@ -1707,3 +1947,4 @@ body.dark-mode .modal-box p { color: #bbb; }
 
 </body>
 </html>
+
