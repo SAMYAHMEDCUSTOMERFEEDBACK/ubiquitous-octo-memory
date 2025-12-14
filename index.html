@@ -195,7 +195,7 @@ h3 {
     align-items: center;
     margin-bottom: 8px;
     cursor: pointer;
-    padding: 14px 18px; /* تم التعديل */
+    padding: 14px 18px; 
     border-radius: 8px;
     background: #f5f5f5; 
     transition: 0.2s;
@@ -230,7 +230,7 @@ h3 {
 /* تم توحيد الـ Padding والـ Height للحقول لجعلها متساوية */
 input[type="text"], input[type="tel"], input[type="date"], input[type="time"], input[type="datetime-local"], input[type="number"], textarea, select {
     width: 100%;
-    padding: 16px; /* تم التعديل */
+    padding: 16px; 
     border-radius: 8px;
     border: 1px solid #ddd;
     outline: none;
@@ -240,7 +240,7 @@ input[type="text"], input[type="tel"], input[type="date"], input[type="time"], i
     margin-bottom: 8px;
     box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
     box-sizing: border-box; 
-    height: 52px; /* تم التعديل */
+    height: 52px; 
 }
 
 input[readonly] {
@@ -250,14 +250,14 @@ input[readonly] {
     border: 1px solid #c9a24d;
     padding: 16px; 
     font-size: 17px;
-    height: 52px; /* تم التعديل */
+    height: 52px; 
     box-sizing: border-box; 
 }
 
 textarea {
     resize: none;
-    height: 100px; /* تم التعديل */
-    padding: 16px; /* تم التعديل */
+    height: 100px; 
+    padding: 16px; 
     box-sizing: border-box;
 }
 
@@ -266,7 +266,7 @@ select {
     -moz-appearance: none;
     appearance: none;
     background-image: none; 
-    padding-left: 16px; /* تم التعديل */
+    padding-left: 16px; 
 }
 
 .faces {
@@ -719,6 +719,12 @@ button[type="submit"]:hover {
 
 <script>
 // ==========================================================
+// CONFIGURATION
+// ==========================================================
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xvgelvjp";
+
+
+// ==========================================================
 // JAVASCRIPT: MENU FUNCTIONS 
 // ==========================================================
 
@@ -785,28 +791,59 @@ function closeModal(type) {
     document.body.classList.remove('menu-open');
 }
 
-function handleFormSubmission(event, type) {
+/**
+ * دالة معالجة إرسال النموذج وإرسال البيانات إلى Formspree
+ * @param {Event} event 
+ * @param {string} type - 'rating' أو 'booking'
+ */
+async function handleFormSubmission(event, type) {
     event.preventDefault(); // منع الإرسال الافتراضي
 
     const form = document.getElementById(`${type}-form`);
     
     // التحقق من صحة البيانات أولاً
     if (!form.checkValidity()) {
-        form.reportValidity(); // عرض رسائل الخطأ الافتراضية للمتصفح
+        form.reportValidity(); 
         return;
     }
 
-    // محاكاة الإرسال:
-    setTimeout(() => {
-        showModal(type);
-        // إعادة تعيين النموذج بعد الإرسال الناجح
-        form.reset();
-        if (type === 'booking') {
-            calculateTotal(); // تحديث الإجمالي إلى صفر
-        }
-    }, 100); // تأخير بسيط لمحاكاة عملية الإرسال
+    const formData = new FormData(form);
+    const submitButton = form.querySelector('button[type="submit"]');
 
-    return false; // التأكد من منع الإرسال
+    // تعطيل الزر ومنحه حالة تحميل
+    submitButton.disabled = true;
+    const originalText = submitButton.innerText;
+    submitButton.innerText = "جاري الإرسال..."; 
+
+    try {
+        const response = await fetch(FORMSPREE_ENDPOINT, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            // نجاح الإرسال:
+            showModal(type);
+            form.reset();
+            if (type === 'booking') {
+                calculateTotal(); // تحديث الإجمالي إلى صفر
+            }
+        } else {
+            // فشل الإرسال (على سبيل المثال، مشكلة في Formspree)
+            alert('حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.');
+        }
+    } catch (error) {
+        // فشل في الاتصال (على سبيل المثال، عدم وجود اتصال بالإنترنت)
+        console.error('Submission error:', error);
+        alert('فشل الاتصال بالخادم. يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.');
+    } finally {
+        // إعادة تفعيل الزر وإرجاع النص الأصلي
+        submitButton.disabled = false;
+        submitButton.innerText = originalText;
+    }
 }
 
 
