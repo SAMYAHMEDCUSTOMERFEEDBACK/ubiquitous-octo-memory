@@ -188,12 +188,45 @@ body.dark-mode .menu-header { border-bottom: 1px solid #222; }
 body.dark-mode .close-btn { color: #fff; }
 
 .menu-links { flex: 1; overflow-y: auto; padding: 10px 0; display: flex; flex-direction: column;} /* تم إضافة فليكس للعناصر الداخلية */
+
+/* تنسيق الروابط العادية في القائمة */
 .menu-links a { 
     display: flex; align-items: center; padding: 15px 20px; text-decoration: none; 
     color: #333; font-size: 14px; font-weight: 700; border-bottom: 1px solid #f9f9f9; 
     transition: 0.2s; 
 }
-.menu-links a svg { 
+
+/* تنسيق الرابط المعطل (جديد) */
+.menu-links .disabled-link {
+    display: flex; 
+    align-items: center;
+    padding: 15px 20px;
+    text-decoration: none;
+    cursor: default; /* مؤشر الماوس العادي */
+    opacity: 0.5; /* جعل اللون باهتاً */
+    pointer-events: none; /* تعطيل تفاعلات الماوس تماماً */
+    color: #666; /* لون نص أساسي خفيف */
+    border-bottom: 1px solid #f9f9f9; 
+    font-size: 14px; 
+    font-weight: 700;
+}
+body.dark-mode .menu-links .disabled-link {
+    color: #ccc;
+    border-bottom: 1px solid #111;
+}
+/* إلغاء تأثير التمرير (hover) على العنصر المعطل */
+.menu-links .disabled-link:hover {
+    background-color: transparent !important;
+    color: #666 !important;
+}
+body.dark-mode .menu-links .disabled-link:hover {
+    background-color: transparent !important;
+    color: #ccc !important;
+}
+
+
+.menu-links a svg,
+.menu-links .disabled-link svg { 
     width: 18px; height: 18px; margin-inline-end: 10px; min-width: 18px;
     color: #555;
     transition: color 0.2s;
@@ -535,10 +568,11 @@ body.dark-mode .modal-box p { color: #bbb; }
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h20"/><path d="M3 18v-3a6 6 0 0 1 6-6h6a6 6 0 0 1 6 6v3"/><circle cx="12" cy="18" r="1"/></svg>
             <span data-i18n="menu_gallery">معرض الصور</span>
         </a>
-        <a href="javascript:void(0)" onclick="switchPage('ai')">
+        
+        <span class="menu-link disabled-link">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4"/><path d="M10 2h4"/><path d="M10 22h4"/><path d="M15 4c-5 0-7 2-7 6v2c0 4 2 6 7 6h1.5a1.5 1.5 0 0 0 0-3H15"/><path d="M12 18v4"/><path d="M17 18h-.5c-4 0-6-2-6-6v-2c0-4 2-6 7-6"/></svg>
-            <span data-i18n="menu_ai">مساعدك الشخصي</span>
-        </a>
+            <span data-i18n="menu_ai">مساعدك الشخصي (قريباً)</span>
+        </span>
         
         <div class="menu-controls-bottom">
              <button class="control-btn" onclick="toggleLanguage()" id="langBtn">EN</button>
@@ -779,6 +813,7 @@ body.dark-mode .modal-box p { color: #bbb; }
     // ==========================================
     
     // المفتاح الجديد الذي أرسلته: 
+    // إذا استمرت مشكلة "المفتاح غير صحيح"، قم بإنشاء مفتاح جديد وفعال من Google AI Studio واستبدله هنا.
     const API_KEY = "AIzaSyAxNMMcjvDvCSWMNXrrK6MSeW7TeZ0AbQc"; 
     
     const AI_MODEL = 'gemini-1.5-flash';
@@ -800,7 +835,7 @@ body.dark-mode .modal-box p { color: #bbb; }
             menu_call: "اتصال مباشر",
             menu_whatsapp: "واتساب",
             menu_gallery: "معرض الصور",
-            menu_ai: "مساعدك الشخصي",
+            menu_ai: "مساعدك الشخصي (قريباً)", // تم التعديل
             rating_subtitle: "نقدّر رأيك… تقييمك يهمّنا",
             notifications_subtitle: "أحدث العروض والخصومات",
             select_branch: "--- اختر الفرع ---",
@@ -837,11 +872,11 @@ body.dark-mode .modal-box p { color: #bbb; }
             ai_subtitle: "مساعدك الشخصي",
             ai_header: "محتار في قصة شعرك؟",
             ai_desc: "تحدث مع خبير التجميل الافتراضي للحصول على نصائح فورية.",
-            ai_greeting: "أهلاً بك! أنا مساعدك الشخصي من صالون سامي وأحمد. كيف يمكنني أساعدك في اختيار اللوك المناسب لشعرك أو دقنك النهارده؟", // Updated to colloquial
+            ai_greeting: "أهلاً بك! أنا مساعدك الشخصي من صالون سامي وأحمد. كيف يمكنني أساعدك في اختيار اللوك المناسب لشعرك أو دقنك النهارده؟",
             ai_placeholder: "اكتب سؤالك هنا...",
             ai_btn_send: "إرسال",
             ai_loading: "جاري تحليل طلبك...",
-            ai_error: "حصلت مشكلة في الاتصال. تأكد من الإنترنت وحاول تاني.", // Updated to colloquial
+            ai_error: "حصلت مشكلة في الاتصال. تأكد من الإنترنت وحاول تاني.", 
             modal_success: "تم بنجاح!",
             modal_thanks: "شكراً لك.",
             modal_close: "إغلاق",
@@ -909,7 +944,7 @@ body.dark-mode .modal-box p { color: #bbb; }
             menu_call: "Call Now",
             menu_whatsapp: "WhatsApp",
             menu_gallery: "Gallery",
-            menu_ai: "AI Assistant",
+            menu_ai: "AI Assistant (Soon)", // تم التعديل
             rating_subtitle: "Your opinion matters...",
             notifications_subtitle: "Latest Offers and Discounts",
             select_branch: "--- Select Branch ---",
@@ -1192,9 +1227,9 @@ body.dark-mode .modal-box p { color: #bbb; }
 
         if (!userQuery) return;
         
-        // التحقق من مفتاح الـ API
+        // التحقق من المفتاح قبل الإرسال الفعلي
         if (!API_KEY || API_KEY.startsWith("AIzaSyA")) {
-             resultsDiv.appendChild(createMessageElement(currentLang === 'ar' ? "من فضلك تأكد من إدخال مفتاح API صحيح في الكود." : "Please ensure you have entered a valid API key in the code.", false));
+             resultsDiv.appendChild(createMessageElement(currentLang === 'ar' ? "المساعد الشخصي غير مفعل حالياً." : "AI Assistant is currently disabled.", false));
              input.value = '';
              resultsDiv.scrollTop = resultsDiv.scrollHeight;
              return;
