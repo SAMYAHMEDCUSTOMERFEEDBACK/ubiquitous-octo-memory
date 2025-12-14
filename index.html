@@ -2,932 +2,994 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Samy&Ahmed | تقييم العملاء & الحجز</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Samy&Ahmed | Luxury Barber</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Poppins:wght@400;600;700;800&display=swap');
 
 /* ==========================================================
-   GLOBAL STYLES
+   VARIABLES & RESET
    ========================================================== */
+:root {
+    --primary-gold: #c9a24d;
+    --bg-light: #f8f9fa;
+    --card-light: #ffffff;
+    --text-light: #333333;
+    
+    --bg-dark: #000000; 
+    --card-dark: #000000;
+    --text-dark: #ffffff;
+    --border-light: #e0d8c3;
+    --border-dark: #222222;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
 body {
-    margin: 0;
-    font-family: 'Cairo', sans-serif;
-    background: #f9f9f9; 
-    color: #333;
+    margin: 0; padding: 0;
+    /* استخدام Cairo للعربي و Poppins للإنجليزي */
+    font-family: 'Cairo', 'Poppins', sans-serif;
+    background: var(--bg-light); 
+    color: var(--text-light);
     overflow-x: hidden;
+    padding-top: 65px;
+    font-size: 14px;
+    transition: background 0.3s, color 0.3s;
 }
 
-/* منع التمرير الرأسي عندما تكون القائمة مفتوحة */
-body.menu-open {
-    overflow-y: hidden;
+/* تنسيق خاص عند التحويل للإنجليزي */
+html[lang="en"] body {
+    font-family: 'Poppins', 'Cairo', sans-serif;
 }
 
+body.dark-mode {
+    background: var(--bg-dark);
+    color: var(--text-dark);
+}
+
+body.no-scroll { overflow: hidden; }
+
+/* ==========================================================
+   NAVBAR
+   ========================================================== */
+.navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 55px;
+    background: rgba(255, 255, 255, 0.98);
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+body.dark-mode .navbar {
+    background: rgba(0, 0, 0, 0.95);
+    border-bottom: 1px solid #222;
+}
+
+.nav-logo {
+    font-size: 18px;
+    font-weight: 900;
+    color: #000;
+    letter-spacing: -0.5px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    z-index: 1;
+}
+body.dark-mode .nav-logo { color: #fff; }
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 10;
+}
+
+.menu-toggle-btn {
+    font-size: 16px;
+    background: none; 
+    border: 1.5px solid #000;
+    border-radius: 6px; 
+    color: #000;
+    cursor: pointer;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    padding-bottom: 2px;
+    font-weight: bold;
+}
+
+body.dark-mode .menu-toggle-btn { border-color: #fff; color: #fff; }
+
+/* تم نقل هذه الأزرار إلى القائمة الجانبية */
+.theme-toggle-btn, .lang-toggle-btn { display: none; }
+
+/* ==========================================================
+   CONTAINER
+   ========================================================== */
 .container {
     max-width: 600px;
-    margin: 50px auto;
-    background: #fff;
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    border: 1px solid #e0d8c3;
-    position: relative; 
+    margin: 10px auto;
+    background: var(--card-light);
+    border-radius: 16px;
+    padding: 20px 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+    border: 1px solid var(--border-light);
+    animation: fadeIn 0.4s ease-out;
 }
+body.dark-mode .container {
+    background: var(--card-dark);
+    border: 1px solid var(--border-dark);
+    box-shadow: none;
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.subtitle { text-align: center; font-size: 13px; color: #777; margin-bottom: 15px; font-weight: 600; }
+body.dark-mode .subtitle { color: #999; }
+.header-separator { border: none; height: 1px; background-color: #eee; margin: 10px 0 20px 0; }
+body.dark-mode .header-separator { background-color: #222; }
 
 /* ==========================================================
-   HEADER & MENU STYLES
+   SIDE MENU
    ========================================================== */
-
-.menu-toggle {
-    position: absolute; 
-    left: 20px;
-    top: 20px; 
-    z-index: 10;
-    font-size: 24px;
-    background: none;
-    border: 2px solid #c9a24d; 
-    border-radius: 8px;
-    color: #c9a24d; 
-    cursor: pointer;
-    width: 45px;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    line-height: 1;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: 0.2s;
-}
-.menu-toggle:hover {
-    background: #fffaf0;
-}
-
-.header-bar {
-    display: block; 
-    text-align: center;
-    position: relative;
-    padding-bottom: 20px;
-}
-
-.logo {
-    font-size: 34px;
-    font-weight: 900;
-    color: #000;
-    margin-bottom: 0px; 
-}
-
-.subtitle {
-    text-align: center;
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 20px;
-    margin-top: 0px; 
-}
-
-.header-separator {
-    border: none;
-    height: 1px;
-    background-color: #f0f0f0; 
-    margin: -5px 0 20px 0;
-}
-
-/* غلاف القائمة الشفاف لتغطية الشاشة بأكملها (مُعدَّل للأنيميشن) */
 .side-menu-overlay {
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    z-index: 99; 
-    top: 0;
-    left: 0;
-    background-color: rgba(0,0,0,0.0); /* تبدأ شفافة تماماً */
-    display: none;
-    opacity: 0; /* تبدأ مخفية */
-    transition: background-color 0.4s ease-in-out, opacity 0.4s ease-in-out; /* انتقال سلس */
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.7); z-index: 1001; 
+    opacity: 0; visibility: hidden; transition: 0.3s; backdrop-filter: blur(2px);
 }
+.side-menu-overlay.active { opacity: 1; visibility: visible; }
 
-.side-menu-overlay.show {
-    opacity: 1; /* عند الفتح تظهر تدريجياً */
-    background-color: rgba(0,0,0,0.5); 
-}
-
-/* القائمة الجانبية (Side Menu) (مُعدَّل للأنيميشن) */
 .side-menu {
-    height: 100%;
-    width: 250px;
-    position: fixed;
-    z-index: 100;
-    top: 0;
-    right: 0; 
-    background-color: rgba(255, 255, 255, 0.98);
-    overflow-x: hidden;
-    padding-top: 60px;
-    box-shadow: -4px 0 15px rgba(0,0,0,0.2);
-    display: flex;
-    flex-direction: column;
-    
-    transform: translateX(100%); 
-    transition: transform 0.4s ease-in-out; /* حركة أنعم للقائمة */
+    position: fixed; top: 0; right: 0; width: 260px; height: 100%;
+    background-color: #fff; z-index: 1002;
+    transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex; flex-direction: column; box-shadow: -5px 0 20px rgba(0,0,0,0.15);
 }
-
-.side-menu.open {
-    transform: translateX(0);
+/* Flip side menu for LTR */
+html[lang="en"] .side-menu {
+    right: auto; left: 0;
+    transform: translateX(-100%);
+    border-right: 1px solid #eee;
+    box-shadow: 5px 0 20px rgba(0,0,0,0.15);
 }
+html[lang="en"] body.dark-mode .side-menu { border-right: 1px solid #222; border-left: none; }
 
-.side-menu a {
-    padding: 15px 30px;
-    text-decoration: none;
-    font-size: 17px;
-    color: #333;
-    display: block;
-    transition: 0.3s;
-    border-bottom: 1px solid #eee;
-    font-weight: 600;
-}
+body.dark-mode .side-menu { background-color: #000; border-left: 1px solid #222; }
+.side-menu.open { transform: translateX(0); }
 
-.side-menu a:hover {
-    color: #c9a24d;
-    background-color: #f5f5f5;
-}
+.menu-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+body.dark-mode .menu-header { border-bottom: 1px solid #222; }
+.menu-header h2 { margin: 0; font-size: 18px; color: var(--primary-gold); font-weight: 800; }
+.close-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: #333; }
+body.dark-mode .close-btn { color: #fff; }
 
-.side-menu .closebtn {
-    position: absolute;
-    top: 0;
-    left: 25px;
-    font-size: 36px;
-    margin-right: 50px;
-    border: none;
-    background: none;
-    color: #000;
-    padding: 10px;
-}
+.menu-links { flex: 1; overflow-y: auto; padding: 10px 0; display: flex; flex-direction: column;} /* تم إضافة فليكس للعناصر الداخلية */
+.menu-links a { display: flex; align-items: center; padding: 15px 20px; text-decoration: none; color: #333; font-size: 14px; font-weight: 700; border-bottom: 1px solid #f9f9f9; transition: 0.2s; }
+body.dark-mode .menu-links a { color: #fff; border-bottom: 1px solid #111; }
+.menu-links a:hover { background-color: #fffaf0; color: var(--primary-gold); }
+body.dark-mode .menu-links a:hover { background-color: #111; }
 
-.menu-note {
-    padding: 15px 30px;
-    font-size: 14px;
-    color: #c9a24d;
-    font-weight: bold;
-    text-align: center;
-    margin-top: auto; 
-    border-top: 2px solid #c9a24d;
-    background-color: #fffaf0;
-    line-height: 1.4;
-}
-
-/* ==========================================================
-   FORM ELEMENTS STYLES
-   ========================================================== */
-
-h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: #c9a24d;
-}
-
-.section {
-    margin-bottom: 20px;
-}
-
-.options label {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    cursor: pointer;
-    padding: 14px 18px; 
-    border-radius: 8px;
-    background: #f5f5f5; 
-    transition: 0.2s;
-    border: 1px solid #f5f5f5;
-}
-
-.options label:hover {
-    background: #fff3d6;
-}
-
-.options label input {
-    display: none;
-}
-.options label:has(input:checked) {
-    border: 2px solid #c9a24d;
-    background: #fffaf0;
-    box-shadow: 0 0 5px rgba(201, 162, 77, 0.2);
-}
-
-.service-name {
-    flex-grow: 1;
-    font-size: 15px;
-    color: #333;
-}
-
-.service-price {
-    font-weight: bold;
-    color: #c9a24d;
-    font-size: 15px;
-}
-
-/* تم توحيد الـ Padding والـ Height للحقول لجعلها متساوية */
-input[type="text"], input[type="tel"], input[type="date"], input[type="time"], input[type="datetime-local"], input[type="number"], textarea, select {
-    width: 100%;
-    padding: 16px; 
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    outline: none;
-    background: #fafafa;
-    color: #333;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
-    box-sizing: border-box; 
-    height: 52px; 
-}
-
-input[readonly] {
-    background: #e0d8c3;
-    font-weight: bold;
-    color: #000;
-    border: 1px solid #c9a24d;
-    padding: 16px; 
-    font-size: 17px;
-    height: 52px; 
-    box-sizing: border-box; 
-}
-
-textarea {
-    resize: none;
-    height: 100px; 
-    padding: 16px; 
-    box-sizing: border-box;
-}
-
-select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-image: none; 
-    padding-left: 16px; 
-}
-
-.faces {
+/* تنسيق الأزرار داخل القائمة الجانبية */
+.menu-controls-bottom {
     display: flex;
     justify-content: space-around;
-    font-size: 28px;
-}
-
-button[type="submit"] {
-    width: 100%;
-    padding: 16px;
-    border: none;
-    border-radius: 10px; 
-    background: #c9a24d;
-    color: #000;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-button[type="submit"]:hover {
-    background: #e0b85e;
-}
-
-.packages-section {
-    border: none;
-    padding: 15px 0;
-    border-radius: 0;
-    background: none;
-    margin-bottom: 25px;
-}
-.packages-section h3 {
-    color: #c9a24d;
-    border-bottom: 1px solid #eee; 
-    padding-bottom: 5px;
-}
-
-/* ==========================================================
-   FOOTER (Applies to all pages)
-   ========================================================== */
-
-.social-icons {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 14px;
-}
-
-.social-btn {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    transition: 0.2s;
-}
-
-.footer {
-    text-align: center;
-    font-size: 13px;
-    color: #aaa;
-    margin-top: 18px;
-}
-
-.designer-credit {
-    text-align: center;
-    font-size: 11px;
-    color: #aaa; 
-    margin-top: 10px;
-    padding-top: 5px;
+    padding: 15px 10px;
     border-top: 1px solid #eee;
 }
+body.dark-mode .menu-controls-bottom {
+    border-top: 1px solid #222;
+}
 
-/* تنسيق الزر لفتح ChatGPT */
-.ai-chat-link {
-    display: block;
-    width: 100%;
-    padding: 15px 0;
-    background: #34A853; 
-    color: #fff;
-    font-size: 16px;
-    font-weight: 700;
-    text-align: center;
+.control-btn {
+    flex-grow: 1;
+    margin: 0 5px;
+    height: 40px;
     border-radius: 8px;
-    text-decoration: none;
-    margin-top: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    transition: background 0.2s;
-}
-.ai-chat-link:hover {
-    background: #2E8B57;
-}
-
-/* ==========================================================
-   SUCCESS ANIMATION MODALS
-   ========================================================== */
-
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease;
-}
-
-.modal-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.success-modal {
-    background: #fff;
-    padding: 30px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    max-width: 90%;
-    transform: scale(0.8);
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* حركة نطاطة قليلاً */
-}
-
-.modal-overlay.active .success-modal {
-    transform: scale(1);
-}
-
-.modal-icon {
-    font-size: 50px;
-    margin-bottom: 15px;
-    line-height: 1;
-}
-
-/* أنيميشن لصفحة التقييم - ذهبي */
-#rating-modal .modal-icon {
-    color: #c9a24d;
-}
-
-/* أنيميشن لصفحة الحجز - أخضر */
-#booking-modal .modal-icon {
-    color: #34A853;
-}
-
-.success-modal h4 {
-    margin-top: 0;
-    color: #333;
-    font-weight: 800;
-    font-size: 20px;
-}
-
-.success-modal p {
-    color: #666;
-    font-size: 15px;
-    margin-bottom: 20px;
-}
-
-.modal-close-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    background: #c9a24d;
-    color: white;
     font-weight: 700;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.modal-close-btn:hover {
-    background: #e0b85e;
+#themeBtn {
+    background: var(--primary-gold);
+    color: #fff;
+    border: none;
+    font-size: 18px;
+    width: 40%;
 }
+#themeBtn:hover {
+    background: #b08d3e;
+}
+
+#langBtn {
+    background: none;
+    border: 1.5px solid var(--primary-gold);
+    color: var(--primary-gold);
+    font-size: 14px;
+    width: 40%;
+}
+#langBtn:hover {
+    background: #fffaf0;
+}
+body.dark-mode #langBtn {
+    background: none;
+    border: 1.5px solid var(--primary-gold);
+    color: var(--primary-gold);
+}
+body.dark-mode #langBtn:hover {
+    background: #1a1500;
+}
+
+.menu-footer { padding: 15px; background: #fffaf0; text-align: center; font-size: 12px; color: var(--primary-gold); font-weight: bold; border-top: 1px solid #eee; }
+body.dark-mode .menu-footer { background: #050505; border-top: 1px solid #222; }
+
+/* ==========================================================
+   INPUTS & FORMS
+   ========================================================== */
+h3 { font-size: 15px; margin-bottom: 10px; color: var(--primary-gold); margin-top: 20px; display: flex; align-items: center; font-weight: 700; }
+h3::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--primary-gold); margin-left: 8px; border-radius: 50%; }
+html[lang="en"] h3::before { margin-left: 0; margin-right: 8px; }
+
+.options { display: flex; flex-direction: column; gap: 8px; }
+.options label {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px;
+    border-radius: 10px; background: #fcfcfc;
+    border: 1px solid #eee; cursor: pointer; transition: all 0.2s;
+    position: relative; overflow: hidden;
+}
+body.dark-mode .options label { background: #0a0a0a; border: 1px solid #222; }
+
+.options label:hover { border-color: var(--primary-gold); background: #fffdf5; }
+body.dark-mode .options label:hover { background: #111; }
+
+.options label input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+
+/* Active State */
+.options label:has(input:checked),
+.options label.checked { 
+    border: 1.5px solid var(--primary-gold) !important; 
+    background: #fffaf0 !important; 
+}
+body.dark-mode .options label:has(input:checked),
+body.dark-mode .options label.checked { 
+    background: #1a1500 !important; 
+    border-color: var(--primary-gold) !important; 
+}
+
+.service-name { font-size: 13px; font-weight: 600; color: #444; }
+body.dark-mode .service-name { color: #eee; }
+.service-price { font-size: 13px; font-weight: 800; color: var(--primary-gold); }
+
+input[type="text"], input[type="tel"], input[type="datetime-local"], select, textarea {
+    width: 100%; height: 45px;
+    padding: 0 15px; border-radius: 10px;
+    border: 1px solid #ddd; background: #fff; font-family: inherit;
+    font-size: 14px; color: #333; outline: none; transition: 0.3s; margin-bottom: 10px;
+}
+body.dark-mode input, body.dark-mode select, body.dark-mode textarea {
+    background: #0a0a0a; border: 1px solid #333; color: #fff;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--primary-gold); box-shadow: 0 0 0 1px rgba(201, 162, 77, 0.3); }
+
+textarea { height: 90px; padding-top: 10px; resize: none; }
+
+#total-price { 
+    background: #333; color: #fff; border: none; 
+    font-weight: 900; font-size: 18px; text-align: center; letter-spacing: 1px; height: 50px;
+}
+body.dark-mode #total-price { background: #111; color: var(--primary-gold); border: 1px solid var(--primary-gold); }
+
+.faces { display: flex; justify-content: space-around; background: #f8f8f8; padding: 12px; border-radius: 12px; }
+body.dark-mode .faces { background: #111; }
+.faces label { font-size: 28px; cursor: pointer; transition: 0.2s; filter: grayscale(100%); opacity: 0.5; }
+.faces input { display: none; }
+.faces label:has(input:checked), .faces label.checked { filter: grayscale(0%); opacity: 1; transform: scale(1.2); }
+
+button[type="submit"] {
+    width: 100%; height: 50px; margin-top: 20px; border: none; border-radius: 12px;
+    background: var(--primary-gold); color: #fff; font-size: 16px; font-weight: 800; cursor: pointer;
+    box-shadow: 0 5px 15px rgba(201, 162, 77, 0.25); transition: 0.2s;
+}
+button[type="submit"]:hover { background: #b08d3e; transform: translateY(-2px); }
+button[type="submit"]:active { transform: scale(0.98); }
+
+/* ==========================================================
+   ICONS & FOOTER
+   ========================================================== */
+.social-icons { display: flex; justify-content: center; gap: 15px; margin: 25px 0; }
+.social-btn {
+    width: 42px; height: 42px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; border: 1px solid var(--primary-gold);
+    background: transparent; transition: all 0.3s ease;
+}
+.social-btn svg { width: 20px; height: 20px; }
+.social-btn svg path { fill: var(--primary-gold); transition: fill 0.3s; }
+.social-btn:hover { background: var(--primary-gold); }
+.social-btn:hover svg path { fill: #fff; }
+
+.footer { text-align: center; font-size: 12px; color: #999; margin-bottom: 5px; }
+.designer-credit { text-align: center; font-size: 10px; color: #ccc; padding-top: 10px; border-top: 1px solid #eee; margin-top: 10px; }
+body.dark-mode .designer-credit { border-color: #222; color: #555; }
+
+/* ==========================================================
+   AI & MODAL
+   ========================================================== */
+.ai-card { background: #f9fdfa; border: 1px solid #d1fae5; border-radius: 12px; padding: 20px; text-align: center; }
+body.dark-mode .ai-card { background: #001a05; border: 1px solid #00330a; }
+.ai-btn { display: inline-block; background: #10b981; color: white; text-decoration: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; margin-top: 15px; font-size: 14px; }
+
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); z-index: 2000;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden; transition: 0.3s; backdrop-filter: blur(5px);
+}
+.modal-overlay.active { opacity: 1; visibility: visible; }
+.modal-box {
+    background: #fff; width: 85%; max-width: 320px;
+    padding: 30px; border-radius: 20px; text-align: center;
+    transform: scale(0.8); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+body.dark-mode .modal-box { background: #111; border: 1px solid #333; }
+.modal-overlay.active .modal-box { transform: scale(1); }
+.modal-icon { font-size: 45px; margin-bottom: 15px; display: block; }
+.modal-box h4 { margin: 10px 0; font-size: 18px; color: #333; font-weight: 800; }
+body.dark-mode .modal-box h4 { color: #fff; }
+.modal-box p { color: #666; font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
+body.dark-mode .modal-box p { color: #bbb; }
+.modal-close-btn { background: var(--primary-gold); color: #fff; border: none; padding: 10px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; }
 
 </style>
 </head>
 <body>
 
-<button class="menu-toggle" onclick="openMenu()">☰</button>
-
-
-<div id="sideMenuOverlay" class="side-menu-overlay" onclick="closeMenu()">
-    <div id="mySideMenu" class="side-menu" onclick="event.stopPropagation()">
-        <button class="closebtn" onclick="closeMenu()">×</button>
-        
-        <a href="javascript:void(0)" onclick="showRating(); closeMenu();">🌟 تقييم الخدمة</a>
-        <a href="javascript:void(0)" onclick="showBooking(); closeMenu();">📝 حجز موعد</a>
-        
-        <hr style="margin: 10px 30px; border-color: #eee;">
-        
-        <a href="tel:+201022172940" onclick="closeMenu()">📞 اتصال مباشر</a>
-        <a href="https://wa.me/201022172940" target="_blank" onclick="closeMenu()">💬 واتساب</a>
-        <a href="https://www.instagram.com/samyandahmed" target="_blank" onclick="closeMenu()">📸 معرض أعمالنا</a>
-        <a href="javascript:void(0)" onclick="showAITool(); closeMenu();">🤖 مساعدك الشخصي</a> 
-        <a href="javascript:void(0)" onclick="closeMenu()">📱 تطبيق الهاتف (قريباً)</a> 
-
-        <div class="menu-note">
-            قريباً تطبيق للهاتف
-        </div>
+<nav class="navbar">
+    <div class="nav-controls">
+        <button class="menu-toggle-btn" onclick="toggleMenu()">☰</button>
+        <!-- تم نقل أزرار الوضع النهاري/الليلي واللغة إلى القائمة الجانبية -->
     </div>
+    <div class="nav-logo">Samy&Ahmed</div>
+</nav>
+
+<div class="side-menu-overlay" id="overlay" onclick="toggleMenu()"></div>
+<div class="side-menu" id="sideMenu">
+    <div class="menu-header">
+        <h2 data-i18n="menu_title">القائمة</h2>
+        <button class="close-btn" onclick="toggleMenu()">×</button>
+    </div>
+    <div class="menu-links">
+        <a href="javascript:void(0)" onclick="switchPage('rating')"><span data-i18n="menu_rating">🌟 تقييم الخدمة</span></a>
+        <a href="javascript:void(0)" onclick="switchPage('booking')"><span data-i18n="menu_booking">📝 حجز موعد</span></a>
+        <a href="tel:+201022172940" onclick="toggleMenu()"><span data-i18n="menu_call">📞 اتصال مباشر</span></a>
+        <a href="https://wa.me/201022172940" target="_blank" onclick="toggleMenu()"><span data-i18n="menu_whatsapp">💬 واتساب</span></a>
+        <a href="https://www.instagram.com/samyandahmed" target="_blank" onclick="toggleMenu()"><span data-i18n="menu_gallery">📸 معرض الصور</span></a>
+        <a href="javascript:void(0)" onclick="switchPage('ai')"><span data-i18n="menu_ai">🤖 مساعدك الشخصي</span></a>
+        
+        <!-- الأزرار الجديدة داخل القائمة الجانبية -->
+        <div class="menu-controls-bottom">
+             <button class="control-btn" onclick="toggleLanguage()" id="langBtn">EN</button>
+             <button class="control-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+        </div>
+        
+    </div>
+    <div class="menu-footer">Samy & Ahmed Barber Shop</div>
 </div>
 
-
 <div id="rating-page" class="container">
-    <div class="header-bar">
-        <div class="logo">Samy&Ahmed</div>
-    </div>
-    <div class="subtitle">نقدّر رأيك… تقييمك يهمّنا</div>
+    <div class="subtitle" data-i18n="rating_subtitle">نقدّر رأيك… تقييمك يهمّنا</div>
     <hr class="header-separator"> 
 
+    <form id="rating-form" onsubmit="handleFormSubmit(event, 'rating')">
+        <select name="الفرع" required>
+            <option value="" disabled selected data-i18n="select_branch">--- اختر الفرع ---</option>
+            <option value="دمياط الجديدة/شارع المحجوب" data-i18n="branch_mahgoub">دمياط الجديدة/منتصف شارع المحجوب</option>
+            <option value="دمياط الجديدة/موريا مول" data-i18n="branch_moria">دمياط الجديدة/موريا مول</option>
+        </select>
 
-    <form id="rating-form" onsubmit="handleFormSubmission(event, 'rating')">
-        
-        <div class="section">
-            <h3>اختيار الفرع</h3>
-            <select name="الفرع" required>
-                <option value="" disabled selected>--- اختر الفرع ---</option>
-                <option value="دمياط الجديدة/شارع المحجوب">دمياط الجديدة/منتصف شارع المحجوب</option>
-                <option value="دمياط الجديدة/موريا مول">دمياط الجديدة/موريا مول</option>
-            </select>
+        <h3 data-i18n="q_quality">جودة الحلاقة والتسريحة</h3>
+        <div class="options">
+            <label><input type="radio" name="جودة الحلاقة" value="ممتاز" required onchange="forceUpdateVisuals(this)"> <span class="service-name" data-i18n="opt_excellent">ممتاز</span></label>
+            <label><input type="radio" name="جودة الحلاقة" value="جيد" onchange="forceUpdateVisuals(this)"> <span class="service-name" data-i18n="opt_good">جيد</span></label>
+            <label><input type="radio" name="جودة الحلاقة" value="غير راضٍ" onchange="forceUpdateVisuals(this)"> <span class="service-name" data-i18n="opt_bad">غير راضٍ</span></label>
+        </div>
+
+        <h3 data-i18n="q_hygiene">نظافة الصالون</h3>
+        <div class="options">
+            <label><input type="radio" name="نظافة الصالون" value="ممتاز" required onchange="forceUpdateVisuals(this)"> <span class="service-name" data-i18n="opt_excellent">ممتاز</span></label>
+            <label><input type="radio" name="نظافة الصالون" value="جيد" onchange="forceUpdateVisuals(this)"> <span class="service-name" data-i18n="opt_good">جيد</span></label>
+            <label><input type="radio" name="نظافة الصالون" value="غير راضٍ" onchange="forceUpdateVisuals(this)"> <span class="service-name" data-i18n="opt_bad">غير راضٍ</span></label>
+        </div>
+
+        <h3 data-i18n="q_friendliness">ودّ ومعاملة الحلاق</h3>
+        <div class="options">
+            <label><input type="radio" name="معاملة الحلاق" value="ممتاز" required onchange="forceUpdateVisuals(this)"> <span class="service-name" data-i18n="opt_excellent">ممتاز</span></label>
+            <label><input type="radio" name="معاملة الحلاق" value="جيد" onchange="forceUpdateVisuals(this)"> <span class="service-name" data-i18n="opt_good">جيد</span></label>
+            <label><input type="radio" name="معاملة الحلاق" value="غير راضٍ" onchange="forceUpdateVisuals(this)"> <span class="service-name" data-i18n="opt_bad">غير راضٍ</span></label>
+        </div>
+
+        <h3 data-i18n="q_timing">الالتزام بالمواعيد</h3>
+        <div class="options">
+            <label><input type="radio" name="الالتزام بالمواعيد" value="ممتاز" required onchange="forceUpdateVisuals(this)"> <span class="service-name" data-i18n="opt_excellent">ممتاز</span></label>
+            <label><input type="radio" name="الالتزام بالمواعيد" value="جيد" onchange="forceUpdateVisuals(this)"> <span class="service-name" data-i18n="opt_good">جيد</span></label>
+            <label><input type="radio" name="الالتزام بالمواعيد" value="غير راضٍ" onchange="forceUpdateVisuals(this)"> <span class="service-name" data-i18n="opt_bad">غير راضٍ</span></label>
         </div>
         
-        <div class="section">
-            <h3>جودة الحلاقة والتسريحة</h3>
-            <div class="options">
-                <label><input type="radio" name="جودة الحلاقة" value="ممتاز" required> <span class="service-name">ممتاز</span></label>
-                <label><input type="radio" name="جودة الحلاقة" value="جيد"> <span class="service-name">جيد</span></label>
-                <label><input type="radio" name="جودة الحلاقة" value="غير راضٍ"> <span class="service-name">غير راضٍ</span></label>
-            </div>
+        <h3 data-i18n="q_vibe">تقييم الجو العام للمكان</h3>
+        <div class="options">
+            <label><input type="radio" name="الجو العام" value="ممتاز (مريح وهادئ)" required onchange="forceUpdateVisuals(this)"> <span class="service-name" data-i18n="opt_vibe_good">ممتاز (مريح وهادئ)</span></label>
+            <label><input type="radio" name="الجو العام" value="جيد (مقبول)" onchange="forceUpdateVisuals(this)"> <span class="service-name" data-i18n="opt_vibe_avg">جيد (مقبول)</span></label>
+            <label><input type="radio" name="الجو العام" value="متوسط (صاخب ومزعج)" onchange="forceUpdateVisuals(this)"> <span class="service-name" data-i18n="opt_vibe_bad">متوسط (صاخب ومزعج)</span></label>
         </div>
 
-        <div class="section">
-            <h3>نظافة الصالون</h3>
-            <div class="options">
-                <label><input type="radio" name="نظافة الصالون" value="ممتاز" required> <span class="service-name">ممتاز</span></label>
-                <label><input type="radio" name="نظافة الصالون" value="جيد"> <span class="service-name">جيد</span></label>
-                <label><input type="radio" name="نظافة الصالون" value="غير راضٍ"> <span class="service-name">غير راضٍ</span></label>
-            </div>
+        <h3 data-i18n="q_overall">الرضا العام</h3>
+        <div class="faces">
+            <label>😍<input type="radio" name="الرضا العام" value="😍" required onchange="forceUpdateVisuals(this)"></label>
+            <label>😊<input type="radio" name="الرضا العام" value="😊" onchange="forceUpdateVisuals(this)"></label>
+            <label>😞<input type="radio" name="الرضا العام" value="😞" onchange="forceUpdateVisuals(this)"></label>
         </div>
 
-        <div class="section">
-            <h3>ودّ ومعاملة الحلاق</h3>
-            <div class="options">
-                <label><input type="radio" name="معاملة الحلاق" value="ممتاز" required> <span class="service-name">ممتاز</span></label>
-                <label><input type="radio" name="معاملة الحلاق" value="جيد"> <span class="service-name">جيد</span></label>
-                <label><input type="radio" name="معاملة الحلاق" value="غير راضٍ"> <span class="service-name">غير راضٍ</span></label>
-            </div>
-        </div>
-
-        <div class="section">
-            <h3>الالتزام بالمواعيد</h3>
-            <div class="options">
-                <label><input type="radio" name="الالتزام بالمواعيد" value="ممتاز" required> <span class="service-name">ممتاز</span></label>
-                <label><input type="radio" name="الالتزام بالمواعيد" value="جيد"> <span class="service-name">جيد</span></label>
-                <label><input type="radio" name="الالتزام بالمواعيد" value="غير راضٍ"> <span class="service-name">غير راضٍ</span></label>
-            </div>
-        </div>
+        <h3 data-i18n="sec_details">بياناتك (اختياري)</h3>
+        <input type="text" name="الاسم" placeholder="الاسم (اختياري)" data-i18n-placeholder="ph_name_opt">
+        <input type="tel" name="رقم الهاتف" placeholder="رقم الهاتف (اختياري)" data-i18n-placeholder="ph_phone_opt">
+        <textarea name="ملاحظات" placeholder="اكتب ملاحظاتك هنا..." data-i18n-placeholder="ph_notes"></textarea>
         
-        <div class="section">
-            <h3>تقييم الجو العام للمكان</h3>
-            <div class="options">
-                <label><input type="radio" name="الجو العام" value="ممتاز (مريح وهادئ)" required> <span class="service-name">ممتاز (مريح وهادئ)</span></label>
-                <label><input type="radio" name="الجو العام" value="جيد (مقبول)"> <span class="service-name">جيد (مقبول)</span></label>
-                <label><input type="radio" name="الجو العام" value="متوسط (صاخب ومزعج)"> <span class="service-name">متوسط (صاخب ومزعج)</span></label>
-            </div>
+        <div style="margin-top: 10px;">
+            <label style="display:flex; align-items:center; cursor:pointer; font-size: 13px; color: #888; padding: 0; background: none; border: none;">
+                <input type="checkbox" name="إخفاء البيانات" value="نعم" style="width: auto; margin-inline-end: 10px; accent-color: #c9a24d; position: relative; opacity: 1; height: 15px; width: 15px;">
+                <span data-i18n="hide_my_info">أفضل عدم عرض اسمي ورقم هاتفي مع التقييم.</span>
+            </label>
         </div>
 
-        <div class="section">
-            <h3>الرضا العام</h3>
-            <div class="faces">
-                <label><input type="radio" name="الرضا العام" value="😍" required> 😍</label>
-                <label><input type="radio" name="الرضا العام" value="😊"> 😊</label>
-                <label><input type="radio" name="الرضا العام" value="😞"> 😞</label>
-            </div>
-        </div>
-
-        
-        <div class="section">
-            <input type="text" name="الاسم" placeholder="الاسم (اختياري)">
-            <input type="text" name="رقم الهاتف" placeholder="رقم الهاتف (اختياري)">
-            <textarea name="ملاحظات" placeholder="اكتب اقتراحاتك هنا... (مثل: كنت أتمنى توفير مشروب ساخن)"></textarea>
-
-            <div style="margin-top: 10px;">
-                <label style="display:flex; align-items:center; cursor:pointer; font-size: 14px; color: #888; padding: 0; background: none; border: none;">
-                    <input type="checkbox" name="إخفاء البيانات" value="نعم" style="width: auto; margin-left: 10px; accent-color: #c9a24d;">
-                    أفضل عدم عرض اسمي ورقم هاتفي مع التقييم.
-                </label>
-            </div>
-        </div>
-        
-        <button type="submit">إرسال التقييم</button>
-
-        <div style="height:20px;"></div> 
+        <button type="submit" data-i18n="btn_send_rating">إرسال التقييم</button>
     </form>
     
     <div class="social-icons">
-        <a href="tel:+201022172940" class="social-btn" style="background:#009e49;" aria-label="Call">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
-                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1v3.5c0 .55-.45 1-1 1C10.74 21 3 13.26 3 4.5c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.24 1.02l-2.2 2.2z" fill="white"/>
-            </svg>
-        </a>
-        
-        <a href="https://wa.me/201022172940" target="_blank" class="social-btn" style="background:#25D366;" aria-label="WhatsApp">
-            <svg width="22" height="22" viewBox="0 0 32 32" fill="white">
-                <path d="M16 2C8.3 2 2 8.1 2 15.6c0 2.7.8 5.3 2.3 7.5L2 30l7.1-2.2c2.1 1.1 4.4 1.7 6.9 1.7 7.7 0 14-6.1 14-13.6C30 8.1 23.7 2 16 2z"/>
-            </svg>
-        </a>
-        <a href="https://www.facebook.com/share/1BXRsi6j5r/" target="_blank" class="social-btn" style="background:#1877F2;" aria-label="Facebook">
-            <svg width="22" height="22" viewBox="0 0 32 32" fill="white">
-                <path d="M19 6h5V0h-5c-5.5 0-9 3.6-9 9v3H5v6h5v16h6V18h5l1-6h-6v-3c0-1.1.9-2 2-2z"/>
-            </svg>
-        </a>
-        <a href="https://www.instagram.com/samyandahmed?igsh=MnBibmg4cHd0YzNm" target="_blank" class="social-btn" style="background:#C13584;" aria-label="Instagram">
-            <svg width="22" height="22" viewBox="0 0 32 32" fill="white">
-                <path d="M16 2.9c4.3 0 4.8 0 6.5.1 1.6.1 2.5.3 3 .5.7.3 1.2.6 1.7 1.1.5.5.8 1 1.1 1.7.2.5.4 1.4.5 3 .1 1.7.1 2.2.1 6.5s0 4.8-.1 6.5c-.1 1.6-.3 2.5-.5 3-.3.7-.6 1.2-1.1 1.7-.5.5-1 .8-1.7 1.1-.5.2-1.4.4-3 .5-1.7.1-2.2.1-6.5.1s-4.8 0-6.5-.1c-1.6-.1-2.5-.3-3-.5-.7-.3-1.2-.6-1.7-1.1-.5-.5-.8-1-1.1-1.7-.2-.5-.4-1.4-.5-3C2.9 20.8 2.9 20.3 2.9 16s0-4.8.2-6.5c.1-1.8.4-3.2.7-4.3.4-1.3 1-2.4 2.1-3.5 1.1-1.1 2.2-1.7 3.5-2.1 1.1-.3 2.5-.6 4.3-.7 1.7-.1 2.2-.1 6.5-.1z"/>
-            </svg>
-        </a>
+        <!-- Icons kept same -->
+        <a href="tel:+201022172940" class="social-btn"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1v3.5c0 .55-.45 1-1 1C10.74 21 3 13.26 3 4.5c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.24 1.02l-2.2 2.2z"/></svg></a>
+        <a href="https://wa.me/201022172940" target="_blank" class="social-btn"><svg width="24" height="24" viewBox="0 0 32 32"><path d="M16 2C8.3 2 2 8.1 2 15.6c0 2.7.8 5.3 2.3 7.5L2 30l7.1-2.2c2.1 1.1 4.4 1.7 6.9 1.7 7.7 0 14-6.1 14-13.6C30 8.1 23.7 2 16 2z"/></svg></a>
+        <a href="https://www.facebook.com/share/1BXRsi6j5r/" target="_blank" class="social-btn"><svg width="24" height="24" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-5.5 0-9 3.6-9 9v3H5v6h5v16h6V18h5l1-6h-6v-3c0-1.1.9-2 2-2z"/></svg></a>
+        <a href="https://www.instagram.com/samyandahmed?igsh=MnBibmg4cHd0YzNm" target="_blank" class="social-btn"><svg width="24" height="24" viewBox="0 0 32 32"><path d="M16 2.9c4.3 0 4.8 0 6.5.1 1.6.1 2.5.3 3 .5.7.3 1.2.6 1.7 1.1.5.5.8 1 1.1 1.7.2.5.4 1.4.5 3 .1 1.7.1 2.2.1 6.5s0 4.8-.1 6.5c-.1 1.6-.3 2.5-.5 3-.3.7-.6 1.2-1.1 1.7-.5.5-1 .8-1.7 1.1-.5.2-1.4.4-3 .5-1.7.1-2.2.1-6.5.1s-4.8 0-6.5-.1c-1.6-.1-2.5-.3-3-.5-.7-.3-1.2-.6-1.7-1.1-.5-.5-.8-1-1.1-1.7-.2-.5-.4-1.4-.5-3C2.9 20.8 2.9 20.3 2.9 16s0-4.8.2-6.5c.1-1.8.4-3.2.7-4.3.4-1.3 1-2.4 2.1-3.5 1.1-1.1 2.2-1.7 3.5-2.1 1.1-.3 2.5-.6 4.3-.7 1.7-.1 2.2-.1 6.5-.1z"/></svg></a>
     </div>
 
-    <div class="footer">شكرًا لثقتك – نراك قريبًا 🤍</div>
+    <div class="footer" data-i18n="footer_thanks">شكرًا لثقتك – نراك قريبًا 🤍</div>
     <div class="designer-credit">تصميم وتطوير بواسطة Mustafa Zuhair</div>
 </div>
 
 <div id="booking-page" class="container" style="display:none;">
-    <div class="header-bar">
-        <div class="logo">Samy&Ahmed</div>
-    </div>
-    <div class="subtitle">احجز موعدك بسهولة</div>
+    <div class="subtitle" data-i18n="booking_subtitle">احجز موعدك بسهولة</div>
     <hr class="header-separator"> 
 
-    <form id="booking-form" onsubmit="handleFormSubmission(event, 'booking')">
+    <form id="booking-form" onsubmit="handleFormSubmit(event, 'booking')">
+        <select name="الفرع" required>
+            <option value="" disabled selected data-i18n="select_branch">--- اختر الفرع ---</option>
+            <option value="دمياط الجديدة/شارع المحجوب" data-i18n="branch_mahgoub">دمياط الجديدة/منتصف شارع المحجوب</option>
+            <option value="دمياط الجديدة/موريا مول" data-i18n="branch_moria">دمياط الجديدة/موريا مول</option>
+        </select>
         
-        <div class="section">
-            <h3>اختيار الفرع</h3>
-            <select name="الفرع" required>
-                <option value="" disabled selected>--- اختر الفرع ---</option>
-                <option value="دمياط الجديدة/شارع المحجوب">دمياط الجديدة/منتصف شارع المحجوب</option>
-                <option value="دمياط الجديدة/موريا مول">دمياط الجديدة/موريا مول</option>
-            </select>
-        </div>
+        <input type="text" name="الاسم" placeholder="الاسم" required data-i18n-placeholder="ph_name">
+        <input type="tel" name="رقم الهاتف" placeholder="رقم الهاتف" required data-i18n-placeholder="ph_phone">
         
-        <div class="section">
-            <input type="text" name="الاسم" placeholder="الاسم" required>
-            <input type="tel" name="رقم الهاتف" placeholder="رقم الهاتف" required>
-        </div>
+        <h3 data-i18n="sec_datetime">تاريخ ووقت الحجز</h3>
+        <input type="datetime-local" id="booking-date" name="الموعد" required>
         
-        <label for="full-date-time" style="font-size: 14px; color: #666; display: block; margin-top: 15px; margin-bottom: 5px;">تاريخ ووقت الحجز:</label>
-        <input type="datetime-local" id="full-date-time" name="موعد الحجز الكامل" required>
-        
-        <div class="section packages-section">
-            <h3>الباقات المجمعة</h3>
-            <div class="options" id="package-options">
-                <label class="package-item"><input type="checkbox" name="الخدمات_المجمعة" value="شعر ودقن" data-price="200"> <span class="service-name">قص شعر + قص دقن</span> <span class="service-price">200 ج.م</span></label>
-                <label class="package-item"><input type="checkbox" name="الخدمات_المجمعة" value="شعر واستشوار/كيرلي" data-price="200"> <span class="service-name">قص شعر + استشوار أو كيرلي</span> <span class="service-price">200 ج.م</span></label>
-                <label class="package-item"><input type="checkbox" name="الخدمات_المجمعة" value="شعر ودقن واستشوار" data-price="250"> <span class="service-name">قص شعر + قص دقن + استشوار</span> <span class="service-price">250 ج.م</span></label>
-                <label class="package-item"><input type="checkbox" name="الخدمات_المجمعة" value="دقن واستشوار/كيرلي" data-price="180"> <span class="service-name">قص دقن + استشوار أو كيرلي</span> <span class="service-price">180 ج.م</span></label>
-                <label class="package-item"><input type="checkbox" name="الخدمات_المجمعة" value="صبغة/حنا شعر ودقن" data-price="190"> <span class="service-name">صبغة/حنا شعر + صبغة دقن</span> <span class="service-price">190 ج.م</span></label>
-            </div>
+        <h3 data-i18n="sec_packages">الباقات المجمعة</h3>
+        <div class="options" id="packages-list">
+            <!-- لاحظ استخدام onchange="triggerCalculation(this)" في كل عنصر -->
+            <label><input type="checkbox" name="services" value="شعر ودقن" data-price="200" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_hair_beard">قص شعر + قص دقن</span> <span class="service-price" data-i18n="price_200">200 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="شعر واستشوار/كيرلي" data-price="200" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_hair_dry">قص شعر + استشوار أو كيرلي</span> <span class="service-price" data-i18n="price_200">200 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="شعر ودقن واستشوار" data-price="250" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_hair_beard_dry">قص شعر + قص دقن + استشوار</span> <span class="service-price" data-i18n="price_250">250 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="دقن واستشوار/كيرلي" data-price="180" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_beard_dry">قص دقن + استشوار أو كيرلي</span> <span class="service-price" data-i18n="price_180">180 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="صبغة/حنا شعر ودقن" data-price="190" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="pkg_dye_all">صبغة/حنا شعر + صبغة دقن</span> <span class="service-price" data-i18n="price_190">190 ج.م</span></label>
         </div>
 
-        <div class="section">
-            <h3>الخدمات الفردية الإضافية</h3>
-            <div class="options" id="individual-options">
-                <label><input type="checkbox" name="الخدمات_الفردية" value="قص شعر" data-price="150"> <span class="service-name">قص شعر</span> <span class="service-price">150 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات_الفردية" value="قص شعر للاطفال" data-price="100"> <span class="service-name">قص شعر للاطفال</span> <span class="service-price">100 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات_الفردية" value="قص الدقن" data-price="100"> <span class="service-name">قص الدقن</span> <span class="service-price">100 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات_الفردية" value="استشوار او كيرلي او ويڤي" data-price="80"> <span class="service-name">استشوار أو كيرلي أو ويڤي</span> <span class="service-price">80 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات_الفردية" value="صبغة شعر" data-price="120"> <span class="service-name">صبغة شعر</span> <span class="service-price">120 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات_الفردية" value="صبغة دقن" data-price="70"> <span class="service-name">صبغة دقن</span> <span class="service-price">70 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات_الفردية" value="توبيك" data-price="80"> <span class="service-name">توبيك لفراغات الشعر</span> <span class="service-price">80 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات_الفردية" value="حمام زيت" data-price="150"> <span class="service-name">حمام زيت</span> <span class="service-price">150 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات_الفردية" value="حمام كريم" data-price="70"> <span class="service-name">حمام كريم</span> <span class="service-price">70 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات_الفردية" value="جلسة إزالة قشرة" data-price="130"> <span class="service-name">جلسة إزالة قشرة</span> <span class="service-price">130 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات_الفردية" value="جلسة شمع" data-price="100"> <span class="service-name">جلسة شمع</span> <span class="service-price">100 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات_الفردية" value="فتلة" data-price="50"> <span class="service-name">فتلة</span> <span class="service-price">50 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات_الفردية" value="ماسك" data-price="70"> <span class="service-name">ماسك</span> <span class="service-price">70 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات_الفردية" value="تنظيف بشرة" data-price="300"> <span class="service-name">تنظيف بشرة</span> <span class="service-price">300 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات_الفردية" value="تنظيف بشرة هيدرافيشيل" data-price="500"> <span class="service-name">تنظيف بشرة هيدرافيشيل</span> <span class="service-price">500 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات_الفردية" value="معالج Xtenso" data-price="500"> <span class="service-name">معالج Xtenso</span> <span class="service-price">500 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات_الفردية" value="بروتين" data-price="0"> <span class="service-name">بروتين</span> <span class="service-price">50 ج.م/جم (حسب الاستخدام)</span></label>
-            </div>
+        <h3 data-i18n="sec_single">الخدمات الفردية الإضافية</h3>
+        <div class="options" id="individual-list">
+            <label><input type="checkbox" name="services" value="قص شعر" data-price="150" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_haircut">قص شعر</span> <span class="service-price" data-i18n="price_150">150 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="قص شعر للاطفال" data-price="100" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_kids">قص شعر للاطفال</span> <span class="service-price" data-i18n="price_100">100 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="قص الدقن" data-price="100" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_beard">قص الدقن</span> <span class="service-price" data-i18n="price_100">100 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="استشوار او كيرلي او ويڤي" data-price="80" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_dry">استشوار أو كيرلي أو ويڤي</span> <span class="service-price" data-i18n="price_80">80 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="صبغة شعر" data-price="120" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_dye_hair">صبغة شعر</span> <span class="service-price" data-i18n="price_120">120 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="صبغة دقن" data-price="70" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_dye_beard">صبغة دقن</span> <span class="service-price" data-i18n="price_70">70 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="توبيك" data-price="80" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_topic">توبيك لفراغات الشعر</span> <span class="service-price" data-i18n="price_80">80 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="حمام زيت" data-price="150" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_oil">حمام زيت</span> <span class="service-price" data-i18n="price_150">150 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="حمام كريم" data-price="70" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_cream">حمام كريم</span> <span class="service-price" data-i18n="price_70">70 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="جلسة إزالة قشرة" data-price="130" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_dandruff">جلسة إزالة قشرة</span> <span class="service-price" data-i18n="price_130">130 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="جلسة شمع" data-price="100" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_wax">جلسة شمع</span> <span class="service-price" data-i18n="price_100">100 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="فتلة" data-price="50" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_thread">فتلة</span> <span class="service-price" data-i18n="price_50">50 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="ماسك" data-price="70" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_mask">ماسك</span> <span class="service-price" data-i18n="price_70">70 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="تنظيف بشرة" data-price="300" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_clean">تنظيف بشرة</span> <span class="service-price" data-i18n="price_300">300 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="تنظيف بشرة هيدرافيشيل" data-price="500" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_hydra">تنظيف بشرة هيدرافيشيل</span> <span class="service-price" data-i18n="price_500">500 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="معالج Xtenso" data-price="500" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_xtenso">معالج Xtenso</span> <span class="service-price" data-i18n="price_500">500 ج.م</span></label>
+            <label><input type="checkbox" name="services" value="بروتين" data-price="0" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_protein">بروتين (حسب الاستخدام)</span> <span class="service-price" data-i18n="price_protein">50 ج.م/جم</span></label>
         </div>
         
-        <div class="section">
-            <h3>الإجمالي التقريبي للخدمات</h3>
-            <input type="text" id="total-price" value="0.00 جنيه مصري" readonly>
-            <input type="hidden" name="الإجمالي" id="total-value" value="0.00">
-        </div>
+        <h3 data-i18n="sec_total">الإجمالي التقريبي</h3>
+        <input type="text" id="total-price" value="0.00 جنيه مصري" readonly>
+        <textarea name="ملاحظات" placeholder="ملاحظات إضافية (مثل: لدي حساسية من منتج معين)" data-i18n-placeholder="ph_extra_notes"></textarea>
         
-        <textarea name="ملاحظات" placeholder="ملاحظات إضافية (مثل: لدي حساسية من منتج معين)"></textarea>
-        
-        <button type="submit">إرسال الحجز</button>
-    
-    <div style="height:20px;"></div> 
-    <div class="footer">شكرًا لثقتك – نراك قريبًا 🤍</div>
-    <div class="designer-credit">تصميم وتطوير بواسطة Mustafa Zuhair</div>
+        <button type="submit" data-i18n="btn_confirm_booking">تأكيد الحجز</button>
     </form>
-</div>
-
-<div id="ai-tool-page" class="container" style="display:none;">
-    <div class="header-bar">
-        <div class="logo">Samy&Ahmed</div>
-    </div>
-    <div class="subtitle">🤖 مساعدك الشخصي عبر ChatGPT</div>
-    <hr class="header-separator"> 
-
-    <div class="section">
-        <h3>هل تحتاج مساعدة سريعة أو أفكار للقصات؟</h3>
-        <p style="color:#777; font-size:14px; margin-bottom:15px; text-align: center;">اضغط على الزر أدناه لفتح واجهة ChatGPT مباشرة في نافذة جديدة.</p>
-        
-        <a href="https://chat.openai.com/" target="_blank" class="ai-chat-link">
-            افتح ChatGPT في نافذة جديدة
-        </a>
-        
-        <div style="font-size:12px; color:#c9a24d; text-align: center; margin-top:30px;">
-            **ملحوظة:** لربما يُطلب منك تسجيل الدخول لاستخدام الخدمة.
-        </div>
-    </div>
     
-    <div style="height:20px;"></div> 
-    <div class="footer">شكرًا لثقتك – نراك قريبًا 🤍</div>
-    <div class="designer-credit">تصميم وتطوير بواسطة Mustafa Zuhair</div>
+    <div class="footer" style="margin-top:20px;">تصميم وتطوير Mustafa Zuhair</div>
 </div>
 
-<div id="rating-modal-overlay" class="modal-overlay" onclick="closeModal('rating')">
-    <div id="rating-modal" class="success-modal" onclick="event.stopPropagation()">
-        <div class="modal-icon">⭐</div>
-        <h4>شكراً لتقييمك!</h4>
-        <p>ملاحظاتك قيّمة وتساعدنا في تحسين جودة خدماتنا باستمرار.</p>
-        <button class="modal-close-btn" onclick="closeModal('rating')">إغلاق</button>
+<div id="ai-page" class="container" style="display:none;">
+    <div class="subtitle" data-i18n="ai_subtitle">مساعدك الشخصي</div>
+    <hr class="header-separator"> 
+    
+    <div class="ai-card">
+        <div style="font-size:40px;">🤖</div>
+        <h3 data-i18n="ai_header">محتار في قصة شعرك؟</h3>
+        <p data-i18n="ai_desc">استخدم الذكاء الاصطناعي لاقتراح القصات المناسبة لشكل وجهك ونوع شعرك.</p>
+        <a href="https://chat.openai.com/" target="_blank" class="ai-btn" data-i18n="ai_btn">فتح ChatGPT للمساعدة</a>
     </div>
+    <div class="footer" style="margin-top:20px;">تصميم وتطوير Mustafa Zuhair</div>
 </div>
 
-<div id="booking-modal-overlay" class="modal-overlay" onclick="closeModal('booking')">
-    <div id="booking-modal" class="success-modal" onclick="event.stopPropagation()">
-        <div class="modal-icon">✅</div>
-        <h4>تم تأكيد طلب الحجز!</h4>
-        <p>تم إرسال موعدك. سنقوم بالتواصل معك لتأكيد التفاصيل النهائية.</p>
-        <button class="modal-close-btn" onclick="closeModal('booking')">إغلاق</button>
+<div id="modal-overlay" class="modal-overlay" onclick="closeModal()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <span class="modal-icon" id="modal-icon">✅</span>
+        <h4 id="modal-title" data-i18n="modal_success">تم بنجاح!</h4>
+        <p id="modal-msg" data-i18n="modal_thanks">شكراً لك.</p>
+        <button class="modal-close-btn" onclick="closeModal()" data-i18n="modal_close">إغلاق</button>
     </div>
 </div>
 
 <script>
-// ==========================================================
-// CONFIGURATION
-// ==========================================================
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/xvgelvjp";
+    // ==========================================
+    // Translation Data
+    // ==========================================
+    const translations = {
+        ar: {
+            menu_title: "القائمة",
+            menu_rating: "🌟 تقييم الخدمة",
+            menu_booking: "📝 حجز موعد",
+            menu_call: "📞 اتصال مباشر",
+            menu_whatsapp: "💬 واتساب",
+            menu_gallery: "📸 معرض الصور",
+            menu_ai: "🤖 مساعدك الشخصي",
+            rating_subtitle: "نقدّر رأيك… تقييمك يهمّنا",
+            select_branch: "--- اختر الفرع ---",
+            branch_mahgoub: "دمياط الجديدة/منتصف شارع المحجوب",
+            branch_moria: "دمياط الجديدة/موريا مول",
+            q_quality: "جودة الحلاقة والتسريحة",
+            q_hygiene: "نظافة الصالون",
+            q_friendliness: "ودّ ومعاملة الحلاق",
+            q_timing: "الالتزام بالمواعيد",
+            q_vibe: "تقييم الجو العام للمكان",
+            q_overall: "الرضا العام",
+            opt_excellent: "ممتاز",
+            opt_good: "جيد",
+            opt_bad: "غير راضٍ",
+            opt_vibe_good: "ممتاز (مريح وهادئ)",
+            opt_vibe_avg: "جيد (مقبول)",
+            opt_vibe_bad: "متوسط (صاخب ومزعج)",
+            sec_details: "بياناتك (اختياري)",
+            ph_name_opt: "الاسم (اختياري)",
+            ph_phone_opt: "رقم الهاتف (اختياري)",
+            ph_notes: "اكتب ملاحظاتك هنا...",
+            hide_my_info: "أفضل عدم عرض اسمي ورقم هاتفي مع التقييم.",
+            btn_send_rating: "إرسال التقييم",
+            footer_thanks: "شكرًا لثقتك – نراك قريبًا 🤍",
+            booking_subtitle: "احجز موعدك بسهولة",
+            ph_name: "الاسم",
+            ph_phone: "رقم الهاتف",
+            sec_datetime: "تاريخ ووقت الحجز",
+            sec_packages: "الباقات المجمعة",
+            sec_single: "الخدمات الفردية الإضافية",
+            sec_total: "الإجمالي التقريبي",
+            ph_extra_notes: "ملاحظات إضافية (مثل: لدي حساسية من منتج معين)",
+            btn_confirm_booking: "تأكيد الحجز",
+            ai_subtitle: "مساعدك الشخصي",
+            ai_header: "محتار في قصة شعرك؟",
+            ai_desc: "استخدم الذكاء الاصطناعي لاقتراح القصات المناسبة لشكل وجهك ونوع شعرك.",
+            ai_btn: "فتح ChatGPT للمساعدة",
+            modal_success: "تم بنجاح!",
+            modal_thanks: "شكراً لك.",
+            modal_close: "إغلاق",
+            modal_rating_title: "شكراً لتقييمك!",
+            modal_rating_msg: "رأيك يهمنا ويساعدنا في التطوير.",
+            modal_booking_title: "تم استلام الحجز",
+            modal_booking_msg: "سنتواصل معك قريباً لتأكيد الموعد.",
+            currency: "ج.م",
+            
+            // Services & Prices (Text Labels)
+            pkg_hair_beard: "قص شعر + قص دقن",
+            pkg_hair_dry: "قص شعر + استشوار أو كيرلي",
+            pkg_hair_beard_dry: "قص شعر + قص دقن + استشوار",
+            pkg_beard_dry: "قص دقن + استشوار أو كيرلي",
+            pkg_dye_all: "صبغة/حنا شعر + صبغة دقن",
+            srv_haircut: "قص شعر",
+            srv_kids: "قص شعر للاطفال",
+            srv_beard: "قص الدقن",
+            srv_dry: "استشوار أو كيرلي أو ويڤي",
+            srv_dye_hair: "صبغة شعر",
+            srv_dye_beard: "صبغة دقن",
+            srv_topic: "توبيك لفراغات الشعر",
+            srv_oil: "حمام زيت",
+            srv_cream: "حمام كريم",
+            srv_dandruff: "جلسة إزالة قشرة",
+            srv_wax: "جلسة شمع",
+            srv_thread: "فتلة",
+            srv_mask: "ماسك",
+            srv_clean: "تنظيف بشرة",
+            srv_hydra: "تنظيف بشرة هيدرافيشيل",
+            srv_xtenso: "معالج Xtenso",
+            srv_protein: "بروتين (حسب الاستخدام)",
 
+            // Prices
+            price_200: "200 ج.م",
+            price_250: "250 ج.م",
+            price_180: "180 ج.م",
+            price_190: "190 ج.م",
+            price_150: "150 ج.م",
+            price_100: "100 ج.م",
+            price_80: "80 ج.م",
+            price_120: "120 ج.م",
+            price_70: "70 ج.م",
+            price_130: "130 ج.م",
+            price_50: "50 ج.م",
+            price_300: "300 ج.م",
+            price_500: "500 ج.م",
+            price_protein: "50 ج.م/جم"
+        },
+        en: {
+            menu_title: "Menu",
+            menu_rating: "🌟 Rate Service",
+            menu_booking: "📝 Book Appointment",
+            menu_call: "📞 Call Now",
+            menu_whatsapp: "💬 WhatsApp",
+            menu_gallery: "📸 Gallery",
+            menu_ai: "🤖 AI Assistant",
+            rating_subtitle: "Your opinion matters...",
+            select_branch: "--- Select Branch ---",
+            branch_mahgoub: "New Damietta / Mahgoub St.",
+            branch_moria: "New Damietta / Moria Mall",
+            q_quality: "Haircut Quality",
+            q_hygiene: "Salon Hygiene",
+            q_friendliness: "Staff Friendliness",
+            q_timing: "Punctuality",
+            q_vibe: "Atmosphere",
+            q_overall: "Overall Satisfaction",
+            opt_excellent: "Excellent",
+            opt_good: "Good",
+            opt_bad: "Dissatisfied",
+            opt_vibe_good: "Excellent (Chill & Quiet)",
+            opt_vibe_avg: "Good (Acceptable)",
+            opt_vibe_bad: "Average (Noisy)",
+            sec_details: "Your Info (Optional)",
+            ph_name_opt: "Name (Optional)",
+            ph_phone_opt: "Phone (Optional)",
+            ph_notes: "Write your notes here...",
+            hide_my_info: "Keep my info anonymous.",
+            btn_send_rating: "Send Rating",
+            footer_thanks: "Thanks for trusting us 🤍",
+            booking_subtitle: "Book your appointment easily",
+            ph_name: "Name",
+            ph_phone: "Phone Number",
+            sec_datetime: "Date & Time",
+            sec_packages: "Packages",
+            sec_single: "Individual Services",
+            sec_total: "Estimated Total",
+            ph_extra_notes: "Extra notes (e.g. allergies)",
+            btn_confirm_booking: "Confirm Booking",
+            ai_subtitle: "AI Assistant",
+            ai_header: "Confused about your style?",
+            ai_desc: "Use AI to suggest the best haircuts for your face shape.",
+            ai_btn: "Open ChatGPT",
+            modal_success: "Success!",
+            modal_thanks: "Thank you.",
+            modal_close: "Close",
+            modal_rating_title: "Thank You!",
+            modal_rating_msg: "We appreciate your feedback.",
+            modal_booking_title: "Booking Received",
+            modal_booking_msg: "We will contact you shortly to confirm.",
+            currency: "EGP",
+            
+             // Services & Prices (Text Labels)
+            pkg_hair_beard: "Haircut + Beard",
+            pkg_hair_dry: "Haircut + Dry/Curly",
+            pkg_hair_beard_dry: "Hair + Beard + Dry",
+            pkg_beard_dry: "Beard + Dry/Curly",
+            pkg_dye_all: "Hair Dye + Beard Dye",
+            srv_haircut: "Haircut",
+            srv_kids: "Kids Haircut",
+            srv_beard: "Beard Trim",
+            srv_dry: "Blowdry / Curly / Wavy",
+            srv_dye_hair: "Hair Dye",
+            srv_dye_beard: "Beard Dye",
+            srv_topic: "Toppik (Hair Fibers)",
+            srv_oil: "Oil Bath",
+            srv_cream: "Cream Bath",
+            srv_dandruff: "Anti-Dandruff Session",
+            srv_wax: "Waxing",
+            srv_thread: "Threading",
+            srv_mask: "Face Mask",
+            srv_clean: "Facial Cleaning",
+            srv_hydra: "Hydrafacial",
+            srv_xtenso: "X-tenso Treatment",
+            srv_protein: "Protein (Per Gram)",
 
-// ==========================================================
-// JAVASCRIPT: MENU FUNCTIONS 
-// ==========================================================
+            // Prices
+            price_200: "200 EGP",
+            price_250: "250 EGP",
+            price_180: "180 EGP",
+            price_190: "190 EGP",
+            price_150: "150 EGP",
+            price_100: "100 EGP",
+            price_80: "80 EGP",
+            price_120: "120 EGP",
+            price_70: "70 EGP",
+            price_130: "130 EGP",
+            price_50: "50 EGP",
+            price_300: "300 EGP",
+            price_500: "500 EGP",
+            price_protein: "50 EGP/g"
+        }
+    };
 
-function openMenu() {
-    const overlay = document.getElementById("sideMenuOverlay");
-    overlay.style.display = "block";
-    setTimeout(() => {
-        document.getElementById("mySideMenu").classList.add('open');
-        overlay.classList.add('show');
-    }, 10);
-    document.body.classList.add('menu-open');
-}
+    let currentLang = 'ar';
 
-function closeMenu() {
-    const overlay = document.getElementById("sideMenuOverlay");
-    
-    document.getElementById("mySideMenu").classList.remove('open');
-    overlay.classList.remove('show');
+    // ==========================================
+    // تهيئة الصفحة
+    // ==========================================
+    document.addEventListener("DOMContentLoaded", function() {
+        // ضبط التاريخ
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        const dateInput = document.getElementById('booking-date');
+        if(dateInput) dateInput.min = now.toISOString().slice(0,16);
 
-    setTimeout(() => {
-        overlay.style.display = "none";
-    }, 400);
-
-    document.body.classList.remove('menu-open');
-}
-
-
-// ==========================================================
-// JAVASCRIPT: VIEW SWITCHING 
-// ==========================================================
-
-function showBooking(){
-    document.getElementById('rating-page').style.display = 'none';
-    document.getElementById('booking-page').style.display = 'block';
-    document.getElementById('ai-tool-page').style.display = 'none';
-    calculateTotal(); 
-}
-
-function showRating(){
-    document.getElementById('booking-page').style.display = 'none';
-    document.getElementById('rating-page').style.display = 'block';
-    document.getElementById('ai-tool-page').style.display = 'none';
-}
-
-function showAITool(){
-    document.getElementById('booking-page').style.display = 'none';
-    document.getElementById('rating-page').style.display = 'none';
-    document.getElementById('ai-tool-page').style.display = 'block';
-}
-
-// ==========================================================
-// JAVASCRIPT: SUCCESS MODAL HANDLER
-// ==========================================================
-
-function showModal(type) {
-    const modalId = type === 'rating' ? 'rating-modal-overlay' : 'booking-modal-overlay';
-    document.getElementById(modalId).classList.add('active');
-    document.body.classList.add('menu-open'); // لمنع التمرير خلف المودال
-}
-
-function closeModal(type) {
-    const modalId = type === 'rating' ? 'rating-modal-overlay' : 'booking-modal-overlay';
-    document.getElementById(modalId).classList.remove('active');
-    document.body.classList.remove('menu-open');
-}
-
-/**
- * دالة معالجة إرسال النموذج وإرسال البيانات إلى Formspree
- * @param {Event} event 
- * @param {string} type - 'rating' أو 'booking'
- */
-async function handleFormSubmission(event, type) {
-    event.preventDefault(); // منع الإرسال الافتراضي
-
-    const form = document.getElementById(`${type}-form`);
-    
-    // التحقق من صحة البيانات أولاً
-    if (!form.checkValidity()) {
-        form.reportValidity(); 
-        return;
-    }
-
-    const formData = new FormData(form);
-    const submitButton = form.querySelector('button[type="submit"]');
-
-    // تعطيل الزر ومنحه حالة تحميل
-    submitButton.disabled = true;
-    const originalText = submitButton.innerText;
-    submitButton.innerText = "جاري الإرسال..."; 
-
-    try {
-        const response = await fetch(FORMSPREE_ENDPOINT, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Accept': 'application/json'
-            }
-        });
-
-        if (response.ok) {
-            // نجاح الإرسال:
-            showModal(type);
-            form.reset();
-            if (type === 'booking') {
-                calculateTotal(); // تحديث الإجمالي إلى صفر
-            }
+        // ضبط الثيم
+        const themeBtn = document.getElementById('themeBtn');
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            // تأكد من تحديث النص/الأيقونة هنا أيضاً
+            if(themeBtn) themeBtn.innerText = "☀️";
         } else {
-            // فشل الإرسال (على سبيل المثال، مشكلة في Formspree)
-            alert('حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.');
+             if(themeBtn) themeBtn.innerText = "🌙";
         }
-    } catch (error) {
-        // فشل في الاتصال (على سبيل المثال، عدم وجود اتصال بالإنترنت)
-        console.error('Submission error:', error);
-        alert('فشل الاتصال بالخادم. يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.');
-    } finally {
-        // إعادة تفعيل الزر وإرجاع النص الأصلي
-        submitButton.disabled = false;
-        submitButton.innerText = originalText;
-    }
-}
 
-
-// ==========================================================
-// JAVASCRIPT: DATE MINIMUM (LOCK OLD DATE)
-// ==========================================================
-
-function setMinDateTime() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = (now.getMonth() + 1).toString().padStart(2, '0');
-    const day = now.getDate().toString().padStart(2, '0');
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    
-    const currentDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
-    
-    const dateTimeField = document.getElementById('full-date-time');
-    if (dateTimeField) {
-        dateTimeField.setAttribute('min', currentDateTime);
-    }
-}
-
-// ==========================================================
-// JAVASCRIPT: CALCULATE TOTAL PRICE 
-// ==========================================================
-
-function calculateTotal() {
-    let total = 0;
-    
-    const packageCheckboxes = document.querySelectorAll('#package-options input[name="الخدمات_المجمعة"]');
-    packageCheckboxes.forEach(checkbox => {
-        if (checkbox.checked) {
-            const price = parseFloat(checkbox.getAttribute('data-price'));
-            if (!isNaN(price) && price > 0) {
-                total += price;
-            }
+        // ضبط اللغة المحفوظة
+        const savedLang = localStorage.getItem('lang');
+        if (savedLang) {
+            setLanguage(savedLang);
+        } else {
+            setLanguage('ar'); // Default
         }
+
+        // تشغيل الحساب مرة عند التحميل
+        calculateTotal();
+        updateVisuals();
     });
 
-    const individualCheckboxes = document.querySelectorAll('#individual-options input[name="الخدمات_الفردية"]');
-    individualCheckboxes.forEach(checkbox => {
-        if (checkbox.checked) {
-            const price = parseFloat(checkbox.getAttribute('data-price'));
-            if (!isNaN(price) && price > 0) {
-                total += price;
-            }
-        }
-    });
-    
-    const totalFieldDisplay = document.getElementById('total-price');
-    const totalFieldValue = document.getElementById('total-value');
-    
-    if (totalFieldDisplay && totalFieldValue) {
-        totalFieldDisplay.value = total.toFixed(2) + ' جنيه مصري';
-        totalFieldValue.value = total.toFixed(2);
+    // ==========================================
+    // Language Logic
+    // ==========================================
+    function toggleLanguage() {
+        const newLang = currentLang === 'ar' ? 'en' : 'ar';
+        setLanguage(newLang);
     }
-}
 
-// ==========================================================
-// JAVASCRIPT: EVENT LISTENERS
-// ==========================================================
-
-document.addEventListener('DOMContentLoaded', () => {
-    setMinDateTime();
-
-    const bookingPage = document.getElementById('booking-page');
-    if (bookingPage) {
-        const packageCheckboxes = bookingPage.querySelectorAll('#package-options input[name="الخدمات_المجمعة"]');
-        packageCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', calculateTotal);
-        });
-
-        const individualCheckboxes = bookingPage.querySelectorAll('#individual-options input[name="الخدمات_الفردية"]');
-        individualCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', calculateTotal);
-        });
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
         
+        // Update HTML attributes
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        
+        // Update Toggle Button
+        document.getElementById('langBtn').innerText = lang === 'ar' ? 'EN' : 'عربي';
+
+        // Update Text Content
+        const elements = document.querySelectorAll('[data-i18n]');
+        elements.forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[lang][key]) {
+                el.innerText = translations[lang][key];
+            }
+        });
+
+        // Update Placeholders
+        const inputs = document.querySelectorAll('[data-i18n-placeholder]');
+        inputs.forEach(input => {
+            const key = input.getAttribute('data-i18n-placeholder');
+            if (translations[lang][key]) {
+                input.placeholder = translations[lang][key];
+            }
+        });
+
+        // Re-calculate price to update currency format
         calculateTotal();
     }
-});
 
-// ==========================================================
+    // ==========================================
+    // Core Functions
+    // ==========================================
+    function triggerCalculation(element) {
+        if (element.checked && element.closest('#packages-list')) {
+            const packageBoxes = document.querySelectorAll('#packages-list input[type="checkbox"]');
+            packageBoxes.forEach(pBox => {
+                if (pBox !== element) {
+                    pBox.checked = false;
+                }
+            });
+        }
+        updateVisuals();
+        calculateTotal();
+    }
+    
+    function forceUpdateVisuals(element) {
+        updateVisuals();
+    }
+
+    function updateVisuals() {
+        const allInputs = document.querySelectorAll('.options input, .faces input');
+        allInputs.forEach(input => {
+            const label = input.closest('label');
+            if(label) {
+                if(input.checked) {
+                    label.classList.add('checked');
+                } else {
+                    label.classList.remove('checked');
+                }
+            }
+        });
+    }
+
+    function calculateTotal() {
+        const checkedBoxes = document.querySelectorAll('#booking-form input[type="checkbox"]:checked');
+        let total = 0;
+
+        checkedBoxes.forEach(box => {
+            let priceVal = box.getAttribute('data-price');
+            let price = parseFloat(priceVal);
+            if (!isNaN(price)) {
+                total += price;
+            }
+        });
+
+        const totalField = document.getElementById('total-price');
+        const currency = translations[currentLang].currency;
+        if(totalField) {
+            // Keep the numeric value clean for form submission if needed, but display with currency
+            totalField.value = total.toFixed(2) + " " + currency;
+        }
+    }
+
+    // ==========================================
+    // UI Logic
+    // ==========================================
+    function toggleMenu() {
+        document.getElementById('sideMenu').classList.toggle('open');
+        document.getElementById('overlay').classList.toggle('active');
+        document.body.classList.toggle('no-scroll');
+    }
+
+    function switchPage(pageId) {
+        document.getElementById('rating-page').style.display = 'none';
+        document.getElementById('booking-page').style.display = 'none';
+        document.getElementById('ai-page').style.display = 'none';
+        
+        document.getElementById(pageId + '-page').style.display = 'block';
+        
+        toggleMenu();
+        window.scrollTo(0,0);
+        
+        if(pageId === 'booking') {
+            setTimeout(() => {
+                updateVisuals();
+                calculateTotal();
+            }, 100);
+        }
+    }
+
+    function toggleTheme() {
+        const themeBtn = document.getElementById('themeBtn');
+        document.body.classList.toggle('dark-mode');
+        if (document.body.classList.contains('dark-mode')) {
+            themeBtn.innerText = "☀️";
+            localStorage.setItem('theme', 'dark');
+        } else {
+            themeBtn.innerText = "🌙";
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    // ==========================================
+    // Submission Logic
+    // ==========================================
+    async function handleFormSubmit(event, type) {
+        event.preventDefault();
+        
+        const form = event.target;
+        const btn = form.querySelector('button[type="submit"]');
+        const originalText = btn.innerText;
+        
+        btn.disabled = true;
+        btn.innerText = currentLang === 'ar' ? "جاري الإرسال..." : "Sending...";
+
+        const formData = new FormData(form);
+
+        if(type === 'booking') {
+            let selectedServices = [];
+            const checkedBoxes = document.querySelectorAll('#booking-form input[type="checkbox"]:checked');
+            
+            
+            checkedBoxes.forEach(box => {
+                 // We prefer the 'value' attribute because it remains in Arabic even if UI is English
+                 // This ensures Samy & Ahmed read it in Arabic.
+                 selectedServices.push(box.value);
+            });
+            
+            formData.append('الخدمات_المختارة', selectedServices.join(' + '));
+            formData.append('الإجمالي_التقريبي', document.getElementById('total-price').value);
+        }
+
+        try {
+            const response = await fetch("https://formspree.io/f/xvgelvjp", {
+                method: "POST",
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (response.ok) {
+                form.reset();
+                if(type === 'booking') {
+                    updateVisuals(); 
+                    calculateTotal();
+                }
+                showModal(type);
+            } else {
+                alert(currentLang === 'ar' ? "حدث خطأ أثناء الإرسال." : "Error sending form.");
+            }
+        } catch (error) {
+            alert(currentLang === 'ar' ? "فشل الاتصال بالخادم." : "Connection error.");
+        } finally {
+            btn.disabled = false;
+            btn.innerText = originalText;
+        }
+    }
+
+    function showModal(type) {
+        const modal = document.getElementById('modal-overlay');
+        const title = document.getElementById('modal-title');
+        const msg = document.getElementById('modal-msg');
+        const icon = document.getElementById('modal-icon');
+
+        if(type === 'rating') {
+            icon.innerText = "⭐";
+            title.innerText = translations[currentLang].modal_rating_title;
+            msg.innerText = translations[currentLang].modal_rating_msg;
+        } else {
+            icon.innerText = "✅";
+            title.innerText = translations[currentLang].modal_booking_title;
+            msg.innerText = translations[currentLang].modal_booking_msg;
+        }
+        // Also update button text inside modal dynamically
+        document.querySelector('.modal-close-btn').innerText = translations[currentLang].modal_close;
+        
+        modal.classList.add('active');
+    }
+
+    function closeModal() {
+        document.getElementById('modal-overlay').classList.remove('active');
+    }
 </script>
 
 </body>
 </html>
+
