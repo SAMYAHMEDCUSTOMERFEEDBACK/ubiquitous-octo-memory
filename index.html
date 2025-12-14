@@ -723,7 +723,7 @@ body.dark-mode .modal-box p { color: #bbb; }
 
     <div id="ai-results" dir="ltr">
         <div class="ai-message message-box" data-i18n="ai_greeting" style="align-self: flex-end;">
-            أهلاً بك! أنا مساعدك الشخصي من صالون سامي وأحمد. كيف يمكنني مساعدتك في اختيار قصة شعرك أو تصميم ذقنك اليوم؟
+            أهلاً بك! أنا مساعدك الشخصي من صالون سامي وأحمد. كيف يمكنني أساعدك في اختيار اللوك المناسب لشعرك أو دقنك النهارده؟
         </div>
     </div>
 
@@ -774,6 +774,20 @@ body.dark-mode .modal-box p { color: #bbb; }
 </div>
 
 <script>
+    // ==========================================
+    // إعدادات الذكاء الاصطناعي
+    // ==========================================
+    
+    // المفتاح الجديد الذي أرسلته: 
+    const API_KEY = "AIzaSyAxNMMcjvDvCSWMNXrrK6MSeW7TeZ0AbQc"; 
+    
+    const AI_MODEL = 'gemini-1.5-flash';
+    const MAX_RETRIES = 3;
+
+    // التعليمات للنظام (تم ضبطها لتتحدث بالمصرية)
+    const systemPrompt = "أنت خبير تجميل متخصص في صالون 'Samy & Ahmed Luxury Barber'. مهمتك هي تقديم نصائح سريعة ومفيدة عن قصات الشعر والذقن والعناية بالبشرة. يجب أن تكون إجاباتك ودودة ومختصرة (3-5 جمل). والأهم: عندما ترد بالعربية، استخدم العامية المصرية (Egyptian Colloquial Arabic) لتبدو طبيعياً ومريحاً للعميل.";
+
+    
     // ==========================================
     // Translation Data
     // ==========================================
@@ -827,7 +841,7 @@ body.dark-mode .modal-box p { color: #bbb; }
             ai_placeholder: "اكتب سؤالك هنا...",
             ai_btn_send: "إرسال",
             ai_loading: "جاري تحليل طلبك...",
-            ai_error: "حصلت مشكلة في الاتصال. حاول تاني بعد إذنك.", // Updated to colloquial
+            ai_error: "حصلت مشكلة في الاتصال. تأكد من الإنترنت وحاول تاني.", // Updated to colloquial
             modal_success: "تم بنجاح!",
             modal_thanks: "شكراً لك.",
             modal_close: "إغلاق",
@@ -1000,18 +1014,6 @@ body.dark-mode .modal-box p { color: #bbb; }
 
     let currentLang = 'ar';
     
-    // =======================================================
-    // تم التعديل هنا لضمان عمل مساعد الذكاء الاصطناعي
-    // =======================================================
-    const AI_MODEL = 'gemini-1.5-flash'; // موديل مستقر وسريع
-    const MAX_RETRIES = 3;
-    const API_KEY = "AIzaSyB0OpxMOpyQ0u9mHFb-mYO2dDbUXdJRpmA"; // المفتاح الذي أرسلته
-    // =======================================================
-
-    // UPDATED SYSTEM PROMPT: Now includes Egyptian Colloquial Arabic instruction
-    const systemPrompt = "أنت خبير تجميل متخصص في صالون 'Samy & Ahmed Luxury Barber'. مهمتك هي تقديم نصائح سريعة ومفيدة عن قصات الشعر والذقن والعناية بالبشرة. يجب أن تكون إجاباتك ودودة ومختصرة (3-5 جمل). والأهم: عندما ترد بالعربية، استخدم العامية المصرية (Egyptian Colloquial Arabic) لتبدو طبيعياً ومريحاً للعميل.";
-
-
     // ==========================================
     // تهيئة الصفحة
     // ==========================================
@@ -1189,6 +1191,15 @@ body.dark-mode .modal-box p { color: #bbb; }
         const originalBtnText = sendBtn.innerText;
 
         if (!userQuery) return;
+        
+        // التحقق من مفتاح الـ API
+        if (!API_KEY || API_KEY.startsWith("AIzaSyA")) {
+             resultsDiv.appendChild(createMessageElement(currentLang === 'ar' ? "من فضلك تأكد من إدخال مفتاح API صحيح في الكود." : "Please ensure you have entered a valid API key in the code.", false));
+             input.value = '';
+             resultsDiv.scrollTop = resultsDiv.scrollHeight;
+             return;
+        }
+
 
         // Display user message
         resultsDiv.appendChild(createMessageElement(userQuery, true));
@@ -1208,6 +1219,8 @@ body.dark-mode .modal-box p { color: #bbb; }
 
         } catch (error) {
             console.error("Gemini API Error:", error);
+            // طباعة تفاصيل الخطأ للمطورين في الكونسول
+            console.log("Detailed Error Message:", error.message);
             const errorMessage = translations[currentLang].ai_error;
             resultsDiv.appendChild(createMessageElement(errorMessage, false));
 
@@ -1249,7 +1262,12 @@ body.dark-mode .modal-box p { color: #bbb; }
             if (text) {
                 return text;
             } else {
-                throw new Error("Invalid response structure or no text generated from API.");
+                // If API returns success but no text (e.g., blocked content)
+                const finishReason = result.candidates?.[0]?.finishReason || 'UNKNOWN';
+                if(finishReason === 'SAFETY') {
+                    return currentLang === 'ar' ? "أنا آسف، لا أستطيع الإجابة على هذا السؤال لأنه يتعارض مع إرشادات الأمان." : "I apologize, I cannot answer that question as it violates safety guidelines.";
+                }
+                throw new Error("Invalid response structure or no text generated from API. Reason: " + finishReason);
             }
 
         } catch (error) {
@@ -1351,6 +1369,7 @@ body.dark-mode .modal-box p { color: #bbb; }
         }
 
         try {
+            // استخدام رابط Formspree الخاص بك
             const response = await fetch("https://formspree.io/f/xvgelvjp", {
                 method: "POST",
                 body: formData,
@@ -1359,16 +1378,20 @@ body.dark-mode .modal-box p { color: #bbb; }
 
             if (response.ok) {
                 form.reset();
+                // إعادة تصفير العناصر المرئية بعد إرسال الحجز
                 if(type === 'booking') {
                     updateVisuals(); 
                     calculateTotal();
                 }
                 showModal(type);
             } else {
-                alert(currentLang === 'ar' ? "حدث خطأ أثناء الإرسال." : "Error sending form.");
+                // محاولة استخراج رسالة خطأ من Formspree
+                const errorData = await response.json();
+                const errorMessage = errorData.error || (currentLang === 'ar' ? "حدث خطأ أثناء الإرسال." : "Error sending form.");
+                alert(errorMessage);
             }
         } catch (error) {
-            alert(currentLang === 'ar' ? "فشل الاتصال بالخادم." : "Connection error.");
+            alert(currentLang === 'ar' ? "فشل الاتصال بالخادم. تحقق من اتصالك بالإنترنت." : "Connection error. Check your internet connection.");
         } finally {
             btn.disabled = false;
             btn.innerText = originalText;
