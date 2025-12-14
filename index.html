@@ -5,19 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SAMY&AHMED | تقييم العملاء & الحجز</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+
+/* ==========================================================
+   STYLE: ORIGINAL BRIGHT / GOLD ACCENT (WITH REFINEMENTS)
+   ========================================================== */
 
 body {
     margin: 0;
     font-family: 'Cairo', sans-serif;
-    background: #f9f9f9;
+    /* خلفية فاتحة */
+    background: #f9f9f9; 
     color: #333;
 }
 
 .container {
     max-width: 600px;
     margin: 50px auto;
-    background: #fff;
+    /* خلفية العنصر الأساسي */
+    background: #fff; 
     border-radius: 20px;
     padding: 30px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
@@ -42,27 +48,36 @@ body {
 h3 {
     font-size: 18px;
     margin-bottom: 10px;
-    color: #c9a24d;
+    color: #c9a24d; /* لون ذهبي */
+    border-bottom: none; /* إزالة الخط الفاصل */
+    padding-bottom: 0;
 }
 
 .section {
     margin-bottom: 20px;
 }
 
+/* تنسيق خيارات الاختيار (Radio/Checkbox) */
 .options label {
-    display: flex; /* لترتيب العناصر على سطر واحد */
-    justify-content: space-between; /* توزيع السعر والنص */
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
     cursor: pointer;
     padding: 8px 12px;
     border-radius: 12px;
-    background: #f5f5f5;
+    background: #f5f5f5; /* لون خلفية فاتح للخيار */
     transition: 0.2s;
+    border: 1px solid transparent;
 }
 
 .options label:hover {
-    background: #fff3d6;
+    background: #fff3d6; /* لون بيج فاتح عند المرور */
+}
+
+/* تمييز الخيار المختار */
+.options label:has(input:checked) {
+    border-color: #c9a24d; /* إطار ذهبي عند الاختيار */
 }
 
 .options label input[type="checkbox"],
@@ -72,7 +87,8 @@ h3 {
 }
 
 .service-name {
-    flex-grow: 1; /* للسماح لاسم الخدمة بأخذ المساحة المتبقية */
+    flex-grow: 1;
+    color: #333;
 }
 
 .service-price {
@@ -81,10 +97,13 @@ h3 {
     font-size: 15px;
 }
 
+/* لون accent لخانات الاختيار */
 input[type="radio"], input[type="checkbox"] {
     accent-color: #c9a24d;
+    transform: scale(1.0); /* العودة للحجم الطبيعي */
 }
 
+/* تنسيق حقول الإدخال */
 input[type="text"], input[type="tel"], input[type="date"], input[type="time"], input[type="datetime-local"], input[type="number"], textarea, select {
     width: 100%;
     padding: 12px;
@@ -92,9 +111,14 @@ input[type="text"], input[type="tel"], input[type="date"], input[type="time"], i
     border: 1px solid #ddd;
     outline: none;
     background: #fafafa;
+    color: #333;
     margin-top: 8px;
     margin-bottom: 8px;
 }
+input[type="text"]::placeholder, input[type="tel"]::placeholder, textarea::placeholder {
+    color: #999;
+}
+
 
 /* تنسيق حقل الإجمالي للقراءة فقط */
 input[readonly] {
@@ -102,6 +126,7 @@ input[readonly] {
     font-weight: bold;
     color: #000;
     border: 1px solid #c9a24d;
+    font-size: 16px;
 }
 
 textarea {
@@ -109,7 +134,7 @@ textarea {
     height: 90px;
 }
 
-/* 🎨 تنسيق القائمة المنسدلة (select) */
+/* تنسيق القائمة المنسدلة (select) */
 select {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -131,6 +156,7 @@ select {
     cursor: pointer;
 }
 
+/* تنسيق الأزرار الرئيسية */
 button {
     width: 100%;
     padding: 16px;
@@ -142,12 +168,44 @@ button {
     font-weight: bold;
     cursor: pointer;
     transition: 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 button:hover {
     background: #e0b85e;
 }
 
+/* زر العودة/الحجز في الفوتر */
+.footer button {
+    background: #c9a24d !important;
+    color: #000 !important;
+    border: none;
+}
+
+/* 🔄 تصميم الباقات المجمعة (معدل لتخفيف المربع) */
+.packages-section {
+    border: 1px solid #c9a24d; 
+    padding: 15px;
+    border-radius: 12px;
+    background: #fcfcfc; /* خلفية بيضاء خفيفة */
+    margin-bottom: 25px;
+}
+.packages-section h3 {
+    color: #c9a24d;
+    text-align: right;
+    border-bottom: 1px solid #eee; 
+    padding-bottom: 10px;
+}
+.package-item {
+    background: #fff3d6; /* لون بيج فاتح لعناصر الباقة */
+    border-color: #f0e0c0; /* حد رقيق */
+}
+.package-item:hover {
+    background: #ffecb3;
+}
+
+
+/* أيقونات السوشيال */
 .social-icons {
     display: flex;
     justify-content: center;
@@ -176,6 +234,16 @@ button:hover {
     font-size: 13px;
     color: #aaa;
     margin-top: 18px;
+}
+
+/* تصميم حقوق المصمم */
+.designer-credit {
+    text-align: center;
+    font-size: 11px;
+    color: #aaa; 
+    margin-top: 10px;
+    padding-top: 5px;
+    border-top: 1px solid #eee;
 }
 </style>
 </head>
@@ -233,11 +301,11 @@ button:hover {
         </div>
         
         <div class="section">
-            <h3>تقييم جودة المنتجات</h3>
+            <h3>تقييم الجو العام للمكان</h3>
             <div class="options">
-                <label><input type="radio" name="جودة المنتجات" value="ممتازة" required> <span class="service-name">ممتازة</span></label>
-                <label><input type="radio" name="جودة المنتجات" value="جيدة"> <span class="service-name">جيدة</span></label>
-                <label><input type="radio" name="جودة المنتجات" value="متوسطة"> <span class="service-name">متوسطة</span></label>
+                <label><input type="radio" name="الجو العام" value="ممتاز (مريح وهادئ)" required> <span class="service-name">ممتاز (مريح وهادئ)</span></label>
+                <label><input type="radio" name="الجو العام" value="جيد (مقبول)"> <span class="service-name">جيد (مقبول)</span></label>
+                <label><input type="radio" name="الجو العام" value="متوسط (صاخب ومزعج)"> <span class="service-name">متوسط (صاخب ومزعج)</span></label>
             </div>
         </div>
         
@@ -267,7 +335,7 @@ button:hover {
             <textarea name="ملاحظات" placeholder="اكتب اقتراحاتك هنا... (مثل: كنت أتمنى توفير مشروب ساخن)"></textarea>
 
             <div style="margin-top: 10px;">
-                <label style="display:flex; align-items:center; cursor:pointer; font-size: 14px; color: #888; padding: 0; background: none;">
+                <label style="display:flex; align-items:center; cursor:pointer; font-size: 14px; color: #888; padding: 0; background: none; border: none;">
                     <input type="checkbox" name="إخفاء البيانات" value="نعم" style="width: auto; margin-left: 10px; accent-color: #c9a24d;">
                     أفضل عدم عرض اسمي ورقم هاتفي مع التقييم.
                 </label>
@@ -276,12 +344,18 @@ button:hover {
         
         <button type="submit">إرسال التقييم</button>
 
-        <div style="height:40px;"></div>
-
-        <button onclick="showBooking()" type="button">احجز معادك الآن</button>
+        <div style="height:20px;"></div>
+        
+        <button onclick="showBooking()" type="button" class="footer-button">احجز معادك الآن</button>
     </form>
 
     <div class="social-icons">
+        <a href="tel:+201022172940" class="social-btn" style="background:#009e49;" aria-label="Call">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1v3.5c0 .55-.45 1-1 1C10.74 21 3 13.26 3 4.5c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.24 1.02l-2.2 2.2z" fill="white"/>
+            </svg>
+        </a>
+        
         <a href="https://wa.me/201022172940" target="_blank" class="social-btn" style="background:#25D366;" aria-label="WhatsApp">
             <svg width="22" height="22" viewBox="0 0 32 32" fill="white">
                 <path d="M16 2C8.3 2 2 8.1 2 15.6c0 2.7.8 5.3 2.3 7.5L2 30l7.1-2.2c2.1 1.1 4.4 1.7 6.9 1.7 7.7 0 14-6.1 14-13.6C30 8.1 23.7 2 16 2z"/>
@@ -300,6 +374,7 @@ button:hover {
     </div>
 
     <div class="footer">شكرًا لثقتك – نراك قريبًا 🤍</div>
+    <div class="designer-credit">تصميم وتطوير بواسطة Mustafa zuhair</div>
 </div>
 
 <div id="booking-page" class="container" style="display:none;">
@@ -320,26 +395,37 @@ button:hover {
         <label for="full-date-time" style="font-size: 14px; color: #666; display: block; margin-top: 15px;">تاريخ ووقت الحجز:</label>
         <input type="datetime-local" id="full-date-time" name="موعد الحجز الكامل" required>
         
+        <div class="section packages-section">
+            <h3>الباقات المجمعة</h3>
+            <div class="options" id="package-options">
+                <label class="package-item"><input type="checkbox" name="الخدمات_المجمعة" value="شعر ودقن" data-price="200"> <span class="service-name">قص شعر + قص دقن</span> <span class="service-price">200 ج.م</span></label>
+                <label class="package-item"><input type="checkbox" name="الخدمات_المجمعة" value="شعر واستشوار/كيرلي" data-price="200"> <span class="service-name">قص شعر + استشوار أو كيرلي</span> <span class="service-price">200 ج.م</span></label>
+                <label class="package-item"><input type="checkbox" name="الخدمات_المجمعة" value="شعر ودقن واستشوار" data-price="250"> <span class="service-name">قص شعر + قص دقن + استشوار</span> <span class="service-price">250 ج.م</span></label>
+                <label class="package-item"><input type="checkbox" name="الخدمات_المجمعة" value="دقن واستشوار/كيرلي" data-price="180"> <span class="service-name">قص دقن + استشوار أو كيرلي</span> <span class="service-price">180 ج.م</span></label>
+                <label class="package-item"><input type="checkbox" name="الخدمات_المجمعة" value="صبغة/حنا شعر ودقن" data-price="190"> <span class="service-name">صبغة/حنا شعر + صبغة دقن</span> <span class="service-price">190 ج.م</span></label>
+            </div>
+        </div>
+
         <div class="section">
-            <h3>الخدمة المطلوبة (يمكن اختيار أكثر من خدمة)</h3>
-            <div class="options">
-                <label><input type="checkbox" name="الخدمات" value="قص شعر" data-price="150"> <span class="service-name">قص شعر</span> <span class="service-price">150 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات" value="قص شعر للاطفال" data-price="100"> <span class="service-name">قص شعر للاطفال</span> <span class="service-price">100 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات" value="قص الدقن" data-price="100"> <span class="service-name">قص الدقن</span> <span class="service-price">100 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات" value="استشوار او كيرلي او ويڤي" data-price="80"> <span class="service-name">استشوار أو كيرلي أو ويڤي</span> <span class="service-price">80 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات" value="صبغة شعر" data-price="120"> <span class="service-name">صبغة شعر</span> <span class="service-price">120 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات" value="صبغة دقن" data-price="70"> <span class="service-name">صبغة دقن</span> <span class="service-price">70 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات" value="توبيك" data-price="80"> <span class="service-name">توبيك لفراغات الشعر</span> <span class="service-price">80 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات" value="حمام زيت" data-price="150"> <span class="service-name">حمام زيت</span> <span class="service-price">150 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات" value="حمام كريم" data-price="70"> <span class="service-name">حمام كريم</span> <span class="service-price">70 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات" value="جلسة إزالة قشرة" data-price="130"> <span class="service-name">جلسة إزالة قشرة</span> <span class="service-price">130 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات" value="جلسة شمع" data-price="100"> <span class="service-name">جلسة شمع</span> <span class="service-price">100 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات" value="فتلة" data-price="50"> <span class="service-name">فتلة</span> <span class="service-price">50 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات" value="ماسك" data-price="70"> <span class="service-name">ماسك</span> <span class="service-price">70 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات" value="تنظيف بشرة" data-price="300"> <span class="service-name">تنظيف بشرة</span> <span class="service-price">300 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات" value="تنظيف بشرة هيدرافيشيل" data-price="500"> <span class="service-name">تنظيف بشرة هيدرافيشيل</span> <span class="service-price">500 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات" value="معالج Xtenso" data-price="500"> <span class="service-name">معالج Xtenso</span> <span class="service-price">500 ج.م</span></label>
-                <label><input type="checkbox" name="الخدمات" value="بروتين" data-price="0"> <span class="service-name">بروتين</span> <span class="service-price">50 ج.م/جم (حسب الاستخدام)</span></label>
+            <h3>الخدمات الفردية الإضافية</h3>
+            <div class="options" id="individual-options">
+                <label><input type="checkbox" name="الخدمات_الفردية" value="قص شعر" data-price="150"> <span class="service-name">قص شعر</span> <span class="service-price">150 ج.م</span></label>
+                <label><input type="checkbox" name="الخدمات_الفردية" value="قص شعر للاطفال" data-price="100"> <span class="service-name">قص شعر للاطفال</span> <span class="service-price">100 ج.م</span></label>
+                <label><input type="checkbox" name="الخدمات_الفردية" value="قص الدقن" data-price="100"> <span class="service-name">قص الدقن</span> <span class="service-price">100 ج.م</span></label>
+                <label><input type="checkbox" name="الخدمات_الفردية" value="استشوار او كيرلي او ويڤي" data-price="80"> <span class="service-name">استشوار أو كيرلي أو ويڤي</span> <span class="service-price">80 ج.م</span></label>
+                <label><input type="checkbox" name="الخدمات_الفردية" value="صبغة شعر" data-price="120"> <span class="service-name">صبغة شعر</span> <span class="service-price">120 ج.م</span></label>
+                <label><input type="checkbox" name="الخدمات_الفردية" value="صبغة دقن" data-price="70"> <span class="service-name">صبغة دقن</span> <span class="service-price">70 ج.م</span></label>
+                <label><input type="checkbox" name="الخدمات_الفردية" value="توبيك" data-price="80"> <span class="service-name">توبيك لفراغات الشعر</span> <span class="service-price">80 ج.م</span></label>
+                <label><input type="checkbox" name="الخدمات_الفردية" value="حمام زيت" data-price="150"> <span class="service-name">حمام زيت</span> <span class="service-price">150 ج.م</span></label>
+                <label><input type="checkbox" name="الخدمات_الفردية" value="حمام كريم" data-price="70"> <span class="service-name">حمام كريم</span> <span class="service-price">70 ج.م</span></label>
+                <label><input type="checkbox" name="الخدمات_الفردية" value="جلسة إزالة قشرة" data-price="130"> <span class="service-name">جلسة إزالة قشرة</span> <span class="service-price">130 ج.م</span></label>
+                <label><input type="checkbox" name="الخدمات_الفردية" value="جلسة شمع" data-price="100"> <span class="service-name">جلسة شمع</span> <span class="service-price">100 ج.م</span></label>
+                <label><input type="checkbox" name="الخدمات_الفردية" value="فتلة" data-price="50"> <span class="service-name">فتلة</span> <span class="service-price">50 ج.م</span></label>
+                <label><input type="checkbox" name="الخدمات_الفردية" value="ماسك" data-price="70"> <span class="service-name">ماسك</span> <span class="service-price">70 ج.م</span></label>
+                <label><input type="checkbox" name="الخدمات_الفردية" value="تنظيف بشرة" data-price="300"> <span class="service-name">تنظيف بشرة</span> <span class="service-price">300 ج.م</span></label>
+                <label><input type="checkbox" name="الخدمات_الفردية" value="تنظيف بشرة هيدرافيشيل" data-price="500"> <span class="service-name">تنظيف بشرة هيدرافيشيل</span> <span class="service-price">500 ج.م</span></label>
+                <label><input type="checkbox" name="الخدمات_الفردية" value="معالج Xtenso" data-price="500"> <span class="service-name">معالج Xtenso</span> <span class="service-price">500 ج.م</span></label>
+                <label><input type="checkbox" name="الخدمات_الفردية" value="بروتين" data-price="0"> <span class="service-name">بروتين</span> <span class="service-price">50 ج.م/جم (حسب الاستخدام)</span></label>
             </div>
         </div>
         
@@ -355,9 +441,15 @@ button:hover {
     </form>
 
     <div class="footer">
-        <button onclick="showRating()" style="background:#c9a24d; color:#000; margin-top:20px;" type="button">⏪ ارجع لتقييم الخدمة</button>
+        <button onclick="showRating()" type="button">⏪ ارجع لتقييم الخدمة</button>
 
         <div class="social-icons" style="margin-top:15px;">
+            <a href="tel:+201022172940" class="social-btn" style="background:#009e49;" aria-label="Call">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1v3.5c0 .55-.45 1-1 1C10.74 21 3 13.26 3 4.5c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.24 1.02l-2.2 2.2z" fill="white"/>
+                </svg>
+            </a>
+
             <a href="https://wa.me/201022172940" target="_blank" class="social-btn" style="background:#25D366;" aria-label="WhatsApp">
                 <svg width="22" height="22" viewBox="0 0 32 32" fill="white">
                     <path d="M16 2C8.3 2 2 8.1 2 15.6c0 2.7.8 5.3 2.3 7.5L2 30l7.1-2.2c2.1 1.1 4.4 1.7 6.9 1.7 7.7 0 14-6.1 14-13.6C30 8.1 23.7 2 16 2z"/>
@@ -371,14 +463,19 @@ button:hover {
             <a href="https://www.instagram.com/samyandahmed?igsh=MnBibmg4cHd0YzNm" target="_blank" class="social-btn" style="background:#C13584;" aria-label="Instagram">
                 <svg width="22" height="22" viewBox="0 0 32 32" fill="white">
                     <path d="M16 2.9c4.3 0 4.8 0 6.5.1 1.6.1 2.5.3 3 .5.7.3 1.2.6 1.7 1.1.5.5.8 1 1.1 1.7.2.5.4 1.4.5 3 .1 1.7.1 2.2.1 6.5s0 4.8-.1 6.5c-.1 1.6-.3 2.5-.5 3-.3.7-.6 1.2-1.1 1.7-.5.5-1 .8-1.7 1.1-.5.2-1.4.4-3 .5-1.7.1-2.2.1-6.5.1s-4.8 0-6.5-.1c-1.6-.1-2.5-.3-3-.5-.7-.3-1.2-.6-1.7-1.1-.5-.5-.8-1-1.1-1.7-.2-.5-.4-1.4-.5-3C2.9 20.8 2.9 20.3 2.9 16s0-4.8.2-6.5c.1-1.8.4-3.2.7-4.3.4-1.3 1-2.4 2.1-3.5 1.1-1.1 2.2-1.7 3.5-2.1 1.1-.3 2.5-.6 4.3-.7 1.7-.1 2.2-.1 6.5-.1z"/>
-            </svg>
-        </a>
-    </div>
+                </svg>
+            </a>
+        </div>
 
     <div class="footer">شكرًا لثقتك – نراك قريبًا 🤍</div>
+    <div class="designer-credit">تصميم وتطوير بواسطة Mustafa zuhair</div>
 </div>
 
 <script>
+// ==========================================================
+// JAVASCRIPT: VIEW SWITCHING
+// ==========================================================
+
 function showBooking(){
     document.getElementById('rating-page').style.display = 'none';
     document.getElementById('booking-page').style.display = 'block';
@@ -392,16 +489,48 @@ function showRating(){
 }
 
 // ==========================================================
+// JAVASCRIPT: DATE MINIMUM (LOCK OLD DATE)
+// ==========================================================
+
+function setMinDateTime() {
+    const now = new Date();
+    // الحصول على التاريخ والوقت الحالي وتنسيقه ليناسب حقل datetime-local (YYYY-MM-DDTHH:MM)
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    
+    const currentDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+    
+    // تطبيق الحد الأدنى على حقل التاريخ والوقت
+    const dateTimeField = document.getElementById('full-date-time');
+    if (dateTimeField) {
+        dateTimeField.setAttribute('min', currentDateTime);
+    }
+}
+
+// ==========================================================
 // JAVASCRIPT: CALCULATE TOTAL PRICE 
 // ==========================================================
 
 function calculateTotal() {
     let total = 0;
     
-    // 1. حساب قيمة الخدمات العادية (Checkboxes)
-    const serviceCheckboxes = document.querySelectorAll('#booking-page input[name="الخدمات"]');
-    serviceCheckboxes.forEach(checkbox => {
-        // يتم حساب السعر فقط للخدمات التي لا تساوي 'بروتين' أو التي لها قيمة سعر > 0
+    // 1. حساب سعر الباقات المجمعة (Checkboxes)
+    const packageCheckboxes = document.querySelectorAll('#package-options input[name="الخدمات_المجمعة"]');
+    packageCheckboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            const price = parseFloat(checkbox.getAttribute('data-price'));
+            if (!isNaN(price) && price > 0) {
+                total += price;
+            }
+        }
+    });
+
+    // 2. حساب سعر الخدمات الفردية (Checkboxes)
+    const individualCheckboxes = document.querySelectorAll('#individual-options input[name="الخدمات_الفردية"]');
+    individualCheckboxes.forEach(checkbox => {
         if (checkbox.checked) {
             const price = parseFloat(checkbox.getAttribute('data-price'));
             if (!isNaN(price) && price > 0) {
@@ -410,7 +539,7 @@ function calculateTotal() {
         }
     });
     
-    // 2. عرض الإجمالي
+    // 3. عرض الإجمالي
     const totalFieldDisplay = document.getElementById('total-price');
     const totalFieldValue = document.getElementById('total-value');
     
@@ -420,13 +549,26 @@ function calculateTotal() {
     }
 }
 
-// إضافة مُستمع للحدث (Event Listener) لحساب الإجمالي عند تغيير أي شيء في قائمة الخدمات
+// ==========================================================
+// JAVASCRIPT: EVENT LISTENERS
+// ==========================================================
+
+// إضافة مُستمع للحدث (Event Listener) لحساب الإجمالي وتطبيق قفل التاريخ عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', () => {
+    // تطبيق دالة قفل التاريخ
+    setMinDateTime();
+
     const bookingPage = document.getElementById('booking-page');
     if (bookingPage) {
-        // المستمعين على الخدمات العادية
-        const serviceCheckboxes = bookingPage.querySelectorAll('input[name="الخدمات"]');
-        serviceCheckboxes.forEach(checkbox => {
+        // المستمعين على الباقات المجمعة (Checkboxes)
+        const packageCheckboxes = bookingPage.querySelectorAll('#package-options input[name="الخدمات_المجمعة"]');
+        packageCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', calculateTotal);
+        });
+
+        // المستمعين على الخدمات الفردية (Checkboxes)
+        const individualCheckboxes = bookingPage.querySelectorAll('#individual-options input[name="الخدمات_الفردية"]');
+        individualCheckboxes.forEach(checkbox => {
             checkbox.addEventListener('change', calculateTotal);
         });
         
