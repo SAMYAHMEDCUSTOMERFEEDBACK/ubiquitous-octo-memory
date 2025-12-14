@@ -21,6 +21,12 @@
     --text-dark: #ffffff;
     --border-light: #e0d8c3;
     --border-dark: #222222;
+    
+    /* NEW VARS FOR SCROLL EFFECT */
+    --navbar-height: 55px;
+    --banner-height: 200px;
+    --banner-padding: 5px;
+    --total-offset: calc(var(--banner-height) + 2 * var(--banner-padding)); /* 210px */
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -32,10 +38,16 @@ body {
     background: var(--bg-light); 
     color: var(--text-light);
     overflow-x: hidden;
-    /* تم إرجاع المسافة العلوية إلى الوضع الأصلي */
-    padding-top: 65px;
+    /* القيمة المبدئية للـ padding-top هي مجموع الـ Navbar و الـ Banner */
+    padding-top: calc(var(--navbar-height) + var(--total-offset) + 10px); /* 275px */
     font-size: 14px;
-    transition: background 0.3s, color 0.3s;
+    /* transition: تم تعديل سرعة السلاسة لتتوافق مع القائمة */
+    transition: padding-top 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s, color 0.3s;
+}
+
+/* NEW: عند التمرير، يتم تقليل الـ padding-top */
+body.scrolled {
+    padding-top: calc(var(--navbar-height) + 10px); /* 65px */
 }
 
 /* تنسيق خاص عند التحويل للإنجليزي */
@@ -56,7 +68,7 @@ body.no-scroll { overflow: hidden; }
 .navbar {
     position: fixed;
     top: 0; left: 0; right: 0;
-    height: 55px;
+    height: var(--navbar-height);
     background: rgba(255, 255, 255, 0.98);
     display: flex;
     align-items: center;
@@ -72,6 +84,7 @@ body.dark-mode .navbar {
     border-bottom: 1px solid #222;
 }
 
+/* تم تعديل هذا العنصر ليكون رابط (<a>) */
 .nav-logo {
     font-size: 18px;
     font-weight: 900;
@@ -82,8 +95,13 @@ body.dark-mode .navbar {
     transform: translateX(-50%);
     white-space: nowrap;
     z-index: 1;
+    text-decoration: none; /* إزالة خط الرابط */
+    transition: color 0.2s;
 }
 body.dark-mode .nav-logo { color: #fff; }
+.nav-logo:hover {
+    color: var(--primary-gold);
+}
 
 .nav-controls {
     display: flex;
@@ -112,11 +130,54 @@ body.dark-mode .menu-toggle-btn { border-color: #fff; color: #fff; }
 .theme-toggle-btn, .lang-toggle-btn { display: none; }
 
 /* ==========================================================
+   HERO IMAGE (صورة البانر) - CSS DRIVEN
+   ========================================================== */
+.hero-image-container {
+    position: fixed; 
+    top: var(--navbar-height); 
+    left: 0; right: 0;
+    z-index: 999;
+    
+    padding: var(--banner-padding) 10px; 
+    box-sizing: border-box; 
+    background: var(--bg-light); 
+    
+    height: var(--total-offset); 
+    opacity: 1; 
+    
+    /* NEW: استخدام transform للحركة السلسة */
+    transform: translateY(0);
+    /* NEW: تزامن الحركة مع القائمة الجانبية */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+body.dark-mode .hero-image-container {
+    background: var(--bg-dark);
+}
+
+/* NEW: حالة السكرول - الصورة تنزلق وتختفي */
+body.scrolled .hero-image-container {
+    transform: translateY(calc(-1 * var(--total-offset))); /* -210px */
+    opacity: 0;
+}
+
+.hero-image {
+    width: 100%;
+    height: var(--banner-height); 
+    object-fit: cover; 
+    object-position: center; 
+    display: block;
+    
+    border-radius: 12px; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15); 
+}
+
+
+/* ==========================================================
    CONTAINER
    ========================================================== */
 .container {
     max-width: 600px;
-    margin: 10px auto;
+    margin: 10px auto; 
     background: var(--card-light);
     border-radius: 16px;
     padding: 20px 15px;
@@ -386,6 +447,7 @@ button[type="submit"]:active { transform: scale(0.98); }
 .social-btn:hover svg path { fill: #fff; }
 
 .footer { text-align: center; font-size: 12px; color: #999; margin-bottom: 5px; }
+/* NEW: اسم المطور الجديد */
 .designer-credit { text-align: center; font-size: 10px; color: #ccc; padding-top: 10px; border-top: 1px solid #eee; margin-top: 10px; }
 body.dark-mode .designer-credit { border-color: #222; color: #555; }
 
@@ -398,7 +460,6 @@ body.dark-mode .designer-credit { border-color: #222; color: #555; }
     padding: 15px;
     margin-bottom: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    background: #fcfcfc;
     border-inline-start: 4px solid var(--primary-gold);
     transition: transform 0.2s;
 }
@@ -533,8 +594,19 @@ body.dark-mode .modal-box p { color: #bbb; }
     <div class="nav-controls">
         <button class="menu-toggle-btn" onclick="toggleMenu()">☰</button>
     </div>
-    <div class="nav-logo">Samy&Ahmed</div>
+    <!-- تم تحويل اللوجو إلى رابط يوجه لصفحة الحجز (booking) -->
+    <a href="javascript:void(0)" onclick="switchPage('booking')" class="nav-logo">Samy&Ahmed</a>
 </nav>
+
+<!-- >>>>>> START: User Image Section - تم وضعها تحت الشريط مباشرة <<<<<< -->
+<div class="hero-image-container" id="heroBanner">
+    <img 
+        src='https://i.postimg.cc/ZYGZXJ2J/626a5ef1-d026-452e-ad1b-9d7be9c8cdf9-317639046-483546660592342-5284860955526611779-n.jpg' 
+        alt='صورة غلاف صالون Samy & Ahmed' 
+        class="hero-image"
+    >
+</div>
+<!-- >>>>>> END: User Image Section <<<<<< -->
 
 
 <div class="side-menu-overlay" id="overlay" onclick="toggleMenu()"></div>
@@ -577,7 +649,7 @@ body.dark-mode .modal-box p { color: #bbb; }
         <div class="menu-controls-bottom">
              <button class="control-btn" onclick="toggleLanguage()" id="langBtn">EN</button>
              <button class="control-btn" onclick="toggleTheme()" id="themeBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 0 1 0-18c1.64 0 3.03.62 4.12 1.71a6 6 0 0 0 0 8.58 9 9 0 0 1-4.12 1.71z"/><path d="M17.84 6.27a10 10 0 1 1-11.66 11.66"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
              </button>
         </div>
         
@@ -663,13 +735,13 @@ body.dark-mode .modal-box p { color: #bbb; }
         <a href="https://www.facebook.com/share/1BXRsi6j5r/" target="_blank" class="social-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
         </a>
-        <a href="https://www.instagram.com/samyandahmed?igsh=MnBibmg4cHd0YzNm" target="_blank" class="social-btn">
+        <a href="https://www.instagram.com/samyandahmed" target="_blank" class="social-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
         </a>
     </div>
 
     <div class="footer" data-i18n="footer_thanks">شكرًا لثقتك – نراك قريبًا 🤍</div>
-    <div class="designer-credit">تصميم وتطوير بواسطة Mustafa Zuhair</div>
+    <div class="designer-credit" data-i18n="designer_credit_text">تصميم وتطوير بواسطة Mustafa Zuhair</div>
 </div>
 
 <div id="booking-page" class="container" style="display:none;">
@@ -718,7 +790,7 @@ body.dark-mode .modal-box p { color: #bbb; }
             <label><input type="checkbox" name="services" value="معالج Xtenso" data-price="500" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_xtenso">معالج Xtenso</span> <span class="service-price" data-i18n="price_500">500 ج.م</span></label>
             <label><input type="checkbox" name="services" value="بروتين" data-price="0" onchange="triggerCalculation(this)"> <span class="service-name" data-i18n="srv_protein">بروتين (حسب الاستخدام)</span> <span class="service-price" data-i18n="price_protein">50 ج.م/جم</span></label>
         </div>
-        
+
         <h3 data-i18n="sec_total">الإجمالي التقريبي</h3>
         <input type="text" id="total-price" value="0.00 جنيه مصري" readonly>
         <textarea name="ملاحظات" placeholder="ملاحظات إضافية (مثل: لدي حساسية من منتج معين)" data-i18n-placeholder="ph_extra_notes"></textarea>
@@ -736,13 +808,13 @@ body.dark-mode .modal-box p { color: #bbb; }
         <a href="https://www.facebook.com/share/1BXRsi6j5r/" target="_blank" class="social-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
         </a>
-        <a href="https://www.instagram.com/samyandahmed?igsh=MnBibmg4cHd0YzNm" target="_blank" class="social-btn">
+        <a href="https://www.instagram.com/samyandahmed" target="_blank" class="social-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
         </a>
     </div>
 
     <div class="footer" data-i18n="footer_thanks">شكرًا لثقتك – نراك قريبًا 🤍</div>
-    <div class="designer-credit">تصميم وتطوير بواسطة Mustafa Zuhair</div>
+    <div class="designer-credit" data-i18n="designer_credit_text">تصميم وتطوير بواسطة Mustafa Zuhair</div>
 </div>
 
 <div id="ai-page" class="container" style="display:none;">
@@ -781,7 +853,7 @@ body.dark-mode .modal-box p { color: #bbb; }
 
         <div class="notification-card" data-i18n="offer_package">
             <h4><span data-i18n="offer_package_h">توفير الباقة المزدوجة</span></h4>
-            <p><span data-i18n="offer_package_p">احجز باقة "شعر ودقن" واحصل على حمام كريم مجاني. العرض ساري حتى نهاية الأسبوع القادم.</span></p>
+            <p><span data-i18n="offer_package_p">احجز باقة 'شعر ودقن' واحصل على حمام كريم مجاني. العرض ساري حتى نهاية الأسبوع القادم.</span></p>
         </div>
 
          <div class="notification-card" data-i18n="offer_branch_moria">
@@ -835,7 +907,7 @@ body.dark-mode .modal-box p { color: #bbb; }
             menu_call: "اتصال مباشر",
             menu_whatsapp: "واتساب",
             menu_gallery: "معرض الصور",
-            menu_ai: "مساعدك الشخصي (قريباً)", // تم التعديل
+            menu_ai: "مساعدك الشخصي (قريباً)", 
             rating_subtitle: "نقدّر رأيك… تقييمك يهمّنا",
             notifications_subtitle: "أحدث العروض والخصومات",
             select_branch: "--- اختر الفرع ---",
@@ -875,8 +947,6 @@ body.dark-mode .modal-box p { color: #bbb; }
             ai_greeting: "أهلاً بك! أنا مساعدك الشخصي من صالون سامي وأحمد. كيف يمكنني أساعدك في اختيار اللوك المناسب لشعرك أو دقنك النهارده؟",
             ai_placeholder: "اكتب سؤالك هنا...",
             ai_btn_send: "إرسال",
-            ai_loading: "جاري تحليل طلبك...",
-            ai_error: "حصلت مشكلة في الاتصال. تأكد من الإنترنت وحاول تاني.", 
             modal_success: "تم بنجاح!",
             modal_thanks: "شكراً لك.",
             modal_close: "إغلاق",
@@ -885,6 +955,7 @@ body.dark-mode .modal-box p { color: #bbb; }
             modal_booking_title: "تم استلام الحجز",
             modal_booking_msg: "سنتواصل معك قريباً لتأكيد الموعد.",
             currency: "ج.م",
+            designer_credit_text: "تصميم وتطوير بواسطة Mustafa Zuhair", /* FINAL UPDATE */
             
             // Notification Messages
             offer_summer_h: "عرض الصيف الذهبي!",
@@ -944,7 +1015,7 @@ body.dark-mode .modal-box p { color: #bbb; }
             menu_call: "Call Now",
             menu_whatsapp: "WhatsApp",
             menu_gallery: "Gallery",
-            menu_ai: "AI Assistant (Soon)", // تم التعديل
+            menu_ai: "AI Assistant (Soon)", 
             rating_subtitle: "Your opinion matters...",
             notifications_subtitle: "Latest Offers and Discounts",
             select_branch: "--- Select Branch ---",
@@ -984,8 +1055,6 @@ body.dark-mode .modal-box p { color: #bbb; }
             ai_greeting: "Welcome! I'm your personal assistant from Samy & Ahmed Salon. How can I help you choose your perfect haircut or beard style today?",
             ai_placeholder: "Type your question here...",
             ai_btn_send: "Send",
-            ai_loading: "Analyzing your request...",
-            ai_error: "Connection error. Please try again.",
             modal_success: "Success!",
             modal_thanks: "Thank you.",
             modal_close: "Close",
@@ -994,8 +1063,9 @@ body.dark-mode .modal-box p { color: #bbb; }
             modal_booking_title: "Booking Received",
             modal_booking_msg: "We will contact you shortly to confirm.",
             currency: "EGP",
-            
-             // Notification Messages
+            designer_credit_text: "Design & Development by Mustafa Zuhair", /* FINAL UPDATE */
+
+            // Notification Messages
             offer_summer_h: "Golden Summer Offer!",
             offer_summer_p: "20% off facial and hydrafacial services throughout August. Don't miss the chance for glowing skin.",
             offer_package_h: "Double Package Savings",
@@ -1079,6 +1149,9 @@ body.dark-mode .modal-box p { color: #bbb; }
         // تشغيل الحساب مرة عند التحميل
         calculateTotal();
         updateVisuals();
+        
+        // NEW: تشغيل دالة التمرير عند التحميل
+        handleScrollEffect();
     });
 
     // ==========================================
@@ -1132,6 +1205,12 @@ body.dark-mode .modal-box p { color: #bbb; }
         const aiResults = document.getElementById('ai-results');
         if (aiResults) {
              aiResults.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        }
+
+        // تحديث نص اسم المطور
+        const designerCredit = document.querySelector('.designer-credit');
+        if (designerCredit) {
+            designerCredit.innerText = translations[lang]['designer_credit_text'];
         }
 
         // Re-calculate price to update currency format
@@ -1192,6 +1271,28 @@ body.dark-mode .modal-box p { color: #bbb; }
         }
     }
 
+    // ==========================================
+    // SCROLL EFFECT LOGIC (CSS Class Driven)
+    // ==========================================
+    const SCROLL_THRESHOLD = 10; // مسافة بسيطة لتبديل الكلاس
+
+    function handleScrollEffect() {
+        // نستخدم requestAnimationFrame لتحسين أداء السكرول
+        window.requestAnimationFrame(() => {
+            const scrollY = window.scrollY || window.pageYOffset;
+            
+            if (scrollY > SCROLL_THRESHOLD) {
+                document.body.classList.add('scrolled');
+            } else {
+                document.body.classList.remove('scrolled');
+            }
+        });
+    }
+
+    // ربط الدالة بحدث التمرير (تم تصحيح هذا الجزء)
+    window.addEventListener('scroll', handleScrollEffect);
+    // ==========================================
+    
     // ==========================================
     // AI Chat Logic
     // ==========================================
@@ -1341,7 +1442,12 @@ body.dark-mode .modal-box p { color: #bbb; }
              targetPage.style.display = 'block';
         }
         
-        toggleMenu();
+        // يجب أن نغلق القائمة الجانبية فقط إذا كنا داخل القائمة الجانبية
+        const sideMenu = document.getElementById('sideMenu');
+        if (sideMenu.classList.contains('open')) {
+            toggleMenu();
+        }
+        
         window.scrollTo(0,0);
         
         if(pageId === 'booking') {
@@ -1423,33 +1529,47 @@ body.dark-mode .modal-box p { color: #bbb; }
                 // محاولة استخراج رسالة خطأ من Formspree
                 const errorData = await response.json();
                 const errorMessage = errorData.error || (currentLang === 'ar' ? "حدث خطأ أثناء الإرسال." : "Error sending form.");
-                alert(errorMessage);
+                // استخدام نافذة مودال بدلًا من alert()
+                showModal('error', errorMessage);
             }
         } catch (error) {
-            alert(currentLang === 'ar' ? "فشل الاتصال بالخادم. تحقق من اتصالك بالإنترنت." : "Connection error. Check your internet connection.");
+            // استخدام نافذة مودال بدلًا من alert()
+            showModal('error', currentLang === 'ar' ? "فشل الاتصال بالخادم. تحقق من اتصالك بالإنترنت." : "Connection error. Check your internet connection.");
         } finally {
             btn.disabled = false;
             btn.innerText = originalText;
         }
     }
 
-    function showModal(type) {
+    function showModal(type, errorMessage = null) {
         const modal = document.getElementById('modal-overlay');
         const title = document.getElementById('modal-title');
         const msg = document.getElementById('modal-msg');
         const icon = document.getElementById('modal-icon');
+        const closeBtn = document.querySelector('.modal-close-btn');
 
         if(type === 'rating') {
             icon.innerText = "⭐";
+            icon.style.color = '#c9a24d';
             title.innerText = translations[currentLang].modal_rating_title;
             msg.innerText = translations[currentLang].modal_rating_msg;
-        } else {
+            closeBtn.style.backgroundColor = 'var(--primary-gold)';
+        } else if (type === 'booking') {
             icon.innerText = "✅";
+            icon.style.color = '#2ecc71';
             title.innerText = translations[currentLang].modal_booking_title;
             msg.innerText = translations[currentLang].modal_booking_msg;
+            closeBtn.style.backgroundColor = '#2ecc71';
+        } else if (type === 'error') {
+            icon.innerText = "❌";
+            icon.style.color = '#e74c3c';
+            title.innerText = currentLang === 'ar' ? "خطأ!" : "Error!";
+            msg.innerText = errorMessage;
+            closeBtn.style.backgroundColor = '#e74c3c';
         }
+        
         // Also update button text inside modal dynamically
-        document.querySelector('.modal-close-btn').innerText = translations[currentLang].modal_close;
+        closeBtn.innerText = translations[currentLang].modal_close;
         
         modal.classList.add('active');
     }
@@ -1461,3 +1581,4 @@ body.dark-mode .modal-box p { color: #bbb; }
 
 </body>
 </html>
+
