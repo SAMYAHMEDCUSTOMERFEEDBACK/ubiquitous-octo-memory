@@ -160,6 +160,13 @@ body.scrolled .hero-image-container {
     opacity: 0;
 }
 
+/* NEW: إخفاء البانر عند تفعيل هذا الكلاس */
+.hide-banner {
+    transform: translateY(calc(-1 * var(--total-offset))) !important;
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
 .hero-image {
     width: 100%;
     height: var(--banner-height); 
@@ -394,6 +401,26 @@ body.dark-mode .options label.checked {
     border-color: var(--primary-gold) !important; 
 }
 
+/* NEW: Styles for the offer/non-checkbox options */
+.options-offer label {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px;
+    border-radius: 10px; background: #fcfcfc;
+    border: 1px solid #eee; cursor: pointer; transition: all 0.2s;
+    position: relative; overflow: hidden;
+    /* NEW: Special style for offers */
+    border-inline-start: 4px solid var(--primary-gold); 
+}
+body.dark-mode .options-offer label { background: #0a0a0a; border: 1px solid #222; border-inline-start: 4px solid var(--primary-gold); }
+
+.options-offer label:hover { 
+    border-color: var(--primary-gold); 
+    background: #fffdf5; 
+    box-shadow: 0 2px 5px rgba(201, 162, 77, 0.2);
+}
+body.dark-mode .options-offer label:hover { background: #111; }
+
+
 .service-name { font-size: 13px; font-weight: 600; color: #444; }
 body.dark-mode .service-name { color: #eee; }
 .service-price { font-size: 13px; font-weight: 800; color: var(--primary-gold); }
@@ -594,11 +621,9 @@ body.dark-mode .modal-box p { color: #bbb; }
     <div class="nav-controls">
         <button class="menu-toggle-btn" onclick="toggleMenu()">☰</button>
     </div>
-    <!-- تم تحويل اللوجو إلى رابط يوجه لصفحة الحجز (booking) -->
     <a href="javascript:void(0)" onclick="switchPage('booking')" class="nav-logo">Samy&Ahmed</a>
 </nav>
 
-<!-- >>>>>> START: User Image Section - تم وضعها تحت الشريط مباشرة <<<<<< -->
 <div class="hero-image-container" id="heroBanner">
     <img 
         src='https://i.postimg.cc/ZYGZXJ2J/626a5ef1-d026-452e-ad1b-9d7be9c8cdf9-317639046-483546660592342-5284860955526611779-n.jpg' 
@@ -606,9 +631,6 @@ body.dark-mode .modal-box p { color: #bbb; }
         class="hero-image"
     >
 </div>
-<!-- >>>>>> END: User Image Section <<<<<< -->
-
-
 <div class="side-menu-overlay" id="overlay" onclick="toggleMenu()"></div>
 <div class="side-menu" id="sideMenu">
     <div class="menu-header">
@@ -626,7 +648,7 @@ body.dark-mode .modal-box p { color: #bbb; }
         </a>
         <a href="javascript:void(0)" onclick="switchPage('notifications')">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-            <span data-i18n="menu_notifications">الإشعارات والعروض</span>
+            <span data-i18n="menu_notifications">الباقات والعروض</span>
         </a>
         <a href="tel:+201022172940" onclick="toggleMenu()">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-5.6-5.6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 3.08 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -649,7 +671,7 @@ body.dark-mode .modal-box p { color: #bbb; }
         <div class="menu-controls-bottom">
              <button class="control-btn" onclick="toggleLanguage()" id="langBtn">EN</button>
              <button class="control-btn" onclick="toggleTheme()" id="themeBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 0 1 0-18c1.64 0 3.03.62 4.12 1.71a6 6 0 0 0 0 8.58 9 9 0 0 1-4.12 1.71z"/><path d="M17.84 6.27a10 10 0 1 1-11.66 11.66"/></svg>
              </button>
         </div>
         
@@ -842,40 +864,57 @@ body.dark-mode .modal-box p { color: #bbb; }
 </div>
 
 <div id="notifications-page" class="container" style="display:none;">
-    <div class="subtitle" data-i18n="notifications_subtitle">أحدث العروض والخصومات</div>
+    <div class="subtitle" data-i18n="notifications_subtitle">الباقات المميزة والعروض</div>
     <hr class="header-separator"> 
     
     <div id="notifications-list">
-        <div class="notification-card" data-i18n="offer_summer">
-            <h4><span data-i18n="offer_summer_h">عرض الصيف الذهبي!</span></h4>
-            <p><span data-i18n="offer_summer_p">خصم 20% على خدمات تنظيف البشرة والهيدرافيشيل طوال شهر أغسطس. لا تفوت الفرصة للاستمتاع ببشرة مشرقة.</span></p>
+        
+        <h3 data-i18n="sec_packages_offers">اطلب باقتك الآن</h3>
+        <div class="options-offer" id="packages-offers-list">
+            <label onclick="showOfferModal('pkg_hair_beard', 200, 'شعر ودقن')"> 
+                <span class="service-name" data-i18n="pkg_hair_beard">قص شعر + قص دقن</span> 
+                <span class="service-price" data-i18n="price_200">200 ج.م</span>
+            </label>
+            <label onclick="showOfferModal('pkg_hair_dry', 200, 'شعر واستشوار/كيرلي')"> 
+                <span class="service-name" data-i18n="pkg_hair_dry">قص شعر + استشوار أو كيرلي</span> 
+                <span class="service-price" data-i18n="price_200">200 ج.م</span>
+            </label>
+            <label onclick="showOfferModal('pkg_hair_beard_dry', 250, 'شعر ودقن واستشوار')"> 
+                <span class="service-name" data-i18n="pkg_hair_beard_dry">قص شعر + قص دقن + استشوار</span> 
+                <span class="service-price" data-i18n="price_250">250 ج.م</span>
+            </label>
+            <label onclick="showOfferModal('pkg_beard_dry', 180, 'دقن واستشوار/كيرلي')"> 
+                <span class="service-name" data-i18n="pkg_beard_dry">قص دقن + استشوار أو كيرلي</span> 
+                <span class="service-price" data-i18n="price_180">180 ج.م</span>
+            </label>
+            <label onclick="showOfferModal('pkg_dye_all', 190, 'صبغة/حنا شعر ودقن')"> 
+                <span class="service-name" data-i18n="pkg_dye_all">صبغة/حنا شعر + صبغة دقن</span> 
+                <span class="service-price" data-i18n="price_190">190 ج.م</span>
+            </label>
         </div>
-
-        <div class="notification-card" data-i18n="offer_package">
-            <h4><span data-i18n="offer_package_h">توفير الباقة المزدوجة</span></h4>
-            <p><span data-i18n="offer_package_p">احجز باقة 'شعر ودقن' واحصل على حمام كريم مجاني. العرض ساري حتى نهاية الأسبوع القادم.</span></p>
-        </div>
-
-         <div class="notification-card" data-i18n="offer_branch_moria">
-            <h4><span data-i18n="offer_branch_moria_h">عرض فرع موريا مول</span></h4>
-            <p><span data-i18n="offer_branch_moria_p">خدمة صبغة شعر مع صبغة دقن بسعر 150 جنيهاً بدلاً من 190 جنيهاً (لفترة محدودة).</span></p>
-        </div>
-
-        <div class="notification-card" data-i18n="new_service_xtenso">
-            <h4><span data-i18n="new_service_xtenso_h">خدمة جديدة: معالج Xtenso</span></h4>
-            <p><span data-i18n="new_service_xtenso_p">اطلب الآن خدمة معالج Xtenso لتحويل الشعر المجعد إلى شعر ناعم ومستقيم لمدة طويلة. احجز موعدك لتجربة هذه الخدمة الفاخرة.</span></p>
-        </div>
+        
     </div>
 
     <div class="footer" style="margin-top:20px;">تصميم وتطوير Mustafa Zuhair</div>
 </div>
 
-<div id="modal-overlay" class="modal-overlay" onclick="closeModal()">
+<div id="offer-modal-overlay" class="modal-overlay" onclick="closeModal('offer-modal-overlay')">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <span class="modal-icon" style="color:var(--primary-gold);">✨</span>
+        <h4 id="offer-modal-title" data-i18n="modal_offer_title">هل تريد حجز هذه الباقة؟</h4>
+        <p id="offer-modal-msg" data-i18n="modal_offer_msg">الباقة المميزة متاحة الآن! اذهب لصفحة الحجز لتحديد موعدك.</p>
+        <button class="modal-close-btn" id="offer-modal-btn" onclick="goToBookingFromOffer()" data-i18n="modal_go_to_booking" style="background:var(--primary-gold);">اذهب لصفحة الحجز</button>
+        <button class="modal-close-btn" onclick="closeModal('offer-modal-overlay')" data-i18n="modal_close" style="background:#777; margin-top:10px;">إغلاق</button>
+    </div>
+</div>
+
+
+<div id="modal-overlay" class="modal-overlay" onclick="closeModal('modal-overlay')">
     <div class="modal-box" onclick="event.stopPropagation()">
         <span class="modal-icon" id="modal-icon">✅</span>
         <h4 id="modal-title" data-i18n="modal_success">تم بنجاح!</h4>
         <p id="modal-msg" data-i18n="modal_thanks">شكراً لك.</p>
-        <button class="modal-close-btn" onclick="closeModal()" data-i18n="modal_close">إغلاق</button>
+        <button class="modal-close-btn" onclick="closeModal('modal-overlay')" data-i18n="modal_close">إغلاق</button>
     </div>
 </div>
 
@@ -903,13 +942,13 @@ body.dark-mode .modal-box p { color: #bbb; }
             menu_title: "القائمة",
             menu_rating: "تقييم الخدمة",
             menu_booking: "حجز موعد",
-            menu_notifications: "الإشعارات والعروض",
+            menu_notifications: "الباقات والعروض", // UPDATED
             menu_call: "اتصال مباشر",
             menu_whatsapp: "واتساب",
             menu_gallery: "معرض الصور",
             menu_ai: "مساعدك الشخصي (قريباً)", 
             rating_subtitle: "نقدّر رأيك… تقييمك يهمّنا",
-            notifications_subtitle: "أحدث العروض والخصومات",
+            notifications_subtitle: "الباقات المميزة والعروض", // UPDATED
             select_branch: "--- اختر الفرع ---",
             branch_mahgoub: "دمياط الجديدة/منتصف شارع المحجوب",
             branch_moria: "دمياط الجديدة/موريا مول",
@@ -937,7 +976,9 @@ body.dark-mode .modal-box p { color: #bbb; }
             ph_phone: "رقم الهاتف",
             sec_datetime: "تاريخ ووقت الحجز",
             sec_packages: "الباقات المجمعة",
+            sec_packages_offers: "اطلب باقتك الآن", // UPDATED
             sec_single: "الخدمات الفردية الإضافية",
+            sec_other_offers: "عروض وخصومات أخرى", // KEPT FOR JS LOGIC/OTHER PAGES, BUT REMOVED FROM HTML
             sec_total: "الإجمالي التقريبي",
             ph_extra_notes: "ملاحظات إضافية (مثل: لدي حساسية من منتج معين)",
             btn_confirm_booking: "تأكيد الحجز",
@@ -954,10 +995,13 @@ body.dark-mode .modal-box p { color: #bbb; }
             modal_rating_msg: "رأيك يهمنا ويساعدنا في التطوير.",
             modal_booking_title: "تم استلام الحجز",
             modal_booking_msg: "سنتواصل معك قريباً لتأكيد الموعد.",
+            modal_offer_title: "هل تريد حجز هذه الباقة؟", 
+            modal_offer_msg: "الباقة المميزة متاحة الآن! اذهب لصفحة الحجز لتحديد موعدك.", 
+            modal_go_to_booking: "اذهب لصفحة الحجز", 
             currency: "ج.م",
-            designer_credit_text: "تصميم وتطوير بواسطة Mustafa Zuhair", /* FINAL UPDATE */
+            designer_credit_text: "تصميم وتطوير بواسطة Mustafa Zuhair", 
             
-            // Notification Messages
+            // Notification Messages (KEPT FOR JS LOGIC/OTHER PAGES)
             offer_summer_h: "عرض الصيف الذهبي!",
             offer_summer_p: "خصم 20% على خدمات تنظيف البشرة والهيدرافيشيل طوال شهر أغسطس. لا تفوت الفرصة للاستمتاع ببشرة مشرقة.",
             offer_package_h: "توفير الباقة المزدوجة",
@@ -1011,13 +1055,13 @@ body.dark-mode .modal-box p { color: #bbb; }
             menu_title: "Menu",
             menu_rating: "Rate Service",
             menu_booking: "Book Appointment",
-            menu_notifications: "Notifications & Offers",
+            menu_notifications: "Packages & Offers", // UPDATED
             menu_call: "Call Now",
             menu_whatsapp: "WhatsApp",
             menu_gallery: "Gallery",
             menu_ai: "AI Assistant (Soon)", 
             rating_subtitle: "Your opinion matters...",
-            notifications_subtitle: "Latest Offers and Discounts",
+            notifications_subtitle: "Special Packages and Offers", // UPDATED
             select_branch: "--- Select Branch ---",
             branch_mahgoub: "New Damietta / Mahgoub St.",
             branch_moria: "New Damietta / Moria Mall",
@@ -1045,7 +1089,9 @@ body.dark-mode .modal-box p { color: #bbb; }
             ph_phone: "Phone Number",
             sec_datetime: "Date & Time",
             sec_packages: "Packages",
+            sec_packages_offers: "Order Your Package Now", // UPDATED
             sec_single: "Individual Services",
+            sec_other_offers: "Other Offers & Discounts", // KEPT FOR JS LOGIC/OTHER PAGES
             sec_total: "Estimated Total",
             ph_extra_notes: "Extra notes (e.g. allergies)",
             btn_confirm_booking: "Confirm Booking",
@@ -1062,10 +1108,13 @@ body.dark-mode .modal-box p { color: #bbb; }
             modal_rating_msg: "We appreciate your feedback.",
             modal_booking_title: "Booking Received",
             modal_booking_msg: "We will contact you shortly to confirm.",
+            modal_offer_title: "Book this Package?", 
+            modal_offer_msg: "This exclusive package is available! Go to the booking page to schedule your appointment.", 
+            modal_go_to_booking: "Go to Booking Page", 
             currency: "EGP",
-            designer_credit_text: "Design & Development by Mustafa Zuhair", /* FINAL UPDATE */
+            designer_credit_text: "Design & Development by Mustafa Zuhair", 
 
-            // Notification Messages
+            // Notification Messages (KEPT FOR JS LOGIC/OTHER PAGES)
             offer_summer_h: "Golden Summer Offer!",
             offer_summer_p: "20% off facial and hydrafacial services throughout August. Don't miss the chance for glowing skin.",
             offer_package_h: "Double Package Savings",
@@ -1118,7 +1167,8 @@ body.dark-mode .modal-box p { color: #bbb; }
     };
 
     let currentLang = 'ar';
-    
+    let selectedOfferKey = ''; // NEW: لتخزين مفتاح الباقة المحددة
+
     // ==========================================
     // تهيئة الصفحة
     // ==========================================
@@ -1305,7 +1355,9 @@ body.dark-mode .modal-box p { color: #bbb; }
 
     function showLoading() {
         const resultsDiv = document.getElementById('ai-results');
-        const loading = createMessageElement(translations[currentLang].ai_loading, false);
+        // تم دمج رسالة التحميل في Translations للحفاظ على الاتساق
+        const loadingText = currentLang === 'ar' ? "جاري التفكير..." : "Thinking..."; 
+        const loading = createMessageElement(loadingText, false); 
         loading.id = 'ai-loading-message';
         loading.style.alignSelf = 'center';
         loading.style.width = 'fit-content';
@@ -1330,7 +1382,7 @@ body.dark-mode .modal-box p { color: #bbb; }
         
         // التحقق من المفتاح قبل الإرسال الفعلي
         if (!API_KEY || API_KEY.startsWith("AIzaSyA")) {
-             resultsDiv.appendChild(createMessageElement(currentLang === 'ar' ? "المساعد الشخصي غير مفعل حالياً." : "AI Assistant is currently disabled.", false));
+             resultsDiv.appendChild(createMessageElement(currentLang === 'ar' ? "المساعد الشخصي غير مفعل حالياً. برجاء تحديث المفتاح." : "AI Assistant is currently disabled. Please update the key.", false));
              input.value = '';
              resultsDiv.scrollTop = resultsDiv.scrollHeight;
              return;
@@ -1357,7 +1409,7 @@ body.dark-mode .modal-box p { color: #bbb; }
             console.error("Gemini API Error:", error);
             // طباعة تفاصيل الخطأ للمطورين في الكونسول
             console.log("Detailed Error Message:", error.message);
-            const errorMessage = translations[currentLang].ai_error;
+            const errorMessage = currentLang === 'ar' ? "آسف، حدث خطأ أثناء الاتصال بالخادم. (تأكد من صحة الـ API Key)" : "Sorry, an error occurred connecting to the server. (Check API Key)";
             resultsDiv.appendChild(createMessageElement(errorMessage, false));
 
         } finally {
@@ -1442,6 +1494,18 @@ body.dark-mode .modal-box p { color: #bbb; }
              targetPage.style.display = 'block';
         }
         
+        // NEW: إخفاء البانر فقط عند عرض صفحة الإشعارات
+        const heroBanner = document.getElementById('heroBanner');
+        if (pageId === 'notifications') {
+            heroBanner.classList.add('hide-banner');
+            // NEW: ضبط الـ padding-top ليتوافق مع وضع الإخفاء
+            document.body.classList.add('scrolled');
+        } else {
+            heroBanner.classList.remove('hide-banner');
+            // NEW: إعادة تقييم الـ padding-top بناءً على السكرول الفعلي
+            handleScrollEffect();
+        }
+        
         // يجب أن نغلق القائمة الجانبية فقط إذا كنا داخل القائمة الجانبية
         const sideMenu = document.getElementById('sideMenu');
         if (sideMenu.classList.contains('open')) {
@@ -1477,6 +1541,67 @@ body.dark-mode .modal-box p { color: #bbb; }
             themeBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 0 1 0-18c1.64 0 3.03.62 4.12 1.71a6 6 0 0 0 0 8.58 9 9 0 0 1-4.12 1.71z"/><path d="M17.84 6.27a10 10 0 1 1-11.66 11.66"/></svg>'; // Moon Icon
             localStorage.setItem('theme', 'light');
         }
+    }
+
+    // ==========================================
+    // Offer Modal Logic (NEW)
+    // ==========================================
+    function showOfferModal(pkgKey, price, nameAr) {
+        selectedOfferKey = pkgKey; // Save the key for the next step
+        const titleEl = document.getElementById('offer-modal-title');
+        const msgEl = document.getElementById('offer-modal-msg');
+        const goToBookingBtn = document.getElementById('offer-modal-btn');
+        const closeBtn = document.querySelector('#offer-modal-overlay button:last-child');
+        
+        const pkgName = translations[currentLang][pkgKey];
+        const pkgPrice = translations[currentLang]['price_' + price];
+
+        if (currentLang === 'ar') {
+            // UPDATED: استخدام النص الجديد
+            titleEl.innerText = `${pkgName} (${pkgPrice})`;
+            msgEl.innerText = "هذه الباقة متوفرة الآن! اضغط على 'اذهب لصفحة الحجز' لتحديد موعدك وحجز الباقة.";
+            goToBookingBtn.innerText = translations.ar.modal_go_to_booking;
+            closeBtn.innerText = translations.ar.modal_close;
+        } else {
+            // UPDATED: استخدام النص الجديد
+            titleEl.innerText = `${pkgName} (${pkgPrice})`;
+            msgEl.innerText = "This package is available! Click 'Go to Booking Page' to schedule your appointment and book the package.";
+            goToBookingBtn.innerText = translations.en.modal_go_to_booking;
+            closeBtn.innerText = translations.en.modal_close;
+        }
+        
+        document.getElementById('offer-modal-overlay').classList.add('active');
+    }
+    
+    function goToBookingFromOffer() {
+        closeModal('offer-modal-overlay');
+        
+        // الانتقال لصفحة الحجز
+        switchPage('booking');
+        
+        // تفعيل الباقة المختارة في صفحة الحجز
+        if (selectedOfferKey) {
+            // مسح كل تحديدات الباقات أولاً
+            const allPackages = document.querySelectorAll('#packages-list input[type="checkbox"]');
+            allPackages.forEach(input => {
+                input.checked = false;
+                // يجب أن تتأكد أن عنصر الـ label لم يعد يحتوي على كلاس checked
+                input.closest('label').classList.remove('checked'); 
+            });
+            
+            // تفعيل الباقة المحددة
+            // نستخدم القيمة (القيمة العربية) لتحديد الـ checkbox لأنها ثابتة
+            const targetPackage = document.querySelector(`#packages-list input[value="${translations.ar[selectedOfferKey]}"]`);
+            
+            if (targetPackage) {
+                targetPackage.checked = true;
+                // تفعيل الآثار البصرية والحسابية
+                triggerCalculation(targetPackage);
+            }
+        }
+        
+        // إعادة تعيين المفتاح بعد الاستخدام
+        selectedOfferKey = ''; 
     }
 
     // ==========================================
@@ -1542,11 +1667,12 @@ body.dark-mode .modal-box p { color: #bbb; }
     }
 
     function showModal(type, errorMessage = null) {
-        const modal = document.getElementById('modal-overlay');
+        // تم تغيير اسم المتغير ليصبح أكثر تحديداً لـ "Modal" الأصلي
+        const mainModal = document.getElementById('modal-overlay'); 
         const title = document.getElementById('modal-title');
         const msg = document.getElementById('modal-msg');
         const icon = document.getElementById('modal-icon');
-        const closeBtn = document.querySelector('.modal-close-btn');
+        const closeBtn = mainModal.querySelector('.modal-close-btn');
 
         if(type === 'rating') {
             icon.innerText = "⭐";
@@ -1571,14 +1697,13 @@ body.dark-mode .modal-box p { color: #bbb; }
         // Also update button text inside modal dynamically
         closeBtn.innerText = translations[currentLang].modal_close;
         
-        modal.classList.add('active');
+        mainModal.classList.add('active');
     }
 
-    function closeModal() {
-        document.getElementById('modal-overlay').classList.remove('active');
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.remove('active');
     }
 </script>
 
 </body>
 </html>
-
