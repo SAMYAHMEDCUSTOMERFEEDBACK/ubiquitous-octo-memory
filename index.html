@@ -3,18 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAMY&AHMED | تقييم العملاء & الحجز</title>
+<title>Samy&Ahmed | تقييم العملاء & الحجز</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800;900&display=swap');
 
 /* ==========================================================
-   STYLE: ORIGINAL BRIGHT / GOLD ACCENT (WITH REFINEMENTS)
+   STYLE: ORIGINAL BRIGHT (MODIFIED OPTIONS STYLE & NO ARROW)
    ========================================================== */
 
 body {
     margin: 0;
     font-family: 'Cairo', sans-serif;
-    /* خلفية فاتحة */
     background: #f9f9f9; 
     color: #333;
 }
@@ -22,72 +21,80 @@ body {
 .container {
     max-width: 600px;
     margin: 50px auto;
-    /* خلفية العنصر الأساسي */
-    background: #fff; 
+    background: #fff;
     border-radius: 20px;
     padding: 30px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     border: 1px solid #e0d8c3;
 }
 
+/* 🔄 التعديل 1: خط اللوجو أكثر جرأة والمسافة أقل */
 .logo {
     text-align: center;
-    font-size: 32px;
-    font-weight: bold;
+    font-size: 34px; /* زيادة حجم الخط قليلاً */
+    font-weight: 900; /* جعل الخط أثقل (Extra bold) */
     color: #000;
-    margin-bottom: 5px;
+    margin-bottom: 2px; /* تقليل المسافة السفلية */
 }
 
+/* 🔄 التعديل 2: المسافة بين اللوجو والوصف أقل */
 .subtitle {
     text-align: center;
     font-size: 16px;
     color: #666;
-    margin-bottom: 30px;
+    margin-bottom: 20px; /* تقليل المسافة السفلية */
+    margin-top: 5px; /* تقليل المسافة العلوية */
+}
+
+/* 🔄 التعديل 3: المسافة حول الخط الفاصل أقل */
+.header-separator {
+    border: none;
+    height: 1px;
+    background-color: #f0f0f0; 
+    margin: -5px 0 20px 0; /* تقليل الهامش العلوي */
 }
 
 h3 {
     font-size: 18px;
     margin-bottom: 10px;
-    color: #c9a24d; /* لون ذهبي */
-    border-bottom: none; /* إزالة الخط الفاصل */
-    padding-bottom: 0;
+    color: #c9a24d; /* لون ذهبي أصلي */
 }
 
 .section {
     margin-bottom: 20px;
 }
 
-/* تنسيق خيارات الاختيار (Radio/Checkbox) */
+/* تنسيق خيارات الاختيار (البطاقة النظيفة) */
 .options label {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
     cursor: pointer;
-    padding: 8px 12px;
-    border-radius: 12px;
-    background: #f5f5f5; /* لون خلفية فاتح للخيار */
+    padding: 12px 18px; /* زيادة الحجم قليلاً */
+    border-radius: 8px; /* حواف أنعم */
+    background: #f5f5f5; 
     transition: 0.2s;
-    border: 1px solid transparent;
+    border: 1px solid #f5f5f5;
 }
 
 .options label:hover {
-    background: #fff3d6; /* لون بيج فاتح عند المرور */
+    background: #fff3d6;
 }
 
-/* تمييز الخيار المختار */
+/* تأثير الاختيار (الإطار الذهبي النظيف) */
+.options label input {
+    display: none; /* إخفاء الأزرار الأصلية */
+}
 .options label:has(input:checked) {
-    border-color: #c9a24d; /* إطار ذهبي عند الاختيار */
-}
-
-.options label input[type="checkbox"],
-.options label input[type="radio"] {
-    width: auto;
-    margin-left: 10px;
+    border: 2px solid #c9a24d; /* إطار ذهبي سميك عند الاختيار */
+    background: #fffaf0; /* خلفية بيضاء خفيفة عند الاختيار */
+    box-shadow: 0 0 5px rgba(201, 162, 77, 0.2);
 }
 
 .service-name {
     flex-grow: 1;
+    font-size: 15px;
     color: #333;
 }
 
@@ -97,28 +104,19 @@ h3 {
     font-size: 15px;
 }
 
-/* لون accent لخانات الاختيار */
-input[type="radio"], input[type="checkbox"] {
-    accent-color: #c9a24d;
-    transform: scale(1.0); /* العودة للحجم الطبيعي */
-}
-
 /* تنسيق حقول الإدخال */
 input[type="text"], input[type="tel"], input[type="date"], input[type="time"], input[type="datetime-local"], input[type="number"], textarea, select {
     width: 100%;
-    padding: 12px;
-    border-radius: 12px;
+    padding: 14px; /* زيادة الحجم قليلاً */
+    border-radius: 8px;
     border: 1px solid #ddd;
     outline: none;
     background: #fafafa;
     color: #333;
     margin-top: 8px;
     margin-bottom: 8px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
 }
-input[type="text"]::placeholder, input[type="tel"]::placeholder, textarea::placeholder {
-    color: #999;
-}
-
 
 /* تنسيق حقل الإجمالي للقراءة فقط */
 input[readonly] {
@@ -126,7 +124,8 @@ input[readonly] {
     font-weight: bold;
     color: #000;
     border: 1px solid #c9a24d;
-    font-size: 16px;
+    padding: 16px; 
+    font-size: 17px;
 }
 
 textarea {
@@ -134,16 +133,16 @@ textarea {
     height: 90px;
 }
 
-/* تنسيق القائمة المنسدلة (select) */
+/* إزالة المثلثات من القائمة المنسدلة */
 select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%20viewBox%3D%220%200%20292.4%20292.4%22%3E%3Cpath%20fill%3D%22%23c9a24d%22%20d%3D%22M287%20197.3l-131.7-131.7a18.3%2018.3%200%200%200-26.6%200L5.4%20197.3a18.3%2018.3%200%200%200%2013.3%2031.4h255.4a18.3%2018.3%200%200%200%2013.3-31.4z%22%2F%3E%3C%2Fsvg%3E');
+    background-image: none; 
     background-repeat: no-repeat;
-    background-position: left 12px center;
+    background-position: left 14px center;
     background-size: 10px;
-    padding-left: 30px;
+    padding-left: 14px; 
 }
 
 .faces {
@@ -152,16 +151,12 @@ select {
     font-size: 28px;
 }
 
-.faces label {
-    cursor: pointer;
-}
-
 /* تنسيق الأزرار الرئيسية */
 button {
     width: 100%;
     padding: 16px;
     border: none;
-    border-radius: 16px;
+    border-radius: 10px; 
     background: #c9a24d;
     color: #000;
     font-size: 16px;
@@ -175,33 +170,29 @@ button:hover {
     background: #e0b85e;
 }
 
-/* زر العودة/الحجز في الفوتر */
-.footer button {
-    background: #c9a24d !important;
-    color: #000 !important;
-    border: none;
-}
-
-/* 🔄 تصميم الباقات المجمعة (معدل لتخفيف المربع) */
+/* تنسيق الباقات المجمعة (بدون إطار) */
 .packages-section {
-    border: 1px solid #c9a24d; 
-    padding: 15px;
-    border-radius: 12px;
-    background: #fcfcfc; /* خلفية بيضاء خفيفة */
+    border: none;
+    padding: 15px 0;
+    border-radius: 0;
+    background: none;
     margin-bottom: 25px;
 }
 .packages-section h3 {
     color: #c9a24d;
-    text-align: right;
     border-bottom: 1px solid #eee; 
-    padding-bottom: 10px;
+    padding-bottom: 5px;
 }
 .package-item {
-    background: #fff3d6; /* لون بيج فاتح لعناصر الباقة */
-    border-color: #f0e0c0; /* حد رقيق */
+    background: #f5f5f5; 
+    border: 1px solid #f5f5f5; 
 }
 .package-item:hover {
-    background: #ffecb3;
+    background: #fff3d6;
+}
+.package-item:has(input:checked) {
+    border: 2px solid #c9a24d;
+    background: #fffaf0;
 }
 
 
@@ -236,7 +227,7 @@ button:hover {
     margin-top: 18px;
 }
 
-/* تصميم حقوق المصمم */
+/* حقوق المصمم */
 .designer-credit {
     text-align: center;
     font-size: 11px;
@@ -252,6 +243,8 @@ button:hover {
 <div id="rating-page" class="container">
     <div class="logo">SAMY&AHMED</div>
     <div class="subtitle">نقدّر رأيك… تقييمك يهمّنا</div>
+    <hr class="header-separator"> 
+
 
     <form action="https://formspree.io/f/xvgelvjp" method="POST">
         
@@ -374,25 +367,29 @@ button:hover {
     </div>
 
     <div class="footer">شكرًا لثقتك – نراك قريبًا 🤍</div>
-    <div class="designer-credit">تصميم وتطوير بواسطة Mustafa zuhair</div>
+    <div class="designer-credit">تصميم وتطوير بواسطة Mustafa Zuhair</div>
 </div>
 
 <div id="booking-page" class="container" style="display:none;">
     <div class="logo">SAMY&AHMED</div>
     <div class="subtitle">احجز موعدك بسهولة</div>
-
-    <form action="https://formspree.io/f/xvgelvjp" method="POST">
+    <hr class="header-separator"> <form action="https://formspree.io/f/xvgelvjp" method="POST">
         
-        <input type="text" name="الاسم" placeholder="الاسم" required>
-        <input type="tel" name="رقم الهاتف" placeholder="رقم الهاتف" required>
+        <div class="section">
+            <h3>اختيار الفرع</h3>
+            <select name="الفرع" required>
+                <option value="" disabled selected>--- اختر الفرع ---</option>
+                <option value="دمياط الجديدة/شارع المحجوب">دمياط الجديدة/منتصف شارع المحجوب</option>
+                <option value="دمياط الجديدة/موريا مول">دمياط الجديدة/موريا مول</option>
+            </select>
+        </div>
         
-        <select name="الفرع" required>
-            <option value="" disabled selected>--- اختر الفرع ---</option>
-            <option value="دمياط الجديدة/شارع المحجوب">دمياط الجديدة/منتصف شارع المحجوب</option>
-            <option value="دمياط الجديدة/موريا مول">دمياط الجديدة/موريا مول</option>
-        </select>
+        <div class="section">
+            <input type="text" name="الاسم" placeholder="الاسم" required>
+            <input type="tel" name="رقم الهاتف" placeholder="رقم الهاتف" required>
+        </div>
         
-        <label for="full-date-time" style="font-size: 14px; color: #666; display: block; margin-top: 15px;">تاريخ ووقت الحجز:</label>
+        <label for="full-date-time" style="font-size: 14px; color: #666; display: block; margin-top: 15px; margin-bottom: 5px;">تاريخ ووقت الحجز:</label>
         <input type="datetime-local" id="full-date-time" name="موعد الحجز الكامل" required>
         
         <div class="section packages-section">
@@ -468,7 +465,7 @@ button:hover {
         </div>
 
     <div class="footer">شكرًا لثقتك – نراك قريبًا 🤍</div>
-    <div class="designer-credit">تصميم وتطوير بواسطة Mustafa zuhair</div>
+    <div class="designer-credit">تصميم وتطوير بواسطة Mustafa Zuhair</div>
 </div>
 
 <script>
