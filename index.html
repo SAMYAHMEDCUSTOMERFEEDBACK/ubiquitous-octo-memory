@@ -1599,8 +1599,6 @@ body.dark-mode .select-options-list label:has(input:checked) {
 
         if (!userQuery) return;
         
-        // تم إزالة التحقق الخاطئ من API_KEY هنا، حيث يتم توفيره تلقائياً بواسطة البيئة.
-        
         // Display user message
         resultsDiv.appendChild(createMessageElement(userQuery, true));
         input.value = '';
@@ -1636,13 +1634,12 @@ body.dark-mode .select-options-list label:has(input:checked) {
     async function callGeminiAPI(userQuery, retryCount = 0) {
         // استخدام عنوان URL ونموذج API الصحيح
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${AI_MODEL}:generateContent?key=${API_KEY}`;
+        
+        // *** FIX: Removed non-standard generationConfig.language property ***
         const payload = {
             contents: [{ parts: [{ text: userQuery }] }],
-            systemInstruction: { parts: [{ text: systemPrompt }] },
-            // Setting lang as the preferred response language (Arabic/English)
-            generationConfig: {
-                language: currentLang === 'ar' ? 'ar' : 'en' 
-            }
+            systemInstruction: { parts: [{ text: systemPrompt }] }
+            // systemInstruction should be sufficient for language control
         };
 
         try {
@@ -1655,6 +1652,7 @@ body.dark-mode .select-options-list label:has(input:checked) {
             if (!response.ok) {
                 // Throw an error that includes status for debugging
                 const errorBody = await response.text();
+                // Throw a custom error object that is easier to debug
                 throw new Error(`HTTP error! status: ${response.status} - Body: ${errorBody}`);
             }
 
@@ -1674,7 +1672,7 @@ body.dark-mode .select-options-list label:has(input:checked) {
 
         } catch (error) {
             if (retryCount < MAX_RETRIES) {
-                console.warn(`Retrying API call (${retryCount + 1}/${MAX_RETRIES})...`);
+                // console.warn(`Retrying API call (${retryCount + 1}/${MAX_RETRIES})...`); // Hide console logging for retries
                 const delay = Math.pow(2, retryCount) * 1000; // 1s, 2s, 4s
                 await new Promise(resolve => setTimeout(resolve, delay));
                 return callGeminiAPI(userQuery, retryCount + 1);
